@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Halaman Utama</title>
+    <title>Index Page</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* CSS untuk menambahkan gambar latar belakang */
@@ -44,11 +44,6 @@
             <!-- Tombol Login -->
             <a href="login.php" class="block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
                 Login
-            </a>
-            
-            <!-- Tombol Registrasi -->
-            <a href="registrasi.php" class="block bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                Registrasi
             </a>
         </div>
     </div>
