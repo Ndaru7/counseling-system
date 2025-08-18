@@ -1,36 +1,10 @@
 <?php
-// $servername = "localhost";
-// $username = "root";
-// $password = "";
-// $dbname = "db_mbskonseling";
+session_start();
 
-// // Membuat koneksi
-// $conn = new mysqli($servername, $username, $password, $dbname);
+if (!isset($_SESSION["user"])) {
+    header("Location: ../auth/login.php");
+}
 
-// // Memeriksa koneksi
-// if ($conn->connect_error) {
-//     die("Connection failed: " . $conn->connect_error);
-// }
-
-// // Menghitung total konseling
-// $sqlTotalKonseling = "SELECT COUNT(*) as totalKonseling FROM konseling";
-// $resultTotalKonseling = $conn->query($sqlTotalKonseling);
-// $rowTotalKonseling = $resultTotalKonseling->fetch_assoc();
-// $totalKonseling = $rowTotalKonseling['totalKonseling'];
-
-// // Menghitung total pria
-// $sqlTotalPria = "SELECT COUNT(*) as totalPria FROM konseling WHERE jenis_kelamin = 'Laki-laki'";
-// $resultTotalPria = $conn->query($sqlTotalPria);
-// $rowTotalPria = $resultTotalPria->fetch_assoc();
-// $totalPria = $rowTotalPria['totalPria'];
-
-// // Menghitung total wanita
-// $sqlTotalWanita = "SELECT COUNT(*) as totalWanita FROM konseling WHERE jenis_kelamin = 'Perempuan'";
-// $resultTotalWanita = $conn->query($sqlTotalWanita);
-// $rowTotalWanita = $resultTotalWanita->fetch_assoc();
-// $totalWanita = $rowTotalWanita['totalWanita'];
-
-// $conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -77,7 +51,7 @@
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <a href="#" class="btn btn-primary btn-flat float-left">Profile</a>
-                            <a href="#" class="btn btn-danger btn-flat float-right">Keluar</a>
+                            <a href="../auth/logout.php" class="btn btn-danger btn-flat float-right">Keluar</a>
                         </li>
                     </ul>
                 </li>
