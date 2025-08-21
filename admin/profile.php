@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once "../database/config.php";
 
 if (!isset($_SESSION["username"])) {
     header("Location: ../auth/login.php");
@@ -82,17 +83,45 @@ if (!isset($_SESSION["username"])) {
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
-            <section class="content-header">
-                <div class="container-fluid">
-                    <h1>Dashboard</h1>
-                </div><!-- /.container-fluid -->
-            </section>
-
             <!-- Main content -->
             <section class="content">
                 <!-- Default box -->
-                <h2>Selamat datang <?php echo $_SESSION["username"]; ?> </h2>
+                <div class="container-fluid">
+                    <br>
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-user"></i>  Profil</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <form action="" method="post">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <input type="hidden" name="id" class="form-control" value="<?php echo $_SESSION['id']; ?>" id="exampleInputEmail1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Nama</label>
+                                    <input type="text" name="name" class="form-control" value="<?php echo $_SESSION['name']; ?>" id="exampleInputEmail1" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Username</label>
+                                    <input type="text" name="username" class="form-control" value="<?php echo $_SESSION['username']; ?>" id="exampleInputEmail1" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Password Baru</label>
+                                    <input type="password" name="new-password" class="form-control" id="exampleInputPassword1" required>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+
+                            <div class="card-footer">
+                                <button type="submit" name="update" class="btn btn-warning btn-block"><i class="fas fa-pen"></i>  Update</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- /.row -->
+                </div><!-- /.container-fluid -->
                 <!-- /.card -->
             </section>
             <!-- /.content -->
@@ -116,3 +145,17 @@ if (!isset($_SESSION["username"])) {
 </body>
 
 </html>
+
+<?php 
+if (isset($_POST["update"])) {
+    $id = $_POST["id"];
+    $name = $_POST["name"];
+    $username = $_POST["username"];
+    $new_password = $_POST["password"];
+
+    $sql = "UPDATE admin SET passwd = '$new_password', name = '$name', username = '$username' WHERE id = '$id' ";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    echo "<script>alert('Data berhasil diubah!');</script>";
+}
+?>

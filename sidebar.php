@@ -9,6 +9,12 @@
             </a>
         </li>
         <li class="nav-item">
+            <a href="../admin/profile.php" class="nav-link">
+                <i class="nav-icon fas fa-user"></i>
+                <p>Profil</p>
+            </a>
+        </li>
+        <li class="nav-item">
             <a href="" class="nav-link">
                 <i class="nav-icon fas fa-users"></i>
                 <p>Data Siswa</p>

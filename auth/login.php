@@ -1,19 +1,22 @@
 <?php
 
-session_start();
 require "../database/config.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["username"];
     $password = $_POST["password"];
-
+    
     $sql = "SELECT * FROM admin WHERE username = ?";
     $stmt = $conn->prepare($sql);
     $stmt->execute([$username]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
+    
     if ($user && sha1($password) == $user["passwd"]) {
-        $_SESSION["user"] = $user["username"];
+        session_start();
+        $_SESSION["id"] = $user["id"];
+        $_SESSION["name"] = $user["name"];
+        $_SESSION["username"] = $user["username"];
+        $_SESSION["password"] = $user["passwd"];
         header("Location: ../admin/dashboard.php");
         exit;
     } else {
