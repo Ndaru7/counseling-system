@@ -15,12 +15,7 @@ if (!isset($_SESSION["user"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Sitem BK | Dashboard</title>
 
-    <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="../assets/plugins/fontawesome-free/css/all.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="../assets/dist/css/adminlte.min.css">
+    <?php include "../style.php"; ?>
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -37,23 +32,20 @@ if (!isset($_SESSION["user"])) {
 
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item dropdown user-menu">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-                        <!-- <img src="../../dist/img/user2-160x160.jpg" class="user-image img-circle elevation-2" alt="User Image"> -->
-                        <span class="d-none d-md-inline">Jane Doe</span>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" data-toggle="dropdown" href="#">
+                        <i class="far fa-user"></i>
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-md dropdown-menu-right">
-                        <!-- User image -->
-                        <li class="user-header bg-default">
-                            <!-- <img src="../../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image"> -->
-                            <p>Jane Doe</p>
-                        </li>
-                        <!-- Menu Footer-->
-                        <li class="user-footer">
-                            <a href="#" class="btn btn-primary btn-flat float-left">Profile</a>
-                            <a href="../auth/logout.php" class="btn btn-danger btn-flat float-right">Keluar</a>
-                        </li>
-                    </ul>
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                        <div class="dropdown-divider"></div>
+                        <a href="" class="dropdown-item">
+                            <i class="fas fa-user mr-2"></i>Profil
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="" class="dropdown-item">
+                            <i class="fas fa-sign-out-alt mr-2"></i>Keluar
+                        </a>
+                    </div>
                 </li>
             </ul>
         </nav>
@@ -82,36 +74,7 @@ if (!isset($_SESSION["user"])) {
                 </div>
 
                 <!-- Sidebar Menu -->
-                <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                        <!-- Add icons to the links using the .nav-icon class
-                        with font-awesome or any other icon font library -->
-                        <li class="nav-item">
-                            <a href="../admin/dashboard.php" class="nav-link">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p>Dashboard</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p>Poin Pelanggaran</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p>konseling</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p>History</p>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
+                <?php include "../sidebar.php"; ?>
                 <!-- /.sidebar-menu -->
             </div>
             <!-- /.sidebar -->
@@ -129,7 +92,7 @@ if (!isset($_SESSION["user"])) {
             <!-- Main content -->
             <section class="content">
                 <!-- Default box -->
-
+                <h2>Selamat datang <?php echo $_SESSION["user"]; ?> </h2>
                 <!-- /.card -->
             </section>
             <!-- /.content -->
@@ -148,14 +111,8 @@ if (!isset($_SESSION["user"])) {
     </div>
     <!-- ./wrapper -->
 
-    <!-- jQuery -->
-    <script src="../assets/plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
-    <script src="../assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="../assets/dist/js/adminlte.min.js"></script>
-    <!-- AdminLTE for demo purposes -->
-    <!-- <script src="../assets/dist/js/demo.js"></script> -->
+    <?php include "../script.php"; ?>
+
 </body>
 
 </html>
