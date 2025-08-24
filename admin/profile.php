@@ -156,6 +156,7 @@ if (isset($_POST["update"])) {
     $sql = "UPDATE admin SET passwd = '$new_password', name = '$name', username = '$username' WHERE id = '$id' ";
     $stmt = $conn->prepare($sql);
     $stmt->execute();
-    echo "<script>alert('Data berhasil diubah!');</script>";
+
+    header("Location: ../admin/profile.php");
 }
 ?>
