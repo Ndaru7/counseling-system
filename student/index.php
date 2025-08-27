@@ -131,14 +131,24 @@ if (!isset($_SESSION["username"])) {
                                             <td><?= $row["gender"] ?></td>
                                             <td><?= $row["point"] ?></td>
                                             <td><?= $row["address"] ?></td>
-                                            <td><?= $row["parent"] ?></td>
+                                            <td><?= $row["parent"], "<br> (",$row['parent_phone'], ")" ?></td>
                                             <td>
-                                                <a href="" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                                                <a href="" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                <button type="button" class="btn btn-warning btn-sm open-modal-update" data-toggle="modal" data-target="#modal-update"
+                                                data-nisn="<?= $row['nisn'] ?>"
+                                                data-name="<?= $row['name'] ?>"
+                                                data-gender="<?= $row['gender'] ?>"
+                                                data-address="<?= $row['address'] ?>"
+                                                data-parent="<?= $row['parent'] ?>"
+                                                data-phone="<?= $row['parent_phone'] ?>">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal-delete">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
                                             </td>
                                         </tr>
                                 </tbody>
-                                    <?php } ?>
+                            <?php } ?>
                             </table>
                         </div>
                         <!-- /.card-body -->
@@ -205,6 +215,57 @@ if (!isset($_SESSION["username"])) {
                 </div>
                 <!-- /.modal-dialog -->
             </div>
+            <!-- Modal Update -->
+            <div class="modal fade" id="modal-update">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Update Data</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Main Modal -->
+                            <!-- form start -->
+                            <form action="action.php" method="post">
+                                <div class="modal-body">
+                                    <input type="hidden" name="nisn" class="form-control" id="updateNisn" required>
+                                    <div class="form-group">
+                                        <label for="updateName">Name</label>
+                                        <input type="text" name="name" class="form-control" id="updateName" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Jenis Kelamin</label>
+                                        <select name="gender" class="form-control" id="updateGender" required>
+                                            <option>-- pilih --</option>
+                                            <option value="pria">pria</option>
+                                            <option value="perempuan">perempuan</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="updateAddress">Alamat</label>
+                                        <input type="text" name="address" class="form-control" id="updateAddress" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="updateParent">Orang Tua/Wali</label>
+                                        <input type="text" name="parent" class="form-control" id="updateParent" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="updatePhone">No. Hp Orang Tua/Wali</label>
+                                        <input type="number" name="phone" class="form-control" id="updatePhone" required>
+                                    </div>
+                                </div>
+                                <div class="modal-footer justify-content-between">
+                                    <button type="submit" name="update" class="btn btn-warning btn-block"><i class="fas fa-edit"></i> Update</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
             <!-- /.modal -->
 
         </div>
@@ -223,6 +284,19 @@ if (!isset($_SESSION["username"])) {
     <!-- ./wrapper -->
 
     <?php include "../script.php"; ?>
+
+    <script type="text/javascript">
+        $(document).on("click", ".open-modal-update", function() {
+            $("#updateNisn").val($(this).data("nisn"));
+            $("#updateName").val($(this).data("name"));
+            $("#updateGender").val($(this).data("gender"));
+            $("#updateAddress").val($(this).data("address"));
+            $("#updateParent").val($(this).data("parent"));
+            $("#updatePhone").val($(this).data("phone"));                           
+
+            $("#modal-update").modal("show");
+        })
+    </script>
 
 </body>
 
