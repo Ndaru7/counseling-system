@@ -33,5 +33,10 @@ if (isset($_POST["save"])) {
     $stmt = $conn->prepare($query);
     $stmt->execute();
     header("Location: ../student");
+} else if (isset($_POST["delete"])) {
+    $query = "DELETE FROM student WHERE nisn = '$nisn' ";
+    $stmt = $conn->prepare($query);
+    $stmt->execute();
+    header("Location: ../student");
 }
 ?>

@@ -142,7 +142,8 @@ if (!isset($_SESSION["username"])) {
                                                 data-phone="<?= $row['parent_phone'] ?>">
                                                     <i class="fas fa-edit"></i>
                                                 </button>
-                                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal-delete">
+                                                <button type="button" class="btn btn-danger btn-sm open-modal-delete" data-toggle="modal" data-target="#modal-delete"
+                                                data-nisn="<?= $row["nisn"] ?>">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </td>
@@ -266,6 +267,33 @@ if (!isset($_SESSION["username"])) {
                 </div>
                 <!-- /.modal-dialog -->
             </div>
+            <!-- Modal Delete -->
+            <div class="modal fade" id="modal-delete">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Update Data</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Main Modal -->
+                            <!-- form start -->
+                            <form action="action.php" method="post">
+                                <div class="modal-body">
+                                    <input type="hidden" name="nisn" class="form-control" id="deleteNisn" required>
+                                </div>
+                                <div class="modal-footer justify-content-between">
+                                    <button type="submit" name="delete" class="btn btn-danger btn-block"><i class="fas fa-trash"></i> Delete</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
             <!-- /.modal -->
 
         </div>
@@ -295,6 +323,12 @@ if (!isset($_SESSION["username"])) {
             $("#updatePhone").val($(this).data("phone"));                           
 
             $("#modal-update").modal("show");
+        })
+
+        $(document).on("click", ".open-modal-delete", function() {
+            $("#deleteNisn").val($(this).data("nisn"));                         
+
+            $("#modal-delete").modal("show");
         })
     </script>
 
