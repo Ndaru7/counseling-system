@@ -15,9 +15,15 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="../student" class="nav-link">
+            <a href="../siswa" class="nav-link">
                 <i class="nav-icon fas fa-users"></i>
                 <p>Data Siswa</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="../pelanggaran" class="nav-link">
+                <i class="nav-icon fas fa-users"></i>
+                <p>Pelanggaran</p>
             </a>
         </li>
         <li class="nav-item">

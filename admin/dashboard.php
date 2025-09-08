@@ -92,7 +92,7 @@ if (!isset($_SESSION["username"])) {
             <!-- Main content -->
             <section class="content">
                 <!-- Default box -->
-                <h2>Selamat datang <?php echo $_SESSION["username"]; ?> </h2>
+                <h2>Selamat datang <?php echo $_SESSION["nama"]; ?> </h2>
                 <!-- /.card -->
             </section>
             <!-- /.content -->

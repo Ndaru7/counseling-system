@@ -2,8 +2,6 @@
 <script src="../assets/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="../assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
-<script src="../assets/dist/js/adminlte.min.js"></script>
 <!-- bs-custom-file-input -->
 <script src="../assets/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 <!-- DataTables  & Plugins -->
@@ -23,6 +21,8 @@
 <script src="../assets/plugins/sweetalert2/sweetalert2.min.js"></script>
 <!-- Toastr -->
 <script src="../assets/plugins/toastr/toastr.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../assets/dist/js/adminlte.min.js"></script>
 <!-- Page specific script -->
 <script>
   $(function() {
@@ -30,7 +30,13 @@
       "responsive": true,
       "lengthChange": false,
       "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+      "columnDefs": [
+        {
+          "targets": "_all",
+          "className": "text-center align-middle"
+        }
+      ]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     $('#example2').DataTable({
       "paging": true,

@@ -14,6 +14,13 @@ $PASSWORD = $_ENV["PASSWORD"];
 try {
     $conn = new PDO("mysql:host=$HOST;dbname=$DATABASE", $USERNAME, $PASSWORD);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    function pdo_query($conn, $query) {
+        $sql = $query;
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        return $stmt;
+    }
 } catch (PDOException $e) {
     echo "Something wrong: " . $e->getMessage();
 }

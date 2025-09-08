@@ -94,22 +94,28 @@ if (!isset($_SESSION["username"])) {
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
+                        <?php
+                        $id = $_SESSION["id"];
+                        $sql = "SELECT * FROM pengguna WHERE id = '$id' ";
+                        $pdo = pdo_query($conn, $sql);
+                        $row = $pdo->fetch(PDO::FETCH_ASSOC);
+                        ?>
                         <form action="" method="post">
                             <div class="card-body">
                                 <div class="form-group">
-                                    <input type="hidden" name="id" class="form-control" value="<?php echo $_SESSION['id']; ?>" id="exampleInputEmail1">
+                                    <input type="hidden" name="id" class="form-control" value="<?php echo $row['id']; ?>">
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Nama</label>
-                                    <input type="text" name="name" class="form-control" value="<?php echo $_SESSION['name']; ?>" id="exampleInputEmail1" required>
+                                    <label for="nama">Nama</label>
+                                    <input type="text" name="nama" class="form-control" value="<?php echo $row['nama']; ?>" id="nama" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Username</label>
-                                    <input type="text" name="username" class="form-control" value="<?php echo $_SESSION['username']; ?>" id="exampleInputEmail1" required>
+                                    <label for="username">Username</label>
+                                    <input type="text" name="username" class="form-control" value="<?php echo $row['username']; ?>" id="username" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleInputPassword1">Password Baru</label>
-                                    <input type="password" name="new-password" class="form-control" id="exampleInputPassword1" required>
+                                    <label for="newPassword">Password Baru</label>
+                                    <input type="password" name="password_baru" class="form-control" id="newPassword" required>
                                 </div>
                             </div>
                             <!-- /.card-body -->
@@ -149,14 +155,12 @@ if (!isset($_SESSION["username"])) {
 <?php 
 if (isset($_POST["update"])) {
     $id = $_POST["id"];
-    $name = $_POST["name"];
+    $nama = $_POST["nama"];
     $username = $_POST["username"];
-    $new_password = $_POST["password"];
+    $password_baru = sha1($_POST["password_baru"]);
 
-    $sql = "UPDATE admin SET passwd = '$new_password', name = '$name', username = '$username' WHERE id = '$id' ";
-    $stmt = $conn->prepare($sql);
-    $stmt->execute();
-
-    header("Location: ../admin/profile.php");
+    $sql = "UPDATE pengguna SET passwd = '$password_baru', nama = '$nama', username = '$username' WHERE id = '$id' ";
+    pdo_query($conn, $sql);
+    header("Location: ../auth/logout.php");
 }
 ?>
