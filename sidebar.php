@@ -27,6 +27,12 @@
             </a>
         </li>
         <li class="nav-item">
+            <a href="../catatan_konseling" class="nav-link">
+                <i class="nav-icon fas fa-users"></i>
+                <p>Catatan Konseling</p>
+            </a>
+        </li>
+        <li class="nav-item">
             <a href="../auth/logout.php" class="nav-link">
                 <i class="nav-icon fas fa-sign-out-alt"></i>
                 <p>Keluar</p>

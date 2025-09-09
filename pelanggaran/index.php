@@ -143,7 +143,7 @@ if (!isset($_SESSION["username"])) {
                                                 </button>
                                                 <button type="button" class="btn btn-danger btn-sm open-modal-hapus" data-toggle="modal" data-target="#modal-hapus"
                                                 data-id="<?= $row['id'] ?>"
-                                                data-nama="<?= $row[''] ?>">
+                                                data-nama="<?= $row['nama'] ?>">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </td>
