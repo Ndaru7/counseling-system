@@ -6,6 +6,7 @@ if (!isset($_SESSION["username"])) {
     header("Location: ../auth/login.php");
 }
 
+$halaman = "data_siswa";
 ?>
 
 <!DOCTYPE html>
@@ -102,63 +103,65 @@ if (!isset($_SESSION["username"])) {
                                 <i class="fas fa-plus"> tambah</i>
                             </button>
                             <p></p>
-                            <table id="example1" class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>NISN</th>
-                                        <th>Nama</th>
-                                        <th>Jenis kelamin</th>
-                                        <th>Poin</th>
-                                        <th>Alamat</th>
-                                        <th>Orang Tua</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $no = 1;
-                                    $query = "SELECT * FROM siswa";
-                                    $pdo = pdo_query($conn, $query);
-
-                                    while ($row = $pdo->fetch(PDO::FETCH_ASSOC)) {
-                                    ?>
+                            <div style="overflow-x: auto;">
+                                <table id="example1" class="table table-bordered table-striped">
+                                    <thead>
                                         <tr>
-                                            <td><?= $no++ ?></td>
-                                            <td><?= $row["nisn"] ?></td>
-                                            <td><?= $row["nama"] ?></td>
-                                            <td>
-                                                <?php
-                                                if ($row["jenis_kelamin"] == "pria") {
-                                                    echo "L";
-                                                } else {
-                                                    echo "P";
-                                                }
-                                                ?>
-                                            </td>
-                                            <td><?= $row["poin"] ?></td>
-                                            <td><?= $row["alamat"] ?></td>
-                                            <td><?= $row["orang_tua"], "<br> (",$row['no_hp'], ")" ?></td>
-                                            <td>
-                                                <button type="button" class="btn btn-warning btn-sm open-modal-edit" data-toggle="modal" data-target="#modal-edit"
-                                                data-nisn="<?= $row['nisn'] ?>"
-                                                data-nama="<?= $row['nama'] ?>"
-                                                data-jenis_kelamin="<?= $row['jenis_kelamin'] ?>"
-                                                data-alamat="<?= $row['alamat'] ?>"
-                                                data-orang_tua="<?= $row['orang_tua'] ?>"
-                                                data-no_hp="<?= $row['no_hp'] ?>">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
-                                                <button type="button" class="btn btn-danger btn-sm open-modal-hapus" data-toggle="modal" data-target="#modal-hapus"
-                                                data-nisn="<?= $row['nisn'] ?>"
-                                                data-nama="<?= $row['nama'] ?>">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </td>
+                                            <th>No</th>
+                                            <th>NISN</th>
+                                            <th>Nama</th>
+                                            <th>Jenis kelamin</th>
+                                            <th>Poin</th>
+                                            <th>Alamat</th>
+                                            <th>Orang Tua</th>
+                                            <th>Aksi</th>
                                         </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $no = 1;
+                                        $query = "SELECT * FROM siswa";
+                                        $pdo = pdo_query($conn, $query);
+
+                                        while ($row = $pdo->fetch(PDO::FETCH_ASSOC)) {
+                                        ?>
+                                            <tr>
+                                                <td><?= $no++ ?></td>
+                                                <td><?= $row["nisn"] ?></td>
+                                                <td><?= $row["nama"] ?></td>
+                                                <td>
+                                                    <?php
+                                                    if ($row["jenis_kelamin"] == "pria") {
+                                                        echo "L";
+                                                    } else {
+                                                        echo "P";
+                                                    }
+                                                    ?>
+                                                </td>
+                                                <td><?= $row["poin"] ?></td>
+                                                <td><?= $row["alamat"] ?></td>
+                                                <td><?= $row["orang_tua"], "<br> (", $row['no_hp'], ")" ?></td>
+                                                <td>
+                                                    <button type="button" class="btn btn-warning btn-sm open-modal-edit" data-toggle="modal" data-target="#modal-edit"
+                                                        data-nisn="<?= $row['nisn'] ?>"
+                                                        data-nama="<?= $row['nama'] ?>"
+                                                        data-jenis_kelamin="<?= $row['jenis_kelamin'] ?>"
+                                                        data-alamat="<?= $row['alamat'] ?>"
+                                                        data-orang_tua="<?= $row['orang_tua'] ?>"
+                                                        data-no_hp="<?= $row['no_hp'] ?>">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger btn-sm open-modal-hapus" data-toggle="modal" data-target="#modal-hapus"
+                                                        data-nisn="<?= $row['nisn'] ?>"
+                                                        data-nama="<?= $row['nama'] ?>">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
                                         <?php } ?>
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                         <!-- /.card-body -->
                     </div>
@@ -334,13 +337,13 @@ if (!isset($_SESSION["username"])) {
             $("#editJenisKelamin").val($(this).data("jenis_kelamin"));
             $("#editAlamat").val($(this).data("alamat"));
             $("#editOrangTua").val($(this).data("orang_tua"));
-            $("#editNohp").val($(this).data("no_hp"));                           
+            $("#editNohp").val($(this).data("no_hp"));
 
             $("#modal-edit").modal("show");
         })
 
         $(document).on("click", ".open-modal-hapus", function() {
-            $("#hapusNisn").val($(this).data("nisn"));                         
+            $("#hapusNisn").val($(this).data("nisn"));
             $("#hapusNama").val($(this).data("nama"));
 
             $("#modal-hapus").modal("show");

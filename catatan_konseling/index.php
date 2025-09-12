@@ -5,7 +5,7 @@ require_once "../database/config.php";
 if (!isset($_SESSION["username"])) {
     header("Location: ../auth/login.php");
 }
-
+$halaman = "catatan_konseling";
 ?>
 
 <!DOCTYPE html>
@@ -102,64 +102,66 @@ if (!isset($_SESSION["username"])) {
                                 <i class="fas fa-plus"></i> Tambah Catatan
                             </button>
                             <p></p>
-                            <table id="example1" class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Tanggal</th>
-                                        <th>Nama</th>
-                                        <th>Pelanggaran</th>
-                                        <th>Deskripsi</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $no = 1;
-                                    //$query = "SELECT catatan_konseling.id, catatan_konseling.tanggal, siswa.nama AS siswa, pelanggaran.nama AS pelanggaran, catatan_konseling.deskripsi  FROM catatan_konseling JOIN siswa ON catatan_konseling.id_siswa = siswa.nisn JOIN pelanggaran ON catatan_konseling.id_pelanggaran = pelanggaran.id";
-                                    $query = "SELECT * FROM catatan_konseling";
-                                    $pdo = pdo_query($conn, $query);
-
-                                    while ($row = $pdo->fetch(PDO::FETCH_ASSOC)) {
-                                        $id_siswa = $row["id_siswa"];
-                                        $id_pelanggaran = $row["id_pelanggaran"];
-                                        $deskripsi = $row["deskripsi"];
-                                    ?>
+                            <div style="overflow-x: auto;">
+                                <table id="example1" class="table table-bordered table-striped">
+                                    <thead>
                                         <tr>
-                                            <td><?= $no++ ?></td>
-                                            <td><?= $row["tanggal"] ?></td>
-                                            <td>
-                                                <?php
-                                                $query_siswa = pdo_query($conn, "SELECT nama FROM siswa WHERE nisn = '$id_siswa' ");
-                                                $row_siswa = $query_siswa->fetch(PDO::FETCH_ASSOC);
-                                                echo $row_siswa["nama"];
-                                                ?>
-                                            </td>
-                                            <td>
-                                                <?php
-                                                $query_pelanggaran = pdo_query($conn, "SELECT nama FROM pelanggaran WHERE id = '$id_pelanggaran' ");
-                                                $row_pelanggaran = $query_pelanggaran->fetch(PDO::FETCH_ASSOC);
-                                                echo $row_pelanggaran["nama"];
-                                                ?>
-                                            </td>
-                                            <td><?= $row["deskripsi"] ?></td>
-                                            <td>
-                                                <button type="button" class="btn btn-warning btn-sm open-modal-edit" data-toggle="modal" data-target="#modal-edit"
-                                                    data-id="<?= $row['id'] ?>"
-                                                    data-siswa="<?= $row['id_siswa'] ?>"
-                                                    data-pelanggaran="<?= $row['id_pelanggaran'] ?>"
-                                                    data-deskripsi="<?= $row['deskripsi'] ?>">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
-                                                <button type="button" class="btn btn-danger btn-sm open-modal-hapus" data-toggle="modal" data-target="#modal-hapus"
-                                                    data-id="<?= $row['id'] ?>">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </td>
+                                            <th>No</th>
+                                            <th>Tanggal</th>
+                                            <th>Nama</th>
+                                            <th>Pelanggaran</th>
+                                            <th>Deskripsi</th>
+                                            <th>Aksi</th>
                                         </tr>
-                                    <?php } ?>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $no = 1;
+                                        //$query = "SELECT catatan_konseling.id, catatan_konseling.tanggal, siswa.nama AS siswa, pelanggaran.nama AS pelanggaran, catatan_konseling.deskripsi  FROM catatan_konseling JOIN siswa ON catatan_konseling.id_siswa = siswa.nisn JOIN pelanggaran ON catatan_konseling.id_pelanggaran = pelanggaran.id";
+                                        $query = "SELECT * FROM catatan_konseling";
+                                        $pdo = pdo_query($conn, $query);
+
+                                        while ($row = $pdo->fetch(PDO::FETCH_ASSOC)) {
+                                            $id_siswa = $row["id_siswa"];
+                                            $id_pelanggaran = $row["id_pelanggaran"];
+                                            $deskripsi = $row["deskripsi"];
+                                        ?>
+                                            <tr>
+                                                <td><?= $no++ ?></td>
+                                                <td><?= $row["tanggal"] ?></td>
+                                                <td>
+                                                    <?php
+                                                    $query_siswa = pdo_query($conn, "SELECT nama FROM siswa WHERE nisn = '$id_siswa' ");
+                                                    $row_siswa = $query_siswa->fetch(PDO::FETCH_ASSOC);
+                                                    echo $row_siswa["nama"];
+                                                    ?>
+                                                </td>
+                                                <td>
+                                                    <?php
+                                                    $query_pelanggaran = pdo_query($conn, "SELECT nama FROM pelanggaran WHERE id = '$id_pelanggaran' ");
+                                                    $row_pelanggaran = $query_pelanggaran->fetch(PDO::FETCH_ASSOC);
+                                                    echo $row_pelanggaran["nama"];
+                                                    ?>
+                                                </td>
+                                                <td><?= $row["deskripsi"] ?></td>
+                                                <td>
+                                                    <button type="button" class="btn btn-warning btn-sm open-modal-edit" data-toggle="modal" data-target="#modal-edit"
+                                                        data-id="<?= $row['id'] ?>"
+                                                        data-siswa="<?= $row['id_siswa'] ?>"
+                                                        data-pelanggaran="<?= $row['id_pelanggaran'] ?>"
+                                                        data-deskripsi="<?= $row['deskripsi'] ?>">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger btn-sm open-modal-hapus" data-toggle="modal" data-target="#modal-hapus"
+                                                        data-id="<?= $row['id'] ?>">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        <?php } ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                         <!-- /.card-body -->
                     </div>
@@ -179,11 +181,11 @@ if (!isset($_SESSION["username"])) {
             <!-- Control sidebar content goes here -->
         </aside>
         <!-- /.control-sidebar -->
+        <footer class="main-footer">
+            <strong>Copyright &copy; 2025 <a href="">MBS Bumiayu</a>.</strong> All rights reserved.
+        </footer>
     </div>
     <!-- ./wrapper -->
-    <footer class="main-footer">
-        <strong>Copyright &copy; 2025 <a href="">MBS Bumiayu</a>.</strong> All rights reserved.
-    </footer>
 
     <!-- Modal Tambah -->
     <div class="modal fade" id="modal-tambah">

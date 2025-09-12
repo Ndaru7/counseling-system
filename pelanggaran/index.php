@@ -6,6 +6,7 @@ if (!isset($_SESSION["username"])) {
     header("Location: ../auth/login.php");
 }
 
+$halaman = "data_pelanggaran";
 ?>
 
 <!DOCTYPE html>
@@ -102,59 +103,61 @@ if (!isset($_SESSION["username"])) {
                                 <i class="fas fa-plus"> tambah</i>
                             </button>
                             <p></p>
-                            <table id="example1" class="table table-bordered table-striped justify-content-between">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Nama</th>
-                                        <th>Kategori</th>
-                                        <th>Poin</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $no = 1;
-                                    //$query = "SELECT pelanggaran.id, pelanggaran.nama, pelanggaran.poin, kategori.nama AS kategori FROM pelanggaran JOIN kategori ON pelanggaran.id_kategori = kategori.id";
-                                    $query = "SELECT * FROM pelanggaran";
-                                    $pdo = pdo_query($conn, $query);
-
-                                    while ($row = $pdo->fetch(PDO::FETCH_ASSOC)) {
-                                        $id_kategori = $row["id_kategori"];
-                                    ?>
+                            <div style="overflow-x: auto;">
+                                <table id="example1" class="table table-bordered table-striped justify-content-between">
+                                    <thead>
                                         <tr>
-                                            <td><?= $no++ ?></td>
-                                            <td><?= $row["nama"] ?></td>
-                                            <?php
-                                            $query_kategori = pdo_query($conn, "SELECT nama FROM kategori WHERE id = '$id_kategori' ");
-                                            $row_kategori = $query_kategori->fetch(PDO::FETCH_ASSOC);
-                                            if ($row_kategori["nama"] == "ringan") {
-                                                echo '<td><p class="badge badge-success">Ringan</p></td>';
-                                            } else if ($row_kategori["nama"] == "sedang") {
-                                                echo '<td><p class="badge badge-warning">Sedang</p></td>';
-                                            } else if ($row_kategori["nama"] == "berat") {
-                                                echo '<td><p class="badge badge-danger">Berat</p></td>';
-                                            }
-                                            ?>
-                                            <td><?= $row["poin"] ?></td>
-                                            <td>
-                                                <button type="button" class="btn btn-warning btn-sm open-modal-edit" data-toggle="modal" data-target="#modal-edit"
-                                                data-id="<?= $row['id'] ?>"
-                                                data-nama="<?= $row['nama'] ?>"
-                                                data-kategori="<?= $row['id_kategori'] ?>"
-                                                data-poin="<?= $row['poin'] ?>">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
-                                                <button type="button" class="btn btn-danger btn-sm open-modal-hapus" data-toggle="modal" data-target="#modal-hapus"
-                                                data-id="<?= $row['id'] ?>"
-                                                data-nama="<?= $row['nama'] ?>">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </td>
+                                            <th>No</th>
+                                            <th>Nama</th>
+                                            <th>Kategori</th>
+                                            <th>Poin</th>
+                                            <th>Aksi</th>
                                         </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $no = 1;
+                                        //$query = "SELECT pelanggaran.id, pelanggaran.nama, pelanggaran.poin, kategori.nama AS kategori FROM pelanggaran JOIN kategori ON pelanggaran.id_kategori = kategori.id";
+                                        $query = "SELECT * FROM pelanggaran";
+                                        $pdo = pdo_query($conn, $query);
+
+                                        while ($row = $pdo->fetch(PDO::FETCH_ASSOC)) {
+                                            $id_kategori = $row["id_kategori"];
+                                        ?>
+                                            <tr>
+                                                <td><?= $no++ ?></td>
+                                                <td><?= $row["nama"] ?></td>
+                                                <?php
+                                                $query_kategori = pdo_query($conn, "SELECT nama FROM kategori WHERE id = '$id_kategori' ");
+                                                $row_kategori = $query_kategori->fetch(PDO::FETCH_ASSOC);
+                                                if ($row_kategori["nama"] == "ringan") {
+                                                    echo '<td><p class="badge badge-success">Ringan</p></td>';
+                                                } else if ($row_kategori["nama"] == "sedang") {
+                                                    echo '<td><p class="badge badge-warning">Sedang</p></td>';
+                                                } else if ($row_kategori["nama"] == "berat") {
+                                                    echo '<td><p class="badge badge-danger">Berat</p></td>';
+                                                }
+                                                ?>
+                                                <td><?= $row["poin"] ?></td>
+                                                <td>
+                                                    <button type="button" class="btn btn-warning btn-sm open-modal-edit" data-toggle="modal" data-target="#modal-edit"
+                                                        data-id="<?= $row['id'] ?>"
+                                                        data-nama="<?= $row['nama'] ?>"
+                                                        data-kategori="<?= $row['id_kategori'] ?>"
+                                                        data-poin="<?= $row['poin'] ?>">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger btn-sm open-modal-hapus" data-toggle="modal" data-target="#modal-hapus"
+                                                        data-id="<?= $row['id'] ?>"
+                                                        data-nama="<?= $row['nama'] ?>">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
                                         <?php } ?>
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                         <!-- /.card-body -->
                     </div>
@@ -310,13 +313,13 @@ if (!isset($_SESSION["username"])) {
             $("#editId").val($(this).data("id"));
             $("#editNama").val($(this).data("nama"));
             $("#editKategori").val($(this).data("kategori"));
-            $("#editPoin").val($(this).data("poin"));                         
+            $("#editPoin").val($(this).data("poin"));
 
             $("#modal-edit").modal("show");
         })
 
         $(document).on("click", ".open-modal-hapus", function() {
-            $("#hapusId").val($(this).data("id"));                         
+            $("#hapusId").val($(this).data("id"));
             $("#hapusNama").val($(this).data("nama"));
 
             $("#modal-hapus").modal("show");
