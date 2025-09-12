@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <!-- /.login-logo -->
         <div class="card card-outline card-success">
             <div class="card-header text-center">
-                <h3>Admin Dashboard</h3>
+                <h3>Sistem BK MBS</h3>
             </div>
             <div class="card-body">
                 <form action="" method="post">

@@ -16,27 +16,21 @@ if (isset($_POST["simpan"])) {
     header("Location: ../catatan_konseling");
 
 } else if (isset($_POST["edit"])) {
-    $nisn = $_POST["nisn"];
-    $nama = $_POST["nama"];
-    $jenis_kelamin = $_POST["jenis_kelamin"];
-    $alamat = $_POST["alamat"];
-    $orang_tua = $_POST["orang_tua"];
-    $no_hp = $_POST["no_hp"];
+    $id = $_POST["id"];
+    $siswa = $_POST["siswa"];
+    $pelanggaran = $_POST["pelanggaran"];
+    $deskripsi = $_POST["deskripsi"];
 
-    $query = "UPDATE siswa SET nisn = '$nisn',
-                                    nama = '$nama',
-                                    jenis_kelamin = '$jenis_kelamin',
-                                    alamat = '$alamat',
-                                    orang_tua = '$orang_tua',
-                                    no_hp = '$no_hp' WHERE nisn = '$nisn' ";
+    $query = "UPDATE catatan_konseling SET id_siswa = '$siswa',
+                                            id_pelanggaran = '$pelanggaran',
+                                            deskripsi = '$deskripsi' WHERE id = '$id' ";
     pdo_query($conn, $query);
-    header("Location: ../siswa");
+    header("Location: ../catatan_konseling");
 
 } else if (isset($_POST["hapus"])) {
-    $nisn = $_POST["nisn"];
-    echo $nisn;
-    $query = "DELETE FROM siswa WHERE nisn = '$nisn' ";
+    $id = $_POST["id"];
+    $query = "DELETE FROM catatan_konseling WHERE id = '$id' ";
     pdo_query($conn, $query);
-    header("Location: ../siswa");
+    header("Location: ../catatan_konseling");
 }
 ?>

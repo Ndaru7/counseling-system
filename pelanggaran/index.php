@@ -14,7 +14,7 @@ if (!isset($_SESSION["username"])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sitem BK | Dashboard</title>
+    <title>Sitem BK | Data Pelanggaran</title>
 
     <?php include "../style.php"; ?>
 </head>
@@ -56,7 +56,7 @@ if (!isset($_SESSION["username"])) {
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="" class="brand-link">
-                <img src="../assets/images/logo.png" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <img src="../assets/images/logo.png" alt="Logo MBS" class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span class="brand-text font-weight-light">Sistem BK</span>
             </a>
 
@@ -115,20 +115,24 @@ if (!isset($_SESSION["username"])) {
                                 <tbody>
                                     <?php
                                     $no = 1;
-                                    $query = "SELECT pelanggaran.id, pelanggaran.nama, pelanggaran.poin, kategori.nama AS kategori FROM pelanggaran JOIN kategori ON pelanggaran.id_kategori = kategori.id";
+                                    //$query = "SELECT pelanggaran.id, pelanggaran.nama, pelanggaran.poin, kategori.nama AS kategori FROM pelanggaran JOIN kategori ON pelanggaran.id_kategori = kategori.id";
+                                    $query = "SELECT * FROM pelanggaran";
                                     $pdo = pdo_query($conn, $query);
 
                                     while ($row = $pdo->fetch(PDO::FETCH_ASSOC)) {
+                                        $id_kategori = $row["id_kategori"];
                                     ?>
                                         <tr>
                                             <td><?= $no++ ?></td>
                                             <td><?= $row["nama"] ?></td>
-                                            <?php 
-                                            if ($row["kategori"] == "ringan") {
+                                            <?php
+                                            $query_kategori = pdo_query($conn, "SELECT nama FROM kategori WHERE id = '$id_kategori' ");
+                                            $row_kategori = $query_kategori->fetch(PDO::FETCH_ASSOC);
+                                            if ($row_kategori["nama"] == "ringan") {
                                                 echo '<td><p class="badge badge-success">Ringan</p></td>';
-                                            } else if ($row["kategori"] == "sedang") {
+                                            } else if ($row_kategori["nama"] == "sedang") {
                                                 echo '<td><p class="badge badge-warning">Sedang</p></td>';
-                                            } else if ($row["kategori"] == "berat") {
+                                            } else if ($row_kategori["nama"] == "berat") {
                                                 echo '<td><p class="badge badge-danger">Berat</p></td>';
                                             }
                                             ?>
@@ -137,7 +141,7 @@ if (!isset($_SESSION["username"])) {
                                                 <button type="button" class="btn btn-warning btn-sm open-modal-edit" data-toggle="modal" data-target="#modal-edit"
                                                 data-id="<?= $row['id'] ?>"
                                                 data-nama="<?= $row['nama'] ?>"
-                                                data-kategori="<?= $row['kategori'] ?>"
+                                                data-kategori="<?= $row['id_kategori'] ?>"
                                                 data-poin="<?= $row['poin'] ?>">
                                                     <i class="fas fa-edit"></i>
                                                 </button>

@@ -14,7 +14,7 @@ if (!isset($_SESSION["username"])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sitem BK | Dashboard</title>
+    <title>Sitem BK | Catatan Konseling</title>
 
     <?php include "../style.php"; ?>
 </head>
@@ -56,7 +56,7 @@ if (!isset($_SESSION["username"])) {
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="" class="brand-link">
-                <img src="../assets/images/logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <img src="../assets/images/logo.png" alt="Logo MBS" class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span class="brand-text font-weight-light">Sistem BK</span>
             </a>
 
@@ -94,12 +94,12 @@ if (!isset($_SESSION["username"])) {
                 <div class="container-fluid">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title"><i class="fas fa-file"></i>  Catatan Konseling</h3>
+                            <h3 class="card-title"><i class="fas fa-file"></i> Catatan Konseling</h3>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
                             <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modal-tambah">
-                                <i class="fas fa-plus"> tambah</i>
+                                <i class="fas fa-plus"></i> Tambah Catatan
                             </button>
                             <p></p>
                             <table id="example1" class="table table-bordered table-striped">
@@ -116,31 +116,48 @@ if (!isset($_SESSION["username"])) {
                                 <tbody>
                                     <?php
                                     $no = 1;
-                                    $query = "SELECT catatan_konseling.id, catatan_konseling.tanggal, siswa.nama AS siswa, pelanggaran.nama AS pelanggaran, catatan_konseling.deskripsi  FROM catatan_konseling JOIN siswa ON catatan_konseling.id_siswa = siswa.nisn JOIN pelanggaran ON catatan_konseling.id_pelanggaran = pelanggaran.id";
+                                    //$query = "SELECT catatan_konseling.id, catatan_konseling.tanggal, siswa.nama AS siswa, pelanggaran.nama AS pelanggaran, catatan_konseling.deskripsi  FROM catatan_konseling JOIN siswa ON catatan_konseling.id_siswa = siswa.nisn JOIN pelanggaran ON catatan_konseling.id_pelanggaran = pelanggaran.id";
+                                    $query = "SELECT * FROM catatan_konseling";
                                     $pdo = pdo_query($conn, $query);
 
                                     while ($row = $pdo->fetch(PDO::FETCH_ASSOC)) {
+                                        $id_siswa = $row["id_siswa"];
+                                        $id_pelanggaran = $row["id_pelanggaran"];
+                                        $deskripsi = $row["deskripsi"];
                                     ?>
                                         <tr>
                                             <td><?= $no++ ?></td>
                                             <td><?= $row["tanggal"] ?></td>
-                                            <td><?= $row["siswa"] ?></td>
-                                            <td><?= $row["pelanggaran"] ?></td>
+                                            <td>
+                                                <?php
+                                                $query_siswa = pdo_query($conn, "SELECT nama FROM siswa WHERE nisn = '$id_siswa' ");
+                                                $row_siswa = $query_siswa->fetch(PDO::FETCH_ASSOC);
+                                                echo $row_siswa["nama"];
+                                                ?>
+                                            </td>
+                                            <td>
+                                                <?php
+                                                $query_pelanggaran = pdo_query($conn, "SELECT nama FROM pelanggaran WHERE id = '$id_pelanggaran' ");
+                                                $row_pelanggaran = $query_pelanggaran->fetch(PDO::FETCH_ASSOC);
+                                                echo $row_pelanggaran["nama"];
+                                                ?>
+                                            </td>
                                             <td><?= $row["deskripsi"] ?></td>
                                             <td>
                                                 <button type="button" class="btn btn-warning btn-sm open-modal-edit" data-toggle="modal" data-target="#modal-edit"
-                                                data-siswa="<?= $row['siswa'] ?>"
-                                                data-pelanggaran="<?= $row['pelanggaran'] ?>"
-                                                data-deskripsi="<?= $row['deskripsi'] ?>">
+                                                    data-id="<?= $row['id'] ?>"
+                                                    data-siswa="<?= $row['id_siswa'] ?>"
+                                                    data-pelanggaran="<?= $row['id_pelanggaran'] ?>"
+                                                    data-deskripsi="<?= $row['deskripsi'] ?>">
                                                     <i class="fas fa-edit"></i>
                                                 </button>
                                                 <button type="button" class="btn btn-danger btn-sm open-modal-hapus" data-toggle="modal" data-target="#modal-hapus"
-                                                data-id="<?= $row['id'] ?>">
+                                                    data-id="<?= $row['id'] ?>">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </td>
                                         </tr>
-                                        <?php } ?>
+                                    <?php } ?>
                                 </tbody>
                             </table>
                         </div>
@@ -153,140 +170,6 @@ if (!isset($_SESSION["username"])) {
             </section>
             <!-- /.content -->
 
-            <!-- Modal Tambah -->
-            <div class="modal fade" id="modal-tambah">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Tambah Catatan</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <!-- Main Modal -->
-                            <!-- form start -->
-                            <form action="aksi.php" method="post">
-                                <div class="modal-body">
-                                    <div class="form-group">
-                                        <label for="tambahSiswa">Nama Siswa</label>
-                                        <select name="siswa" class="form-control" id="tambahSiswa" required>
-                                            <option>-- Pilih --</option>
-                                            <?php
-                                            $query_siswa = "SELECT nisn, nama FROM siswa";
-                                            $pdo_siswa = pdo_query($conn, $query_siswa);
-
-                                            while ($row = $pdo_siswa->fetch(PDO::FETCH_ASSOC)) {
-                                                $nisn = $row["nisn"];
-                                                $nama = $row["nama"];
-                                                echo '<option value="' . $nisn . '">' . $nama . '</option>';
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="tambahPelanggaran">Pelanggaraan</label>
-                                        <select name="pelanggaran" class="form-control" id="tambahPelanggaran" required>
-                                            <option>-- Pilih --</option>
-                                            <?php
-                                            $query_pelanggaran = "SELECT id, nama FROM pelanggaran";
-                                            $pdo_pelanggaran = pdo_query($conn, $query_pelanggaran);
-
-                                            while ($row = $pdo_pelanggaran->fetch(PDO::FETCH_ASSOC)) {
-                                                $id = $row["id"];
-                                                $nama = $row["nama"];
-                                                echo '<option value="' . $id . '">' . $nama . '</option>';
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <textarea name="deskripsi" class="form-control" id="tambahDeskripsi" placeholder="Deskripsi.." required></textarea>
-                                    </div>
-                                </div>
-                                <div class="modal-footer justify-content-between">
-                                    <button type="submit" name="simpan" class="btn btn-primary btn-block"><i class="fas fa-save"></i> Simpan</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <!-- /.modal-content -->
-                </div>
-                <!-- /.modal-dialog -->
-            </div>
-            <!-- Modal Update -->
-            <div class="modal fade" id="modal-edit">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Edit Catatan</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <!-- Main Modal -->
-                            <!-- form start -->
-                            <form action="aksi.php" method="post">
-                                <div class="modal-body">
-                                    <input type="hidden" name="id" class="form-control" id="editId" required>
-                                    <div class="form-group">
-                                        <label for="editSiswa">Nama Siswa</label>
-                                        <input type="text" name="siswa" class="form-control" id="editSiswa" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="editPelanggaran">Pelanggaran</label>
-                                        <input type="text" name="siswa" class="form-control" id="editPelanggaran" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="editDeskripsi">Deskripsi</label>
-                                        <input type="text" name="deskripsi" class="form-control" id="editDeskripsi" required>
-                                    </div>
-                                <div class="modal-footer justify-content-between">
-                                    <button type="submit" name="edit" class="btn btn-warning btn-block"><i class="fas fa-edit"></i> Edit</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <!-- /.modal-content -->
-                </div>
-                <!-- /.modal-dialog -->
-            </div>
-            <!-- Modal Delete -->
-            <div class="modal fade" id="modal-hapus">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Hapus Catatan</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <!-- Main Modal -->
-                            <!-- form start -->
-                            <form action="aksi.php" method="post">
-                                <h4>Apakah anda yakin ingin menghapus catatan berikut?</h4>
-                                <div class="form-group">
-                                    <!-- <label for="hapusNisn">NISN</label> -->
-                                    <input type="hidden" name="id" class="form-control" id="hapusId" required>
-                                </div>
-                                <!-- <div class="form-group">
-                                    <label for="hapusNama">Nama</label>
-                                    <input type="text" name="nama" class="form-control" id="hapusNama" disabled required>
-                                </div> -->
-                                <div class="modal-footer justify-content-between">
-                                    <button type="submit" name="hapus" class="btn btn-danger btn-block"><i class="fas fa-trash"></i> Hapus</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <!-- /.modal-content -->
-                </div>
-                <!-- /.modal-dialog -->
-            </div>
-            <!-- /.modal -->
-            
 
         </div>
         <!-- /.content-wrapper -->
@@ -302,21 +185,173 @@ if (!isset($_SESSION["username"])) {
         <strong>Copyright &copy; 2025 <a href="">MBS Bumiayu</a>.</strong> All rights reserved.
     </footer>
 
+    <!-- Modal Tambah -->
+    <div class="modal fade" id="modal-tambah">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Tambah Catatan</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Main Modal -->
+                    <!-- form start -->
+                    <form action="aksi.php" method="post">
+                        <div class="form-group">
+                            <label for="tambahSiswa">Nama Siswa</label>
+                            <select name="siswa" class="form-control" id="tambahSiswa" required>
+                                <option>-- Pilih --</option>
+                                <?php
+                                $query_siswa = "SELECT nisn, nama FROM siswa";
+                                $pdo_siswa = pdo_query($conn, $query_siswa);
+
+                                while ($row = $pdo_siswa->fetch(PDO::FETCH_ASSOC)) {
+                                    $nisn = $row["nisn"];
+                                    $nama = $row["nama"];
+                                    echo '<option value="' . $nisn . '">' . $nama . '</option>';
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="tambahPelanggaran">Pelanggaraan</label>
+                            <select name="pelanggaran" class="form-control" id="tambahPelanggaran" required>
+                                <option>-- Pilih --</option>
+                                <?php
+                                $query_pelanggaran = "SELECT id, nama FROM pelanggaran";
+                                $pdo_pelanggaran = pdo_query($conn, $query_pelanggaran);
+
+                                while ($row = $pdo_pelanggaran->fetch(PDO::FETCH_ASSOC)) {
+                                    $id = $row["id"];
+                                    $nama = $row["nama"];
+                                    echo '<option value="' . $id . '">' . $nama . '</option>';
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <textarea name="deskripsi" class="form-control" id="tambahDeskripsi" placeholder="Deskripsi.." required></textarea>
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="submit" name="simpan" class="btn btn-primary btn-block"><i class="fas fa-save"></i> Simpan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- Modal Update -->
+    <div class="modal fade" id="modal-edit">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Catatan</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Main Modal -->
+                    <form action="aksi.php" method="post">
+                        <input type="hidden" name="id" class="form-control" id="editId" required>
+                        <div class="form-group">
+                            <label for="editSiswa">Nama Siswa</label>
+                            <select name="siswa" class="form-control" id="editSiswa" required>
+                                <option>-- Pilih --</option>
+                                <?php
+                                $query_siswa = "SELECT nisn, nama FROM siswa";
+                                $pdo_siswa = pdo_query($conn, $query_siswa);
+
+                                while ($row = $pdo_siswa->fetch(PDO::FETCH_ASSOC)) {
+                                    $nisn = $row["nisn"];
+                                    $nama = $row["nama"];
+                                    echo '<option value="' . $nisn . '">' . $nama . '</option>';
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editPelanggaran">Pelanggaraan</label>
+                            <select name="pelanggaran" class="form-control" id="editPelanggaran" required>
+                                <option value="">-- Pilih --</option>
+                                <?php
+                                $query_pelanggaran = "SELECT id, nama FROM pelanggaran";
+                                $pdo_pelanggaran = pdo_query($conn, $query_pelanggaran);
+
+                                while ($row = $pdo_pelanggaran->fetch(PDO::FETCH_ASSOC)) {
+                                    $id = $row["id"];
+                                    $nama = $row["nama"];
+                                    echo '<option value="' . $id . '">' . $nama . '</option>';
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editDeskripsi">Deskripsi</label>
+                            <textarea name="deskripsi" class="form-control" id="editDeskripsi" required></textarea>
+                            <!-- <input type="text" name="deskripsi" class="form-control" id="editDeskripsi" required> -->
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="submit" name="edit" class="btn btn-warning btn-block"><i class="fas fa-edit"></i> Edit </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- Modal Hapus -->
+    <div class="modal fade" id="modal-hapus">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Hapus Catatan</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Main Modal -->
+                    <!-- form start -->
+                    <form action="aksi.php" method="post">
+                        <h4>Apakah anda yakin ingin menghapus data berikut?</h4>
+                        <div class="form-group">
+                            <!-- <label for="hapusNisn">NISN</label> -->
+                            <input type="hidden" name="id" class="form-control" id="hapusId" required>
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="submit" name="hapus" class="btn btn-danger btn-block"><i class="fas fa-trash"></i> Hapus</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
     <?php include "../script.php"; ?>
 
     <script type="text/javascript">
         $(document).on("click", ".open-modal-edit", function() {
+            $("#editId").val($(this).data("id"));
             $("#editSiswa").val($(this).data("siswa"));
             $("#editPelanggaran").val($(this).data("pelanggaran"));
-            $("#editDeskripsi").val($(this).data("deskripsi"));                           
+            $("#editDeskripsi").val($(this).data("deskripsi"));
 
             $("#modal-edit").modal("show");
         })
 
         $(document).on("click", ".open-modal-hapus", function() {
-            $("#hapusId").val($(this).data("nisn"));
+            $("#hapusId").val($(this).data("id"));
 
-            $("#modal-hapus").modal("show");
+            $("#modal-delete").modal("show");
         })
     </script>
 

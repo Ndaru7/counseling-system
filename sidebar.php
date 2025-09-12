@@ -22,13 +22,13 @@
         </li>
         <li class="nav-item">
             <a href="../pelanggaran" class="nav-link">
-                <i class="nav-icon fas fa-users"></i>
+                <i class="nav-icon fas fa-exclamation"></i>
                 <p>Pelanggaran</p>
             </a>
         </li>
         <li class="nav-item">
             <a href="../catatan_konseling" class="nav-link">
-                <i class="nav-icon fas fa-users"></i>
+                <i class="nav-icon fas fa-file"></i>
                 <p>Catatan Konseling</p>
             </a>
         </li>
