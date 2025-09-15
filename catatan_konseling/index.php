@@ -97,71 +97,13 @@ $halaman = "catatan_konseling";
                             <h3 class="card-title"><i class="fas fa-file"></i> Catatan Konseling</h3>
                         </div>
                         <!-- /.card-header -->
-                        <div class="card-body">
-                            <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modal-tambah">
-                                <i class="fas fa-plus"></i> Tambah Catatan
-                            </button>
-                            <p></p>
-                            <div style="overflow-x: auto;">
-                                <table id="example1" class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Tanggal</th>
-                                            <th>Nama</th>
-                                            <th>Pelanggaran</th>
-                                            <th>Deskripsi</th>
-                                            <th>Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                        $no = 1;
-                                        //$query = "SELECT catatan_konseling.id, catatan_konseling.tanggal, siswa.nama AS siswa, pelanggaran.nama AS pelanggaran, catatan_konseling.deskripsi  FROM catatan_konseling JOIN siswa ON catatan_konseling.id_siswa = siswa.nisn JOIN pelanggaran ON catatan_konseling.id_pelanggaran = pelanggaran.id";
-                                        $query = "SELECT * FROM catatan_konseling";
-                                        $pdo = pdo_query($conn, $query);
-
-                                        while ($row = $pdo->fetch(PDO::FETCH_ASSOC)) {
-                                            $id_siswa = $row["id_siswa"];
-                                            $id_pelanggaran = $row["id_pelanggaran"];
-                                            $deskripsi = $row["deskripsi"];
-                                        ?>
-                                            <tr>
-                                                <td><?= $no++ ?></td>
-                                                <td><?= $row["tanggal"] ?></td>
-                                                <td>
-                                                    <?php
-                                                    $query_siswa = pdo_query($conn, "SELECT nama FROM siswa WHERE nisn = '$id_siswa' ");
-                                                    $row_siswa = $query_siswa->fetch(PDO::FETCH_ASSOC);
-                                                    echo $row_siswa["nama"];
-                                                    ?>
-                                                </td>
-                                                <td>
-                                                    <?php
-                                                    $query_pelanggaran = pdo_query($conn, "SELECT nama FROM pelanggaran WHERE id = '$id_pelanggaran' ");
-                                                    $row_pelanggaran = $query_pelanggaran->fetch(PDO::FETCH_ASSOC);
-                                                    echo $row_pelanggaran["nama"];
-                                                    ?>
-                                                </td>
-                                                <td><?= $row["deskripsi"] ?></td>
-                                                <td>
-                                                    <button type="button" class="btn btn-warning btn-sm open-modal-edit" data-toggle="modal" data-target="#modal-edit"
-                                                        data-id="<?= $row['id'] ?>"
-                                                        data-siswa="<?= $row['id_siswa'] ?>"
-                                                        data-pelanggaran="<?= $row['id_pelanggaran'] ?>"
-                                                        data-deskripsi="<?= $row['deskripsi'] ?>">
-                                                        <i class="fas fa-edit"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-danger btn-sm open-modal-hapus" data-toggle="modal" data-target="#modal-hapus"
-                                                        data-id="<?= $row['id'] ?>">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        <?php } ?>
-                                    </tbody>
-                                </table>
-                            </div>
+                        <div class="card-body d-flex justify-content-center">
+                            <a href="tambah_catatan.php" class="btn btn-primary mx-2">
+                                <i class="fas fa-user"></i>  Tambah Catatan Konseling
+                            </a>
+                            <a href="tambah_banyak_catatan.php" class="btn btn-primary mx-2">
+                                <i class="fas fa-users"></i>  Tambah Banyak Catatan Konseling
+                            </a>
                         </div>
                         <!-- /.card-body -->
                     </div>

@@ -117,24 +117,24 @@ $halaman = "data_pelanggaran";
                                     <tbody>
                                         <?php
                                         $no = 1;
-                                        //$query = "SELECT pelanggaran.id, pelanggaran.nama, pelanggaran.poin, kategori.nama AS kategori FROM pelanggaran JOIN kategori ON pelanggaran.id_kategori = kategori.id";
-                                        $query = "SELECT * FROM pelanggaran";
+                                        $query = "SELECT pelanggaran.id  AS id, pelanggaran.nama AS nama, pelanggaran.poin AS poin, kategori.id AS id_kategori, kategori.nama AS kategori FROM pelanggaran JOIN kategori ON pelanggaran.id_kategori = kategori.id";
+                                        //$query = "SELECT * FROM pelanggaran";
                                         $pdo = pdo_query($conn, $query);
 
                                         while ($row = $pdo->fetch(PDO::FETCH_ASSOC)) {
-                                            $id_kategori = $row["id_kategori"];
+                                            //$id_kategori = $row["id_kategori"];
                                         ?>
                                             <tr>
                                                 <td><?= $no++ ?></td>
                                                 <td><?= $row["nama"] ?></td>
                                                 <?php
-                                                $query_kategori = pdo_query($conn, "SELECT nama FROM kategori WHERE id = '$id_kategori' ");
-                                                $row_kategori = $query_kategori->fetch(PDO::FETCH_ASSOC);
-                                                if ($row_kategori["nama"] == "ringan") {
+                                                // $query_kategori = pdo_query($conn, "SELECT nama FROM kategori WHERE id = '$id_kategori' ");
+                                                // $row_kategori = $query_kategori->fetch(PDO::FETCH_ASSOC);
+                                                if ($row["kategori"] == "ringan") {
                                                     echo '<td><p class="badge badge-success">Ringan</p></td>';
-                                                } else if ($row_kategori["nama"] == "sedang") {
+                                                } else if ($row["kategori"] == "sedang") {
                                                     echo '<td><p class="badge badge-warning">Sedang</p></td>';
-                                                } else if ($row_kategori["nama"] == "berat") {
+                                                } else if ($row["kategori"] == "berat") {
                                                     echo '<td><p class="badge badge-danger">Berat</p></td>';
                                                 }
                                                 ?>

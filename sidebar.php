@@ -33,6 +33,12 @@
             </a>
         </li>
         <li class="nav-item">
+            <a href="../riwayat" class="nav-link <?php if($halaman == "riwayat"){echo 'active';} ?>">
+                <i class="nav-icon fas fa-history"></i>
+                <p>Riwayat</p>
+            </a>
+        </li>
+        <li class="nav-item">
             <a href="../auth/logout.php" class="nav-link">
                 <i class="nav-icon fas fa-sign-out-alt"></i>
                 <p>Keluar</p>
