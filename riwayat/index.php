@@ -112,7 +112,7 @@ $halaman = "riwayat";
                                     <tbody>
                                         <?php
                                         $no = 1;
-                                        $query = "SELECT catatan_konseling.id AS id, catatan_konseling.tanggal AS tanggal,siswa.nisn AS id_siswa, siswa.nama AS siswa,pelanggaran.id AS id_pelanggaran, pelanggaran.nama AS pelanggaran, catatan_konseling.deskripsi AS deskripsi  FROM catatan_konseling JOIN siswa ON catatan_konseling.id_siswa = siswa.nisn JOIN pelanggaran ON catatan_konseling.id_pelanggaran = pelanggaran.id";
+                                        $query = "SELECT catatan_konseling.id AS id, catatan_konseling.tanggal AS tanggal,siswa.nisn AS id_siswa, siswa.nama AS siswa,pelanggaran.id AS id_pelanggaran, pelanggaran.nama AS pelanggaran, catatan_konseling.deskripsi AS deskripsi  FROM catatan_konseling JOIN siswa ON catatan_konseling.id_siswa = siswa.nisn JOIN pelanggaran ON catatan_konseling.id_pelanggaran = pelanggaran.id ORDER BY catatan_konseling.tanggal DESC";
                                         $pdo = pdo_query($conn, $query);
 
                                         while ($row = $pdo->fetch(PDO::FETCH_ASSOC)) {

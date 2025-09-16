@@ -178,7 +178,7 @@ $halaman = "catatan_konseling";
                                     <form action="aksi.php" method="post">
                                         <div class="form-group">
                                             <label for="tambahSiswa">Nama Siswa</label>
-                                            <select name="siswa" id="tambahSiswa" class="duallistbox" multiple="multiple">
+                                            <select name="siswa[]" id="tambahSiswa" class="duallistbox" multiple="multiple">
                                                 <!-- <option value="" selected>--Nama Siswa--</option> -->
                                                 <?php
                                                 $query = pdo_query($conn, "SELECT nisn, nama FROM siswa");
@@ -242,6 +242,12 @@ $halaman = "catatan_konseling";
     <!-- ./wrapper -->
 
     <?php include "../script.php"; ?>
+
+    <script type="text/javascript">
+        // $("#tambahSiswa").select2({
+        //     multiple: true
+        // });
+    </script>
 
 </body>
 
