@@ -20,6 +20,7 @@ $halaman = "catatan_konseling";
 </head>
 
 <body class="hold-transition sidebar-mini">
+    <?php include "../pesan.php" ?>
     <!-- Site wrapper -->
     <div class="wrapper">
         <!-- Navbar -->
@@ -148,7 +149,7 @@ $halaman = "catatan_konseling";
                             <select name="siswa" class="form-control" id="tambahSiswa" required>
                                 <option>-- Pilih --</option>
                                 <?php
-                                $query_siswa = "SELECT nisn, nama FROM siswa";
+                                $query_siswa = "SELECT nisn, nama FROM tb_siswa";
                                 $pdo_siswa = pdo_query($conn, $query_siswa);
 
                                 while ($row = $pdo_siswa->fetch(PDO::FETCH_ASSOC)) {
@@ -164,7 +165,7 @@ $halaman = "catatan_konseling";
                             <select name="pelanggaran" class="form-control" id="tambahPelanggaran" required>
                                 <option>-- Pilih --</option>
                                 <?php
-                                $query_pelanggaran = "SELECT id, nama FROM pelanggaran";
+                                $query_pelanggaran = "SELECT id, nama FROM tb_pelanggaran";
                                 $pdo_pelanggaran = pdo_query($conn, $query_pelanggaran);
 
                                 while ($row = $pdo_pelanggaran->fetch(PDO::FETCH_ASSOC)) {
@@ -207,7 +208,7 @@ $halaman = "catatan_konseling";
                             <select name="siswa" class="form-control" id="editSiswa" required>
                                 <option>-- Pilih --</option>
                                 <?php
-                                $query_siswa = "SELECT nisn, nama FROM siswa";
+                                $query_siswa = "SELECT nisn, nama FROM tb_siswa";
                                 $pdo_siswa = pdo_query($conn, $query_siswa);
 
                                 while ($row = $pdo_siswa->fetch(PDO::FETCH_ASSOC)) {
@@ -223,7 +224,7 @@ $halaman = "catatan_konseling";
                             <select name="pelanggaran" class="form-control" id="editPelanggaran" required>
                                 <option value="">-- Pilih --</option>
                                 <?php
-                                $query_pelanggaran = "SELECT id, nama FROM pelanggaran";
+                                $query_pelanggaran = "SELECT id, nama FROM tb_pelanggaran";
                                 $pdo_pelanggaran = pdo_query($conn, $query_pelanggaran);
 
                                 while ($row = $pdo_pelanggaran->fetch(PDO::FETCH_ASSOC)) {

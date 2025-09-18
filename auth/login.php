@@ -5,21 +5,28 @@ require "../database/config.php";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["username"];
     $password = $_POST["password"];
-    
-    $sql = "SELECT * FROM pengguna WHERE username = '$username'";
+
+    $sql = "SELECT * FROM tb_pengguna WHERE username = '$username'";
     $pdo = pdo_query($conn, $sql);
     $user = $pdo->fetch(PDO::FETCH_ASSOC);
-    
+
     if ($user && sha1($password) == $user["passwd"]) {
         session_start();
         $_SESSION["id"] = $user["id"];
         $_SESSION["nama"] = $user["nama"];
         $_SESSION["username"] = $user["username"];
         $_SESSION["password"] = $user["passwd"];
-        header("Location: ../admin/dashboard.php");
+        $_SESSION["flash"] = [
+            "type" => "success",
+            "msg" => "Login Berhasil!"
+        ];
+        header("Location: ../pengguna/dashboard.php");
         exit;
     } else {
-        echo "Username atau Password salah!";
+        $_SESSION["flash"] = [
+            "type" => "danger",
+            "msg" => "Username atau Password salah!"
+        ];
     }
 }
 ?>
@@ -32,17 +39,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Login Page</title>
 
-    <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="../assets/plugins/fontawesome-free/css/all.min.css">
-    <!-- icheck bootstrap -->
-    <link rel="stylesheet" href="../assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="../assets/dist/css/adminlte.min.css">
+    <!-- style area -->
+    <?php include "../style.php" ?>
+
 </head>
 
 <body class="hold-transition login-page">
+    <!-- alert message -->
+    <?php include "../alert.php" ?>
+    
     <div class="login-box">
         <!-- /.login-logo -->
         <div class="card card-outline card-success">
@@ -78,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                         <!-- /.col -->
                         <div class="col-4">
-                            <button type="submit" class="btn btn-primary btn-block">Masuk</button>
+                            <button type="submit" class="btn btn-primary btn-block toastrDefaultSuccess">Masuk</button>
                         </div>
                         <!-- /.col -->
                     </div>
@@ -91,12 +96,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 
-    <!-- jQuery -->
-    <script src="../assets/plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
-    <script src="../assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="../assets/dist/js/adminlte.min.js"></script>
+    <!-- script area -->
+    <?php include "../script.php" ?>
+    
 </body>
 
 </html>

@@ -21,6 +21,7 @@ $halaman = "profile";
 </head>
 
 <body class="hold-transition sidebar-mini">
+    <?php include "../pesan.php"; ?>
     <!-- Site wrapper -->
     <div class="wrapper">
         <!-- Navbar -->
@@ -91,13 +92,13 @@ $halaman = "profile";
                     <br>
                     <div class="card card-primary">
                         <div class="card-header">
-                            <h3 class="card-title"><i class="fas fa-user"></i>  Profil</h3>
+                            <h3 class="card-title"><i class="fas fa-user"></i> Profil</h3>
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
                         <?php
                         $id = $_SESSION["id"];
-                        $sql = "SELECT * FROM pengguna WHERE id = '$id' ";
+                        $sql = "SELECT * FROM tb_pengguna WHERE id = '$id' ";
                         $pdo = pdo_query($conn, $sql);
                         $row = $pdo->fetch(PDO::FETCH_ASSOC);
                         ?>
@@ -122,7 +123,7 @@ $halaman = "profile";
                             <!-- /.card-body -->
 
                             <div class="card-footer">
-                                <button type="submit" name="update" class="btn btn-warning btn-block"><i class="fas fa-pen"></i>  Update</button>
+                                <button type="submit" name="update" class="btn btn-warning btn-block"><i class="fas fa-pen"></i> Update</button>
                             </div>
                         </form>
                     </div>
@@ -153,15 +154,22 @@ $halaman = "profile";
 
 </html>
 
-<?php 
+<?php
 if (isset($_POST["update"])) {
     $id = $_POST["id"];
     $nama = $_POST["nama"];
     $username = $_POST["username"];
     $password_baru = sha1($_POST["password_baru"]);
 
-    $sql = "UPDATE pengguna SET passwd = '$password_baru', nama = '$nama', username = '$username' WHERE id = '$id' ";
+    $sql = "UPDATE tb_pengguna SET passwd = '$password_baru', nama = '$nama', username = '$username' WHERE id = '$id' ";
     pdo_query($conn, $sql);
+
+    $_SESSION["flash"] = [
+        "type" => "success",
+        "msg" =>"Edit data berhasil, silahkan login ulang!"
+    ];
+    session_unset();
+    session_destroy();
     header("Location: ../auth/logout.php");
 }
 ?>

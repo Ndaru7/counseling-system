@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once "../database/config.php";
 
 
@@ -10,7 +11,7 @@ if (isset($_POST["simpan"])) {
     $orang_tua = $_POST["orang_tua"];
     $no_hp = $_POST["no_hp"];
 
-    $query = "INSERT INTO siswa (nisn,
+    $query = "INSERT INTO tb_siswa (nisn,
                 nama,
                 jenis_kelamin,
                 alamat,
@@ -22,6 +23,10 @@ if (isset($_POST["simpan"])) {
                                         '$orang_tua',
                                         '$no_hp')";
     pdo_query($conn, $query);
+    $_SESSION["flash"] = [
+        "type" => "success",
+        "msg" => "Data siswa berhasil ditambahkan!"
+    ];
     header("Location: ../siswa");
 
 } else if (isset($_POST["edit"])) {
@@ -32,20 +37,27 @@ if (isset($_POST["simpan"])) {
     $orang_tua = $_POST["orang_tua"];
     $no_hp = $_POST["no_hp"];
 
-    $query = "UPDATE siswa SET nisn = '$nisn',
+    $query = "UPDATE tb_siswa SET nisn = '$nisn',
                                     nama = '$nama',
                                     jenis_kelamin = '$jenis_kelamin',
                                     alamat = '$alamat',
                                     orang_tua = '$orang_tua',
                                     no_hp = '$no_hp' WHERE nisn = '$nisn' ";
     pdo_query($conn, $query);
+    $_SESSION["flash"] = [
+        "type" => "success",
+        "msg" => "Data siswa berhasil diedit!"
+    ];
     header("Location: ../siswa");
 
 } else if (isset($_POST["hapus"])) {
     $nisn = $_POST["nisn"];
-    echo $nisn;
-    $query = "DELETE FROM siswa WHERE nisn = '$nisn' ";
+    $query = "DELETE FROM tb_siswa WHERE nisn = '$nisn' ";
     pdo_query($conn, $query);
+    $_SESSION["flash"] = [
+        "type" => "success",
+        "msg" => "Data siswa berhasil dihapus!"
+    ];
     header("Location: ../siswa");
 }
 ?>

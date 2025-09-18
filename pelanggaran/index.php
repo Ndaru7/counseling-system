@@ -21,6 +21,7 @@ $halaman = "data_pelanggaran";
 </head>
 
 <body class="hold-transition sidebar-mini">
+    <?php include "../pesan.php" ?>
     <!-- Site wrapper -->
     <div class="wrapper">
         <!-- Navbar -->
@@ -117,19 +118,15 @@ $halaman = "data_pelanggaran";
                                     <tbody>
                                         <?php
                                         $no = 1;
-                                        $query = "SELECT pelanggaran.id  AS id, pelanggaran.nama AS nama, pelanggaran.poin AS poin, kategori.id AS id_kategori, kategori.nama AS kategori FROM pelanggaran JOIN kategori ON pelanggaran.id_kategori = kategori.id";
-                                        //$query = "SELECT * FROM pelanggaran";
+                                        $query = "SELECT tb_pelanggaran.id  AS id, tb_pelanggaran.nama AS nama, tb_pelanggaran.poin AS poin, tb_kategori.id AS id_kategori, tb_kategori.nama AS kategori FROM tb_pelanggaran JOIN tb_kategori ON tb_pelanggaran.id_kategori = tb_kategori.id";
                                         $pdo = pdo_query($conn, $query);
 
                                         while ($row = $pdo->fetch(PDO::FETCH_ASSOC)) {
-                                            //$id_kategori = $row["id_kategori"];
                                         ?>
                                             <tr>
                                                 <td><?= $no++ ?></td>
                                                 <td><?= $row["nama"] ?></td>
                                                 <?php
-                                                // $query_kategori = pdo_query($conn, "SELECT nama FROM kategori WHERE id = '$id_kategori' ");
-                                                // $row_kategori = $query_kategori->fetch(PDO::FETCH_ASSOC);
                                                 if ($row["kategori"] == "ringan") {
                                                     echo '<td><p class="badge badge-success">Ringan</p></td>';
                                                 } else if ($row["kategori"] == "sedang") {

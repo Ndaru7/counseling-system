@@ -87,66 +87,7 @@ $halaman = "catatan_konseling";
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <div class="container-fluid">
-                    <!-- <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title"><i class="fas fa-file"></i> Tambah Banyak Catatan Konseling</h3>
-                        </div>
-                        <div class="card-body">
-                            <a href="../catatan_konseling" class="btn btn-warning">
-                                <i class="fas fa-arrow-left">&nbsp;kembali</i>
-                            </a>
-                            <p></p>
-                            <form action="aksi.php" method="post">
-                                <div class="form-group">
-                                    <label for="tambahSiswa">Nama Siswa</label>
-                                    <select name="siswa" class="form-control" id="tambahSiswa" required>
-                                        <option>-- Pilih --</option>
-                                        <?php
-                                        $query_siswa = "SELECT nisn, nama FROM siswa";
-                                        $pdo_siswa = pdo_query($conn, $query_siswa);
 
-                                        while ($row = $pdo_siswa->fetch(PDO::FETCH_ASSOC)) {
-                                            $nisn = $row["nisn"];
-                                            $nama = $row["nama"];
-                                            echo '<option value="' . $nisn . '">' . $nama . '</option>';
-                                        }
-                                        ?>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="tambahPelanggaran">Pelanggaraan</label>
-                                    <select name="pelanggaran" class="form-control" id="tambahPelanggaran" required>
-                                        <option>-- Pilih --</option>
-                                        <?php
-                                        $query_pelanggaran = "SELECT id, nama FROM pelanggaran";
-                                        $pdo_pelanggaran = pdo_query($conn, $query_pelanggaran);
-
-                                        while ($row = $pdo_pelanggaran->fetch(PDO::FETCH_ASSOC)) {
-                                            $id = $row["id"];
-                                            $nama = $row["nama"];
-                                            echo '<option value="' . $id . '">' . $nama . '</option>';
-                                        }
-                                        ?>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <textarea name="deskripsi" class="form-control" rows="10" id="tambahDeskripsi" placeholder="Deskripsi.." required></textarea>
-                                </div>
-                                <div class="modal-footer justify-content-between">
-                                    <button type="submit" name="simpan" class="btn btn-primary btn-block"><i class="fas fa-save"></i> Simpan</button>
-                                </div>
-
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div> -->
                 </div>
                 <!-- /.container-fluid -->
             </section>
@@ -181,7 +122,7 @@ $halaman = "catatan_konseling";
                                             <select name="siswa[]" id="tambahSiswa" class="duallistbox" multiple="multiple">
                                                 <!-- <option value="" selected>--Nama Siswa--</option> -->
                                                 <?php
-                                                $query = pdo_query($conn, "SELECT nisn, nama FROM siswa");
+                                                $query = pdo_query($conn, "SELECT nisn, nama FROM tb_siswa");
                                                 while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                                                     $nisn = $row["nisn"];
                                                     $nama_siswa = $row["nama"];
@@ -195,7 +136,7 @@ $halaman = "catatan_konseling";
                                             <select name="pelanggaran" class="form-control" id="tambahPelanggaran" required>
                                                 <option>-- Pilih --</option>
                                                 <?php
-                                                $query_pelanggaran = "SELECT id, nama FROM pelanggaran";
+                                                $query_pelanggaran = "SELECT id, nama FROM tb_pelanggaran";
                                                 $pdo_pelanggaran = pdo_query($conn, $query_pelanggaran);
 
                                                 while ($row = $pdo_pelanggaran->fetch(PDO::FETCH_ASSOC)) {
@@ -242,12 +183,6 @@ $halaman = "catatan_konseling";
     <!-- ./wrapper -->
 
     <?php include "../script.php"; ?>
-
-    <script type="text/javascript">
-        // $("#tambahSiswa").select2({
-        //     multiple: true
-        // });
-    </script>
 
 </body>
 

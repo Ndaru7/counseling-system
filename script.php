@@ -94,19 +94,6 @@
       })
     });
 
-    $('.toastrDefaultSuccess').click(function() {
-      toastr.success('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
-    });
-    $('.toastrDefaultInfo').click(function() {
-      toastr.info('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
-    });
-    $('.toastrDefaultError').click(function() {
-      toastr.error('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
-    });
-    $('.toastrDefaultWarning').click(function() {
-      toastr.warning('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
-    });
-
     $('.toastsDefaultDefault').click(function() {
       $(document).Toasts('create', {
         title: 'Toast Title',
@@ -372,4 +359,24 @@
     myDropzone.removeAllFiles(true)
   }
   // DropzoneJS Demo Code End
+</script>
+<script>
+  if (typeof flash !== "undefined") {
+    toastr.options = {
+      "closeButton": true,
+      "progressBar": true,
+      "positionClass": "toast-top-right",
+      "timeOut": "3000"
+    };
+
+    if (flash.type === "success") {
+      toastr.success(flash.message);
+    } else if (flash.type === "danger") {
+      toastr.error(flash.message);
+    } else if (flash.type === "warning") {
+      toastr.warning(flash.message);
+    } else {
+      toastr.info(flash.message);
+    }
+  }
 </script>

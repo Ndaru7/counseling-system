@@ -21,6 +21,7 @@ $halaman = "data_siswa";
 </head>
 
 <body class="hold-transition sidebar-mini">
+    <?php include "../pesan.php"; ?>
     <!-- Site wrapper -->
     <div class="wrapper">
         <!-- Navbar -->
@@ -120,7 +121,7 @@ $halaman = "data_siswa";
                                     <tbody>
                                         <?php
                                         $no = 1;
-                                        $query = "SELECT * FROM siswa";
+                                        $query = "SELECT * FROM tb_siswa";
                                         $pdo = pdo_query($conn, $query);
 
                                         while ($row = $pdo->fetch(PDO::FETCH_ASSOC)) {
