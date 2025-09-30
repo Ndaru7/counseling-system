@@ -1,11 +1,9 @@
 <nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-        <!-- Add icons to the links using the .nav-icon class
-                        with font-awesome or any other icon font library -->
         <li class="nav-item">
             <a href="../pengguna/dashboard.php" class="nav-link <?php if($halaman == "dashboard"){echo 'active';} ?>">
                 <i class="nav-icon fas fa-home"></i>
-                <p>Dashboard</p>
+                <p>Beranda</p>
             </a>
         </li>
         <li class="nav-item">
