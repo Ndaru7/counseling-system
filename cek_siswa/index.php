@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Sistem BK | Landing Page</title>
     <!-- Style -->
-    <?php include "style.php" ?>
+    <?php include "../style.php" ?>
 </head>
 
 <body class="hold-transition layout-top-nav">
@@ -15,7 +15,7 @@
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
             <div class="container">
-                <a href="" class="navbar-brand">
+                <a href="../" class="navbar-brand">
                     <img src="" alt="Logo MBS" class="brand-image img-circle elevation-3" style="opacity: .8">
                     <span class="brand-text font-weight-light"><b>Sistem BK</b></span>
                     <!-- <h2 class="brand-text">Sistem  BK</h2> -->
@@ -28,9 +28,7 @@
                 <div class="collapse navbar-collapse order-3" id="navbarCollapse">
                     <!-- Left navbar links -->
                     <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a href="" class="nav-link">Home</a>
-                        </li>
+
                     </ul>
                 </div>
             </div>
@@ -64,20 +62,38 @@
             <!-- Main content -->
             <div class="content">
                 <div class="container">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Cek Siswa</h3>
+                    <div class="callout callout-info">
+                        <h5><i class="fas fa-info"></i> Catatan:</h5>
+                        Silahkan masukan NISN siswa untuk melihat data perilaku. Apapun hasilnya itu adalah apa yang dilakukan siswa tanpa adanya manipulasi data. Bila ada yang ingin ditanyakan silahkan hubungi guru BK
+                    </div>
+                    <div class="card card-success">
+                        <div class="card-header d-flex justify-content-center">
+                            <h3 class="card-title carrd-success"><i class="fas fa-user-graduate"></i>&nbsp;Cek Siswa</h3>
                         </div>
                         <div class="card-body">
-                            Lorem ipsum dolor sit amet
+                            <form id="formNisn">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="nisn">NISN</label>
+                                        <input type="text" class="form-control" name="nisn" id="nisn" placeholder="Masukan NISN siswa" maxlength="5" required>
+                                    </div>
+                                </div>
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">
-                            <a href="cek_siswa/" class="btn btn-primary">Cek Siswa</a>
+                            <button type="submit" name="cek" class="btn btn-primary btn-block">Kirim</button>
                         </div>
+                        </form>
                         <!-- /.card-footer-->
                     </div>
                     <!-- /.card -->
+
+                    <div id="dataCard" class="card" style="display: none;">
+                        <div class="card-body">
+                            <div id="resultTable">Loading...</div>
+                        </div>
+                    </div>
+
                 </div><!-- /.container-fluid -->
             </div>
             <!-- /.content -->
@@ -101,7 +117,22 @@
     <!-- REQUIRED SCRIPTS -->
 
     <!-- jQuery -->
-    <?php include "script.php" ?>
+    <?php include "../script.php" ?>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#formNisn").on("submit", function(e){
+                e.preventDefault();
+                let nisn = $("#nisn").val();
+                console.log("Kirim nisn: ", nisn);
+
+                $.post("aksi.php", {nisn: nisn}, function(data){
+                    $("#resultTable").html(data);
+                    $("#dataCard").slideDown();
+                });
+            });
+        });
+    </script>
 
 </body>
 

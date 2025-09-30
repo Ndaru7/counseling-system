@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body class="hold-transition login-page">
     <!-- alert message -->
-    <?php include "../alert.php" ?>
+    <?php include "../pesan.php" ?>
     
     <div class="login-box">
         <!-- /.login-logo -->
