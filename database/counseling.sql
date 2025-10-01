@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Waktu pembuatan: 17 Agu 2025 pada 07.27
--- Versi server: 10.4.32-MariaDB
--- Versi PHP: 8.0.30
+-- Host: localhost:3306
+-- Generation Time: Oct 01, 2025 at 07:48 AM
+-- Server version: 8.0.30
+-- PHP Version: 8.2.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,160 +24,133 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `admin`
+-- Table structure for table `tb_catatan_konseling`
 --
 
-CREATE TABLE `admin` (
-  `id` int(11) NOT NULL,
-  `name` varchar(200) DEFAULT NULL,
-  `username` varchar(200) NOT NULL,
-  `passwd` varchar(255) NOT NULL
+CREATE TABLE `tb_catatan_konseling` (
+  `id` int NOT NULL,
+  `tanggal` datetime DEFAULT CURRENT_TIMESTAMP,
+  `id_siswa` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `id_pelanggaran` int NOT NULL,
+  `deskripsi` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `pencatat` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_pelanggaran`
+--
+
+CREATE TABLE `tb_pelanggaran` (
+  `id` int NOT NULL,
+  `nama` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `kategori` enum('ringan','sedang','berat') COLLATE utf8mb4_general_ci NOT NULL,
+  `poin` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `category`
+-- Table structure for table `tb_pengguna`
 --
 
-CREATE TABLE `category` (
-  `id` int(11) NOT NULL,
-  `name` varchar(200) DEFAULT NULL
+CREATE TABLE `tb_pengguna` (
+  `id` int NOT NULL,
+  `nama` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `username` varchar(200) COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `passwd` varchar(255) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tb_pengguna`
+--
+
+INSERT INTO `tb_pengguna` (`id`, `nama`, `username`, `email`, `passwd`) VALUES
+(1, 'Syaoqi', 'admin', NULL, 'dc76e9f0c0006e8f919e0c515c66dbba3982f785');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `counseling_record`
+-- Table structure for table `tb_siswa`
 --
 
-CREATE TABLE `counseling_record` (
-  `id` int(11) NOT NULL,
-  `created_at` datetime DEFAULT current_timestamp(),
-  `student_id` int(11) DEFAULT NULL,
-  `violation_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `student`
---
-
-CREATE TABLE `student` (
-  `id` int(11) NOT NULL,
-  `nisn` int(11) NOT NULL,
-  `name` varchar(200) DEFAULT NULL,
-  `birth` date NOT NULL,
-  `gender` enum('male','female') NOT NULL,
-  `poin` int(11) NOT NULL DEFAULT 0,
-  `address` varchar(255) DEFAULT NULL,
-  `parent` varchar(200) NOT NULL,
-  `parent_phone` varchar(15) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `violation`
---
-
-CREATE TABLE `violation` (
-  `id` int(11) NOT NULL,
-  `name` varchar(200) DEFAULT NULL,
-  `category_id` int(11) DEFAULT NULL,
-  `poin` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE TABLE `tb_siswa` (
+  `nisn` varchar(50) NOT NULL,
+  `nama` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `jenis_kelamin` enum('pria','perempuan') CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `poin` int NOT NULL DEFAULT '0',
+  `alamat` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `orang_tua` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `no_hp` varchar(15) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indeks untuk tabel `admin`
+-- Indexes for table `tb_catatan_konseling`
 --
-ALTER TABLE `admin`
+ALTER TABLE `tb_catatan_konseling`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_catatan_siswa` (`id_siswa`),
+  ADD KEY `fk_catatan_pelanggaran` (`id_pelanggaran`),
+  ADD KEY `fk_catatan_pencatat` (`pencatat`);
+
+--
+-- Indexes for table `tb_pelanggaran`
+--
+ALTER TABLE `tb_pelanggaran`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tb_pengguna`
+--
+ALTER TABLE `tb_pengguna`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `username` (`username`);
 
 --
--- Indeks untuk tabel `category`
+-- Indexes for table `tb_siswa`
 --
-ALTER TABLE `category`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `tb_siswa`
+  ADD PRIMARY KEY (`nisn`);
 
 --
--- Indeks untuk tabel `counseling_record`
---
-ALTER TABLE `counseling_record`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `student_id` (`student_id`),
-  ADD KEY `violation_id` (`violation_id`);
-
---
--- Indeks untuk tabel `student`
---
-ALTER TABLE `student`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `nisn` (`nisn`);
-
---
--- Indeks untuk tabel `violation`
---
-ALTER TABLE `violation`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `category_id` (`category_id`);
-
---
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `admin`
+-- AUTO_INCREMENT for table `tb_catatan_konseling`
 --
-ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `tb_catatan_konseling`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT untuk tabel `category`
+-- AUTO_INCREMENT for table `tb_pelanggaran`
 --
-ALTER TABLE `category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `tb_pelanggaran`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT untuk tabel `counseling_record`
+-- AUTO_INCREMENT for table `tb_pengguna`
 --
-ALTER TABLE `counseling_record`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `tb_pengguna`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT untuk tabel `student`
---
-ALTER TABLE `student`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT untuk tabel `violation`
---
-ALTER TABLE `violation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+-- Constraints for dumped tables
 --
 
 --
--- Ketidakleluasaan untuk tabel `counseling_record`
+-- Constraints for table `tb_catatan_konseling`
 --
-ALTER TABLE `counseling_record`
-  ADD CONSTRAINT `counseling_record_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`),
-  ADD CONSTRAINT `counseling_record_ibfk_2` FOREIGN KEY (`violation_id`) REFERENCES `violation` (`id`);
-
---
--- Ketidakleluasaan untuk tabel `violation`
---
-ALTER TABLE `violation`
-  ADD CONSTRAINT `violation_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`);
+ALTER TABLE `tb_catatan_konseling`
+  ADD CONSTRAINT `fk_catatan_pelanggaran` FOREIGN KEY (`id_pelanggaran`) REFERENCES `tb_pelanggaran` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_catatan_pencatat` FOREIGN KEY (`pencatat`) REFERENCES `tb_pengguna` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_catatan_siswa` FOREIGN KEY (`id_siswa`) REFERENCES `tb_siswa` (`nisn`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
