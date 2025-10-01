@@ -104,7 +104,8 @@ $halaman = "riwayat";
                                         <tr>
                                             <th>No</th>
                                             <th>Tanggal</th>
-                                            <th>Nama</th>
+                                            <th>Pencatat</th>
+                                            <th>Nama Siswa</th>
                                             <th>Pelanggaran</th>
                                             <th>Aksi</th>
                                         </tr>
@@ -112,7 +113,26 @@ $halaman = "riwayat";
                                     <tbody>
                                         <?php
                                         $no = 1;
-                                        $query = "SELECT tb_catatan_konseling.id AS id, tb_catatan_konseling.tanggal AS tanggal, tb_siswa.nisn AS id_siswa, tb_siswa.nama AS siswa, tb_pelanggaran.id AS id_pelanggaran, tb_pelanggaran.nama AS pelanggaran, tb_catatan_konseling.deskripsi AS deskripsi FROM tb_catatan_konseling JOIN tb_siswa ON tb_catatan_konseling.id_siswa = tb_siswa.nisn JOIN tb_pelanggaran ON tb_catatan_konseling.id_pelanggaran = tb_pelanggaran.id ORDER BY tb_catatan_konseling.tanggal DESC";
+                                        $query = "
+                                        SELECT
+                                            tb_catatan_konseling.id AS id,
+                                            tb_catatan_konseling.tanggal AS tanggal,
+                                            tb_siswa.nisn AS id_siswa,
+                                            tb_siswa.nama AS siswa,
+                                            tb_pelanggaran.id AS id_pelanggaran,
+                                            tb_pelanggaran.nama AS pelanggaran,
+                                            tb_pengguna.nama AS pencatat,
+                                            tb_catatan_konseling.deskripsi AS deskripsi
+                                        FROM 
+                                            tb_catatan_konseling
+                                        JOIN
+                                            tb_siswa ON tb_catatan_konseling.id_siswa = tb_siswa.nisn
+                                        JOIN
+                                            tb_pelanggaran ON tb_catatan_konseling.id_pelanggaran = tb_pelanggaran.id
+                                        JOIN
+                                            tb_pengguna ON tb_catatan_konseling.pencatat = tb_pengguna.id
+                                        ORDER BY
+                                            tb_catatan_konseling.tanggal DESC";
                                         $pdo = pdo_query($conn, $query);
 
                                         while ($row = $pdo->fetch(PDO::FETCH_ASSOC)) {
@@ -120,6 +140,7 @@ $halaman = "riwayat";
                                             <tr data-widget="expandable-table" aria-expanded="false">
                                                 <td><?= $no++ ?></td>
                                                 <td><?= $row["tanggal"] ?></td>
+                                                <td><?= $row["pencatat"] ?></td>
                                                 <td><?= $row["siswa"] ?></td>
                                                 <td><?= $row["pelanggaran"] ?></td>
                                                 <td>

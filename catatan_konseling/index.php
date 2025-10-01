@@ -152,7 +152,7 @@ $halaman = "catatan_konseling";
                                             <textarea name="deskripsi" class="form-control" id="tambahDeskripsi" rows="10" placeholder="Deskripsi.." required></textarea>
                                         </div>
                                         <div class="modal-footer justify-content-between">
-                                            <button type="submit" name="simpan-banyak" class="btn btn-primary btn-block"><i class="fas fa-save"></i> Simpan</button>
+                                            <button type="submit" name="simpan" class="btn btn-primary btn-block"><i class="fas fa-save"></i> Simpan</button>
                                         </div>
                                     </form>
 
