@@ -6,7 +6,7 @@ if (isset($_POST["simpan"])) {
     $nama = $_POST["nama"];
     $kategori = $_POST["kategori"];
     $poin = $_POST["poin"];
-    $query = "INSERT INTO tb_pelanggaran (nama, id_kategori, poin) VALUES ('$nama',
+    $query = "INSERT INTO tb_pelanggaran (nama, kategori, poin) VALUES ('$nama',
                                                                         '$kategori',
                                                                         '$poin')";
     pdo_query($conn, $query);
@@ -21,7 +21,7 @@ if (isset($_POST["simpan"])) {
     $nama = $_POST["nama"];
     $kategori = $_POST["kategori"];
     $poin = $_POST["poin"];
-    $query = "UPDATE tb_pelanggaran SET nama = '$nama', id_kategori = '$kategori', poin = '$poin' WHERE id = '$id' ";
+    $query = "UPDATE tb_pelanggaran SET nama = '$nama', kategori = '$kategori', poin = '$poin' WHERE id = '$id' ";
 
     pdo_query($conn, $query);
     $_SESSION["flash"] = [

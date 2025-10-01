@@ -118,7 +118,7 @@ $halaman = "data_pelanggaran";
                                     <tbody>
                                         <?php
                                         $no = 1;
-                                        $query = "SELECT tb_pelanggaran.id  AS id, tb_pelanggaran.nama AS nama, tb_pelanggaran.poin AS poin, tb_kategori.id AS id_kategori, tb_kategori.nama AS kategori FROM tb_pelanggaran JOIN tb_kategori ON tb_pelanggaran.id_kategori = tb_kategori.id";
+                                        $query = "SELECT * FROM tb_pelanggaran";
                                         $pdo = pdo_query($conn, $query);
 
                                         while ($row = $pdo->fetch(PDO::FETCH_ASSOC)) {
@@ -140,7 +140,7 @@ $halaman = "data_pelanggaran";
                                                     <button type="button" class="btn btn-warning btn-sm open-modal-edit" data-toggle="modal" data-target="#modal-edit"
                                                         data-id="<?= $row['id'] ?>"
                                                         data-nama="<?= $row['nama'] ?>"
-                                                        data-kategori="<?= $row['id_kategori'] ?>"
+                                                        data-kategori="<?= $row['kategori'] ?>"
                                                         data-poin="<?= $row['poin'] ?>">
                                                         <i class="fas fa-edit"></i>
                                                     </button>
@@ -188,9 +188,9 @@ $halaman = "data_pelanggaran";
                                         <label>Kategori</label>
                                         <select name="kategori" class="form-control" id="tambahKategori" required>
                                             <option>-- pilih --</option>
-                                            <option value=1>Ringan</option>
-                                            <option value=2>Sedang</option>
-                                            <option value=3>Berat</option>
+                                            <option value="ringan">Ringan</option>
+                                            <option value="sedang">Sedang</option>
+                                            <option value="berat">Berat</option>
                                         </select>
                                     </div>
                                     <!-- <input type="hidden" name="point" class="form-control" id="addPoint" required> -->
@@ -233,9 +233,9 @@ $halaman = "data_pelanggaran";
                                         <label>Kategori</label>
                                         <select name="kategori" class="form-control" id="editKategori" required>
                                             <option>-- pilih --</option>
-                                            <option value=1>Ringan</option>
-                                            <option value=2>Sedang</option>
-                                            <option value=3>Berat</option>
+                                            <option value="ringan">Ringan</option>
+                                            <option value="sedang">Sedang</option>
+                                            <option value="berat">Berat</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
