@@ -16,7 +16,7 @@
         <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
             <div class="container">
                 <a href="../" class="navbar-brand">
-                    <img src="" alt="Logo MBS" class="brand-image img-circle elevation-3" style="opacity: .8">
+                    <img src="../assets/images/logo.png" alt="Logo MBS" class="brand-image img-circle elevation-3" style="opacity: .8">
                     <span class="brand-text font-weight-light"><b>Sistem BK</b></span>
                     <!-- <h2 class="brand-text">Sistem  BK</h2> -->
                 </a>
@@ -75,22 +75,24 @@
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="nisn">NISN</label>
-                                        <input type="text" class="form-control" name="nisn" id="nisn" placeholder="Masukan NISN siswa" maxlength="5" required>
+                                        <input type="text" class="form-control" name="nisn" id="nisn" placeholder="Masukan NISN siswa" maxlength="10" required>
                                     </div>
                                 </div>
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">
-                            <button type="submit" name="cek" class="btn btn-primary btn-block">Kirim</button>
+                            <button type="submit" class="btn btn-primary btn-block">
+                                <i class="fas fa-search">&nbsp;Cek Siswa</i>
+                            </button>
                         </div>
                         </form>
                         <!-- /.card-footer-->
                     </div>
                     <!-- /.card -->
 
-                    <div id="dataCard" class="card" style="display: none;">
+                    <div id="resultSection" class="card" style="display: none;">
                         <div class="card-body">
-                            <div id="resultTable">Loading...</div>
+                            <div id="resultContent">Loading...</div>
                         </div>
                     </div>
 
@@ -119,17 +121,139 @@
     <!-- jQuery -->
     <?php include "../script.php" ?>
 
-    <script type="text/javascript">
+    <script>
         $(document).ready(function() {
-            $("#formNisn").on("submit", function(e){
+            // Handle form submission
+            $('#formNisn').on('submit', function(e) {
                 e.preventDefault();
-                let nisn = $("#nisn").val();
-                console.log("Kirim nisn: ", nisn);
 
-                $.post("aksi.php", {nisn: nisn}, function(data){
-                    $("#resultTable").html(data);
-                    $("#dataCard").slideDown();
+                var nisn = $('#nisn').val();
+
+                // Show loading
+                $('#loadingOverlay').show();
+                $('#resultSection').hide();
+
+                // AJAX Request
+                $.ajax({
+                    url: 'aksi.php',
+                    type: 'POST',
+                    data: {
+                        nisn: nisn
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        $('#loadingOverlay').hide();
+
+                        if (response.status === 'success') {
+                            let dataSiswa = response.data[0];
+                            // Menampilkan Table
+                            let html = '<div class="row">';
+                            html += '<div class="col-md-6">';
+                            html += '<table class="table table-borderless mx-auto">';
+                            html += '<tr>';
+                            html += '<th>NISN</th>';
+                            html += '<td>&nbsp;:&nbsp;</td>';
+                            html += '<td>' + dataSiswa.id_siswa +'</td>';
+                            html += '</tr>';
+                            html += '<tr>';
+                            html += '<th>Nama </th>';
+                            html += '<td>&nbsp;:&nbsp;</td>';
+                            html += '<td>' + dataSiswa.siswa +'</td>';
+                            html += '</tr>';
+                            html += '<tr>';
+                            html += '<th>Poin</th>';
+                            html += '<td>&nbsp;:&nbsp;</td>';
+                            html += '<td>' + dataSiswa.poin +'</td>';
+                            html += '</tr>';
+                            html += '</table>';
+                            html += '</div>';
+
+                            html += '<div class="col-md-6">';
+                            html += '<table class="table table-borderless mx-auto">';
+                            html += '<tr>';
+                            html += '<th>Alamat</th>';
+                            html += '<td>&nbsp;:&nbsp;</td>';
+                            html += '<td>' + dataSiswa.alamat +'</td>';
+                            html += '</tr>';
+                            html += '<tr>';
+                            html += '<th>Orang Tua / Wali</th>';
+                            html += '<td>&nbsp;:&nbsp;</td>';
+                            html += '<td>' + dataSiswa.orang_tua +'</td>';
+                            html += '</tr>';
+                            html += '<tr>';
+                            html += '<th>No. HP</th>';
+                            html += '<td>&nbsp;:&nbsp;</td>';
+                            html += '<td>' + dataSiswa.no_hp +'</td>';
+                            html += '</tr>';
+                            html += '</table>';
+                            html += '</div>';
+                            html += '<div class="mt-3"></div>';
+                            html += '<div class="mb-3"></div>';
+
+                            html += '<table class="table table-bordered table-striped">';
+                            html += '<thead class="bg-primary">';
+                            html += '<tr>';
+                            html += '<th class="align-middle">No</th>';
+                            html += '<th class="align-middle">Tanggal</th>';
+                            html += '<th class="align-middle">Pelanggaran</th>';
+                            html += '<th class="align-middle">Kategori</th>';
+                            html += '<th class="align-middle">Poin Pelanggaran</th>';
+                            html += '<th class="align-middle">Deskripsi</th>';
+                            html += '</tr>';
+                            html += '</thead>';
+                            html += '<tbody>';
+
+                            // Loop didalam tabel
+                            $.each(response.data, function(index, row) {
+                                html += '<tr>';
+                                html += '<td class="align-middle">' + (index + 1) + '</td>';
+                                html += '<td class="align-middle">' + row.tanggal + '</td>';
+                                html += '<td class="align-middle">' + row.pelanggaran + '</td>';
+                                html += '<td class="align-middle">' + row.kategori + '</td>';
+                                html += '<td class="align-middle">' + row.poin_pelanggaran + '</td>';
+                                html += '<td class="align-middle">' + row.deskripsi + '</td>';
+                                html += '</tr>';
+                            });
+
+                            html += '</tbody>';
+                            html += '</table>';
+
+                            $('#resultContent').html(html);
+                            $('#resultSection').slideDown();
+                        } else {
+                            // Show error message
+                            $('#resultContent').html(
+                                '<div class="alert alert-danger alert-dismissible">' +
+                                '<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                                '<h5><i class="icon fas fa-ban"></i> Error!</h5>' +
+                                response.message +
+                                '</div>'
+                            );
+                            $('#resultSection').slideDown();
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        $('#loadingOverlay').hide();
+                        $('#resultContent').html(
+                            '<div class="alert alert-danger alert-dismissible">' +
+                            '<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                            '<h5><i class="icon fas fa-ban"></i> Error!</h5>' +
+                            'Terjadi kesalahan saat memproses data. Silakan coba lagi.' +
+                            '</div>'
+                        );
+                        $('#resultSection').slideDown();
+                    }
                 });
+            });
+
+            // Close result section
+            $('#closeResult').on('click', function() {
+                $('#resultSection').slideUp();
+            });
+
+            // Reset form
+            $('#formNISN').on('reset', function() {
+                $('#resultSection').hide();
             });
         });
     </script>
