@@ -37,24 +37,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login Page</title>
+    <title>Sistem BK | Login Page</title>
 
     <!-- style area -->
     <?php include "../style.php" ?>
-
+    <!-- end style area -->
 </head>
 
 <body class="hold-transition login-page">
     <!-- alert message -->
     <?php include "../pesan.php" ?>
-    
+    <!-- end alert message-->
+
+    <!-- login box -->
     <div class="login-box">
-        <!-- /.login-logo -->
+        <!-- card -->
         <div class="card card-outline card-success">
             <div class="card-header text-center">
                 <h3>Sistem BK MBS</h3>
             </div>
             <div class="card-body">
+            <div class="d-flex justify-content-center">
+                <img class="img-circle" src="../assets/images/logo.png" height="150x" width="150x" alt="Logo MBS">
+            </div> <br>
                 <form action="" method="post">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" name="username" placeholder="Username" required>
@@ -72,21 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-8">
-                            <div class="icheck-primary">
-                                <input type="checkbox" id="remember">
-                                <label for="remember">
-                                    Remember Me
-                                </label>
-                            </div>
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-4">
-                            <button type="submit" class="btn btn-primary btn-block toastrDefaultSuccess">Masuk</button>
-                        </div>
-                        <!-- /.col -->
-                    </div>
+                    <button type="submit" class="btn btn-primary btn-block toastrDefaultSuccess">Masuk</button>
                 </form>
 
                 <p class="mb-1">
@@ -94,11 +85,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </p>
             </div>
         </div>
+        <!-- end card -->
     </div>
+    <!-- end login box-->
 
-    <!-- script area -->
+    <!-- javascript area -->
     <?php include "../script.php" ?>
-    
+    <!-- end javascript area -->
+
 </body>
 
 </html>
