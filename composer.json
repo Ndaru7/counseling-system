@@ -2,7 +2,8 @@
     "name": "ardapriambada/counseling-webapp",
     "type": "project",
     "require": {
-        "vlucas/phpdotenv": "^5.6"
+        "vlucas/phpdotenv": "^5.6",
+        "phpoffice/phpspreadsheet": "^5.1"
     },
     "authors": [
         {

@@ -14,7 +14,7 @@
         </li>
         <li class="nav-item">
             <a href="../siswa" class="nav-link <?php if($halaman == "data_siswa"){echo 'active';} ?>">
-                <i class="nav-icon fas fa-users"></i>
+                <i class="nav-icon fas fa-user-graduate"></i>
                 <p>Data Siswa</p>
             </a>
         </li>

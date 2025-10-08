@@ -94,14 +94,17 @@ $halaman = "data_siswa";
             <section class="content">
                 <!-- Default box -->
                 <div class="container-fluid">
-                    <div class="card">
+                    <div class="card card-warning">
                         <div class="card-header">
-                            <h3 class="card-title"><i class="fas fa-users"></i> Data Siswa</h3>
+                            <h3 class="card-title text-center"><i class="fas fa-user-graduate"></i> Data Siswa</h3>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modal-tambah">
-                                <i class="fas fa-plus"> tambah</i>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-tambah">
+                                <i class="fas fa-plus">&nbsp;Tambah</i>
+                            </button>
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-import">
+                                <i class="fas fa-file-excel">&nbsp;Import</i>
                             </button>
                             <p></p>
                             <div style="overflow-x: auto;">
@@ -143,7 +146,7 @@ $halaman = "data_siswa";
                                                 <td><?= $row["alamat"] ?></td>
                                                 <td><?= $row["orang_tua"], "<br> (", $row['no_hp'], ")" ?></td>
                                                 <td>
-                                                    <button type="button" class="btn btn-warning btn-sm open-modal-edit" data-toggle="modal" data-target="#modal-edit"
+                                                    <button type="button" class="btn btn-warning btn-sm open-modal-edit" title="Edit" data-toggle="modal" data-target="#modal-edit"
                                                         data-nisn="<?= $row['nisn'] ?>"
                                                         data-nama="<?= $row['nama'] ?>"
                                                         data-jenis_kelamin="<?= $row['jenis_kelamin'] ?>"
@@ -152,7 +155,7 @@ $halaman = "data_siswa";
                                                         data-no_hp="<?= $row['no_hp'] ?>">
                                                         <i class="fas fa-edit"></i>
                                                     </button>
-                                                    <button type="button" class="btn btn-danger btn-sm open-modal-hapus" data-toggle="modal" data-target="#modal-hapus"
+                                                    <button type="button" class="btn btn-danger btn-sm open-modal-hapus" title="Hapus" data-toggle="modal" data-target="#modal-hapus"
                                                         data-nisn="<?= $row['nisn'] ?>"
                                                         data-nama="<?= $row['nama'] ?>">
                                                         <i class="fas fa-trash"></i>
@@ -173,20 +176,19 @@ $halaman = "data_siswa";
             </section>
             <!-- /.content -->
 
-            <!-- Modal Tambah -->
+            <!-- modal tambah -->
             <div class="modal fade" id="modal-tambah">
                 <div class="modal-dialog">
+                    <!-- start modal content -->
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">Tambah Data</h4>
+                            <h4 class="modal-title">Tambah Data Siswa</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body">
-                            <!-- Main Modal -->
-                            <!-- form start -->
-                            <form action="aksi.php" method="post">
+                        <form action="aksi.php" method="post">
+                            <div class="modal-body">
                                 <div class="modal-body">
                                     <div class="form-group">
                                         <label for="tambahNisn">NISN</label>
@@ -204,7 +206,6 @@ $halaman = "data_siswa";
                                             <option value="perempuan">perempuan</option>
                                         </select>
                                     </div>
-                                    <!-- <input type="hidden" name="point" class="form-control" id="addPoint" required> -->
                                     <div class="form-group">
                                         <label for="tambahAlamat">Alamat</label>
                                         <input type="text" name="alamat" class="form-control" id="tambahAlamat" required>
@@ -218,30 +219,30 @@ $halaman = "data_siswa";
                                         <input type="number" name="no_hp" class="form-control" id="tambahNohp" required>
                                     </div>
                                 </div>
-                                <div class="modal-footer justify-content-between">
-                                    <button type="submit" name="simpan" class="btn btn-primary btn-block"><i class="fas fa-save"></i> Simpan</button>
-                                </div>
-                            </form>
-                        </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" name="simpan" class="btn btn-primary btn-block"><i class="fas fa-save"></i> Simpan</button>
+                            </div>
+                        </form>
                     </div>
-                    <!-- /.modal-content -->
+                    <!-- end modal content -->
                 </div>
-                <!-- /.modal-dialog -->
             </div>
-            <!-- Modal Update -->
+            <!-- end modal tambah -->
+
+            <!-- modal edit -->
             <div class="modal fade" id="modal-edit">
                 <div class="modal-dialog">
+                    <!-- modal content -->
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">Edit Data</h4>
+                            <h4 class="modal-title">Edit Data Siswa</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body">
-                            <!-- Main Modal -->
-                            <!-- form start -->
-                            <form action="aksi.php" method="post">
+                        <form action="aksi.php" method="post">
+                            <div class="modal-body">
                                 <div class="modal-body">
                                     <input type="hidden" name="nisn" class="form-control" id="editNisn" required>
                                     <div class="form-group">
@@ -269,19 +270,21 @@ $halaman = "data_siswa";
                                         <input type="number" name="no_hp" class="form-control" id="editNohp" required>
                                     </div>
                                 </div>
-                                <div class="modal-footer justify-content-between">
-                                    <button type="submit" name="edit" class="btn btn-warning btn-block"><i class="fas fa-edit"></i> Edit</button>
-                                </div>
-                            </form>
-                        </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" name="edit" class="btn btn-warning btn-block"><i class="fas fa-edit"></i> Edit</button>
+                            </div>
+                        </form>
                     </div>
-                    <!-- /.modal-content -->
+                    <!-- end modal content -->
                 </div>
-                <!-- /.modal-dialog -->
             </div>
-            <!-- Modal Delete -->
+            <!-- end modal edit -->
+
+            <!-- modal hapus -->
             <div class="modal fade" id="modal-hapus">
                 <div class="modal-dialog">
+                    <!-- modal content -->
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title">Hapus Data</h4>
@@ -289,33 +292,53 @@ $halaman = "data_siswa";
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body">
-                            <!-- Main Modal -->
-                            <!-- form start -->
-                            <form action="aksi.php" method="post">
-                                <h4>Apakah anda yakin ingin menghapus data berikut?</h4>
-                                <div class="form-group">
-                                    <!-- <label for="hapusNisn">NISN</label> -->
-                                    <input type="hidden" name="nisn" class="form-control" id="hapusNisn" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="hapusNama">Nama</label>
-                                    <input type="text" name="nama" class="form-control" id="hapusNama" disabled required>
-                                </div>
-                                <div class="modal-footer justify-content-between">
-                                    <button type="submit" name="hapus" class="btn btn-danger btn-block"><i class="fas fa-trash"></i> Hapus</button>
-                                </div>
-                            </form>
-                        </div>
+                        <form action="aksi.php" method="post">
+                            <div class="modal-body">
+                                <p>Apakah anda yakin ingin menghapus data (<b id="displayNisn"></b>)<b id="displayNama"></b></p>
+                                <input type="hidden" name="nisn" class="form-control" id="hapusNisn" required>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" name="hapus" class="btn btn-danger btn-block"><i class="fas fa-trash"></i> Hapus</button>
+                            </div>
+                        </form>
                     </div>
-                    <!-- /.modal-content -->
+                    <!-- end modal content -->
                 </div>
-                <!-- /.modal-dialog -->
             </div>
-            <!-- /.modal -->
+            <!-- end modal hapus -->
+
+            <!-- modal import -->
+            <div class="modal fade" id="modal-import">
+                <div class="modal-dialog">
+                    <!-- modal content -->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Import Data Siswa</h4>
+                        </div>
+                        <form action="aksi.php" method="post" enctype="multipart/form-data">
+                            <div class="modal-body">
+                                <div class="custom-file">
+                                    <input type="file" name="file" class="custom-file-input" id="importExcel" accept=".xlsx, .xls" required>
+                                    <label for="importExcel" class="custom-file-label">Pilih File Excel</label>
+                                </div>
+                                <p></p>
+                                <a href="download_file_import.php" class="btn btn-warning"><i class="fas fa-download"></i>&nbsp;Download Template</a>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-info" data-dismiss="modal" aria-label="Close">
+                                    <i class="fas fa-times"></i>&nbsp;Batal
+                                </button>
+                                <button type="submit" name="import" class="btn btn-success"><i class="fas fa-upload"></i>&nbsp;Upload</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- end modal content -->
+                </div>
+            </div>
+            <!-- end modal import -->
 
         </div>
-        <!-- /.content-wrapper -->
+        <!-- end content-wrapper -->
 
         <footer class="main-footer">
             <strong>Copyright &copy; 2025 <a href="">MBS Bumiayu</a>.</strong> All rights reserved.
@@ -345,7 +368,8 @@ $halaman = "data_siswa";
 
         $(document).on("click", ".open-modal-hapus", function() {
             $("#hapusNisn").val($(this).data("nisn"));
-            $("#hapusNama").val($(this).data("nama"));
+            $("#displayNama").text($(this).data("nama"));
+            $("#displayNisn").text($(this).data("nisn"));
 
             $("#modal-hapus").modal("show");
         })
