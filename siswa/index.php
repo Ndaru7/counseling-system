@@ -95,8 +95,8 @@ $halaman = "data_siswa";
                 <!-- Default box -->
                 <div class="container-fluid">
                     <div class="card card-warning">
-                        <div class="card-header">
-                            <h3 class="card-title text-center"><i class="fas fa-user-graduate"></i> Data Siswa</h3>
+                        <div class="card-header d-flex justify-content-center">
+                            <h3 class="card-title"><i class="fas fa-user-graduate"></i> Data Siswa</h3>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -181,11 +181,8 @@ $halaman = "data_siswa";
                 <div class="modal-dialog">
                     <!-- start modal content -->
                     <div class="modal-content">
-                        <div class="modal-header">
+                        <div class="modal-header d-flex justify-content-center">
                             <h4 class="modal-title">Tambah Data Siswa</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
                         </div>
                         <form action="aksi.php" method="post">
                             <div class="modal-body">
@@ -221,7 +218,12 @@ $halaman = "data_siswa";
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" name="simpan" class="btn btn-primary btn-block"><i class="fas fa-save"></i> Simpan</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+                                    <i class="fas fa-times"></i>&nbsp;Batal
+                                </button>
+                                <button type="submit" name="simpan" class="btn btn-primary">
+                                    <i class="fas fa-save"></i>&nbsp;Simpan
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -235,11 +237,8 @@ $halaman = "data_siswa";
                 <div class="modal-dialog">
                     <!-- modal content -->
                     <div class="modal-content">
-                        <div class="modal-header">
+                        <div class="modal-header d-flex justify-content-center">
                             <h4 class="modal-title">Edit Data Siswa</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
                         </div>
                         <form action="aksi.php" method="post">
                             <div class="modal-body">
@@ -272,7 +271,12 @@ $halaman = "data_siswa";
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" name="edit" class="btn btn-warning btn-block"><i class="fas fa-edit"></i> Edit</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+                                    <i class="fas fa-times"></i>&nbsp;Batal
+                                </button>
+                                <button type="submit" name="edit" class="btn btn-warning">
+                                    <i class="fas fa-edit"></i>&nbsp;Edit
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -287,10 +291,7 @@ $halaman = "data_siswa";
                     <!-- modal content -->
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">Hapus Data</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                            <h4 class="modal-title d-flex justify-content-center">Hapus Data Siswa</h4>
                         </div>
                         <form action="aksi.php" method="post">
                             <div class="modal-body">
@@ -298,7 +299,12 @@ $halaman = "data_siswa";
                                 <input type="hidden" name="nisn" class="form-control" id="hapusNisn" required>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" name="hapus" class="btn btn-danger btn-block"><i class="fas fa-trash"></i> Hapus</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+                                    <i class="fas fa-times"></i>&nbsp;Batal
+                                </button>
+                                <button type="submit" name="hapus" class="btn btn-danger btn-block">
+                                    <i class="fas fa-trash"></i>&nbsp;Hapus
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -325,10 +331,12 @@ $halaman = "data_siswa";
                                 <a href="download_file_import.php" class="btn btn-warning"><i class="fas fa-download"></i>&nbsp;Download Template</a>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-info" data-dismiss="modal" aria-label="Close">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
                                     <i class="fas fa-times"></i>&nbsp;Batal
                                 </button>
-                                <button type="submit" name="import" class="btn btn-success"><i class="fas fa-upload"></i>&nbsp;Upload</button>
+                                <button type="submit" name="import" class="btn btn-success">
+                                    <i class="fas fa-upload"></i>&nbsp;Upload
+                                </button>
                             </div>
                         </form>
                     </div>

@@ -68,16 +68,17 @@ if (isset($_POST["simpan"])) {
         $spreadsheet = IOFactory::load($file);
         $worksheet = $spreadsheet->getActiveSheet();
         $rows = $worksheet->toArray();
+        
+        $berhasil = 0;
 
         for ($i = 1; $i < count($rows); $i++) {
-            $berhasil = 0;
-            $nisn = $rows[$i][0];
-            $nama = $rows[$i][1];
-            $jenis_kelamin = $rows[$i][2];
-            $poin = $rows[$i][3];
-            $alamat = $rows[$i][4];
-            $orang_tua = $rows[$i][5];
-            $no_hp = $rows[$i][6];
+            $nisn = trim($rows[$i][0]);
+            $nama = trim($rows[$i][1]);
+            $jenis_kelamin = trim($rows[$i][2]);
+            $poin = trim($rows[$i][3]);
+            $alamat = trim($rows[$i][4]);
+            $orang_tua = trim($rows[$i][5]);
+            $no_hp = trim($rows[$i][6]);
 
             if (empty($nisn)) {
                 continue;

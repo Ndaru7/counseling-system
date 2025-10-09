@@ -95,7 +95,7 @@ $halaman = "data_pelanggaran";
                 <!-- Default box -->
                 <div class="container-fluid">
                     <div class="card card-warning">
-                        <div class="card-header">
+                        <div class="card-header d-flex justify-content-center">
                             <h3 class="card-title"><i class="fas fa-exclamation"></i>&nbsp;Data Pelanggaran</h3>
                         </div>
                         <!-- /.card-header -->
@@ -315,12 +315,13 @@ $halaman = "data_pelanggaran";
         </div>
         <!-- end modal import -->
 
+        <footer class="main-footer">
+            <strong>Copyright &copy; 2025 <a href="">MBS Bumiayu</a>.</strong> All rights reserved.
+        </footer>
+
     </div>
     <!-- /.content-wrapper -->
 
-    <footer class="main-footer">
-        <strong>Copyright &copy; 2025 <a href="">MBS Bumiayu</a>.</strong> All rights reserved.
-    </footer>
 
     <!-- Control Sidebar -->
     <aside class="control-sidebar control-sidebar-dark">
