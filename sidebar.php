@@ -1,7 +1,7 @@
 <nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <li class="nav-item">
-            <a href="../pengguna/dashboard.php" class="nav-link <?php if($halaman == "dashboard"){echo 'active';} ?>">
+            <a href="../pengguna" class="nav-link <?php if($halaman == "dashboard"){echo 'active';} ?>">
                 <i class="nav-icon fas fa-home"></i>
                 <p>Beranda</p>
             </a>

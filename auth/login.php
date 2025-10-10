@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 require "../database/config.php";
 
@@ -11,7 +12,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user = $pdo->fetch(PDO::FETCH_ASSOC);
 
     if ($user && sha1($password) == $user["passwd"]) {
-        session_start();
         $_SESSION["id"] = $user["id"];
         $_SESSION["nama"] = $user["nama"];
         $_SESSION["username"] = $user["username"];
@@ -80,9 +80,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <button type="submit" class="btn btn-primary btn-block toastrDefaultSuccess">Masuk</button>
                 </form>
 
-                <p class="mb-1">
+                <!--<p class="mb-1">
                     <a href="#">Lupa password</a>
-                </p>
+                </p>-->
             </div>
         </div>
         <!-- end card -->

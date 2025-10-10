@@ -18,21 +18,13 @@
                 <a href="" class="navbar-brand">
                     <img src="assets/images/logo.png" alt="Logo MBS" class="brand-image img-circle elevation-3" style="opacity: .8">
                     <span class="brand-text font-weight-light"><b>Sistem BK</b></span>
-                    <!-- <h2 class="brand-text">Sistem  BK</h2> -->
                 </a>
 
                 <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
-                <!-- <div class="collapse navbar-collapse order-3" id="navbarCollapse">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a href="" class="nav-link">Home</a>
-                        </li>
-                    </ul>
-                </div> -->
             </div>
+
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item dropdown">
@@ -41,7 +33,7 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <div class="dropdown-divider"></div>
-                        <a href="pengguna/dashboard.php" class="dropdown-item">
+                        <a href="./pengguna" class="dropdown-item">
                             <i class="fas fa-sign-in-alt mr-2"></i>Masuk
                         </a>
                     </div>

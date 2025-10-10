@@ -15,8 +15,8 @@ $halaman = "profile";
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sitem BK | Dashboard</title>
-
+    <title>Sitem BK | Profil</title>
+    <!-- CSS -->
     <?php include "../style.php"; ?>
 </head>
 
@@ -83,26 +83,28 @@ $halaman = "profile";
             <!-- /.sidebar -->
         </aside>
 
-        <!-- Content Wrapper. Contains page content -->
+        <!-- content wrapper -->
         <div class="content-wrapper">
-            <!-- Main content -->
+            <!-- content header -->
+            <section class="content-header">
+
+            </section>
+            <!-- end content header -->
+
+            <!-- main content  -->
             <section class="content">
-                <!-- Default box -->
                 <div class="container-fluid">
-                    <br>
-                    <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title"><i class="fas fa-user"></i> Profil</h3>
+                    <div class="card card-warning">
+                        <div class="card-header d-flex justify-content-center">
+                            <h3 class="card-title"><i class="fas fa-user"></i>&nbsp;Profil</h3>
                         </div>
-                        <!-- /.card-header -->
-                        <!-- form start -->
                         <?php
                         $id = $_SESSION["id"];
                         $sql = "SELECT * FROM tb_pengguna WHERE id = '$id' ";
                         $pdo = pdo_query($conn, $sql);
                         $row = $pdo->fetch(PDO::FETCH_ASSOC);
                         ?>
-                        <form action="" method="post">
+                        <form action="aksi.php" method="post">
                             <div class="card-body">
                                 <div class="form-group">
                                     <input type="hidden" name="id" class="form-control" value="<?php echo $row['id']; ?>">
@@ -120,16 +122,17 @@ $halaman = "profile";
                                     <input type="password" name="password_baru" class="form-control" id="newPassword" required>
                                 </div>
                             </div>
-                            <!-- /.card-body -->
-
-                            <div class="card-footer">
-                                <button type="submit" name="update" class="btn btn-warning btn-block"><i class="fas fa-pen"></i> Update</button>
+                            <div class="card-footer text-right">
+                                <a href="../pengguna" class="btn btn-secondary">
+                                    <i class="fas fa-back"></i>&nbsp;Kembali
+                                </a>
+                                <button type="submit" name="edit" class="btn btn-warning">
+                                    <i class="fas fa-edit"></i>&nbsp;Edit
+                                </button>
                             </div>
                         </form>
                     </div>
-
-                    <!-- /.row -->
-                </div><!-- /.container-fluid -->
+                </div>
                 <!-- /.card -->
             </section>
             <!-- /.content -->
@@ -153,23 +156,3 @@ $halaman = "profile";
 </body>
 
 </html>
-
-<?php
-if (isset($_POST["update"])) {
-    $id = $_POST["id"];
-    $nama = $_POST["nama"];
-    $username = $_POST["username"];
-    $password_baru = sha1($_POST["password_baru"]);
-
-    $sql = "UPDATE tb_pengguna SET passwd = '$password_baru', nama = '$nama', username = '$username' WHERE id = '$id' ";
-    pdo_query($conn, $sql);
-
-    $_SESSION["flash"] = [
-        "type" => "success",
-        "msg" =>"Edit data berhasil, silahkan login ulang!"
-    ];
-    session_unset();
-    session_destroy();
-    header("Location: ../auth/logout.php");
-}
-?>
