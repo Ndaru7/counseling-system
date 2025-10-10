@@ -15,7 +15,7 @@ $halaman = "riwayat";
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Sitem BK | Riwayat Catatan Konseling</title>
-
+    <!-- CSS -->
     <?php include "../style.php"; ?>
 </head>
 
@@ -90,16 +90,14 @@ $halaman = "riwayat";
 
             <!-- Main content -->
             <section class="content">
-                <!-- Default box -->
                 <div class="container-fluid">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title"><i class="fas fa-history"></i> Riwayat Catatan Konseling</h3>
+                    <div class="card card-warning">
+                        <div class="card-header d-flex justify-content-center">
+                            <h3 class="card-title"><i class="fas fa-history"></i>&nbsp;Riwayat Catatan Konseling</h3>
                         </div>
-                        <!-- /.card-header -->
                         <div class="card-body">
                             <div style="overflow-x: auto;">
-                                <table class="table table-bordered table-hover">
+                                <table class="table table-bordered table-hover text-center">
                                     <thead>
                                         <tr>
                                             <th>No</th>
@@ -107,7 +105,6 @@ $halaman = "riwayat";
                                             <th>Pencatat</th>
                                             <th>Nama Siswa</th>
                                             <th>Pelanggaran</th>
-                                            <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -143,25 +140,29 @@ $halaman = "riwayat";
                                                 <td><?= $row["pencatat"] ?></td>
                                                 <td><?= $row["siswa"] ?></td>
                                                 <td><?= $row["pelanggaran"] ?></td>
-                                                <td>
-                                                    <button type="button" class="btn btn-warning btn-sm open-modal-edit" data-toggle="modal" data-target="#modal-edit"
-                                                        data-id="<?= $row['id'] ?>"
-                                                        data-siswa="<?= $row['id_siswa'] ?>"
-                                                        data-pelanggaran="<?= $row['id_pelanggaran'] ?>"
-                                                        data-deskripsi="<?= $row['deskripsi'] ?>">
-                                                        <i class="fas fa-edit"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-danger btn-sm open-modal-hapus" data-toggle="modal" data-target="#modal-hapus"
-                                                        data-id="<?= $row['id'] ?>">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </td>
                                             </tr>
                                             <tr class="expandable-body">
                                                 <td colspan="5">
                                                     <p class="text-center">
-                                                        <?= $row["deskripsi"] ?>
+                                                        <strong>Deskripsi</strong>
+                                                    <p></p>
+                                                    <?= $row["deskripsi"] ?>
                                                     </p>
+                                                    <div class="text-right">
+                                                        <button type="button" title="Edit" class="btn btn-warning mr-2 open-modal-edit" data-toggle="modal" data-target="#modal-edit"
+                                                            data-id="<?= $row['id'] ?>"
+                                                            data-siswa="<?= $row['id_siswa'] ?>"
+                                                            data-pelanggaran="<?= $row['id_pelanggaran'] ?>"
+                                                            data-deskripsi="<?= $row['deskripsi'] ?>">
+                                                            <i class="fas fa-edit"></i>
+                                                        </button>
+                                                        <button type="button" title="Hapus" class="btn btn-danger mr-2 open-modal-hapus" data-toggle="modal" data-target="#modal-hapus"
+                                                            data-id="<?= $row['id'] ?>"
+                                                            data-siswa="<?= $row['siswa'] ?>"
+                                                            data-pelanggaran="<?= $row['pelanggaran'] ?>">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         <?php } ?>
@@ -252,24 +253,19 @@ $halaman = "riwayat";
         </div>
         <!-- /.modal-dialog -->
     </div>
-    <!-- Modal Update -->
+    <!-- modal edit -->
     <div class="modal fade" id="modal-edit">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Edit Catatan</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                <div class="modal-header d-flex justify-content-center">
+                    <h4 class="modal-title">Edit Riwayat Catatan</h4>
                 </div>
-                <div class="modal-body">
-                    <!-- Main Modal -->
-                    <form action="aksi.php" method="post">
+                <form action="aksi.php" method="post">
+                    <div class="modal-body">
                         <input type="hidden" name="id" class="form-control" id="editId" required>
                         <div class="form-group">
                             <label for="editSiswa">Nama Siswa</label>
-                            <select name="siswa" class="form-control" id="editSiswa" required>
-                                <option>-- Pilih --</option>
+                            <select name="siswa" class="form-control select2" id="editSiswa" required>
                                 <?php
                                 $query_siswa = "SELECT nisn, nama FROM tb_siswa";
                                 $pdo_siswa = pdo_query($conn, $query_siswa);
@@ -284,8 +280,7 @@ $halaman = "riwayat";
                         </div>
                         <div class="form-group">
                             <label for="editPelanggaran">Pelanggaraan</label>
-                            <select name="pelanggaran" class="form-control" id="editPelanggaran" required>
-                                <option value="">-- Pilih --</option>
+                            <select name="pelanggaran" class="form-control select2" id="editPelanggaran" required>
                                 <?php
                                 $query_pelanggaran = "SELECT id, nama FROM tb_pelanggaran";
                                 $pdo_pelanggaran = pdo_query($conn, $query_pelanggaran);
@@ -301,48 +296,50 @@ $halaman = "riwayat";
                         <div class="form-group">
                             <label for="editDeskripsi">Deskripsi</label>
                             <textarea name="deskripsi" class="form-control" id="editDeskripsi" required></textarea>
-                            <!-- <input type="text" name="deskripsi" class="form-control" id="editDeskripsi" required> -->
                         </div>
-                        <div class="modal-footer justify-content-between">
-                            <button type="submit" name="edit" class="btn btn-warning btn-block"><i class="fas fa-edit"></i> Edit </button>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+                            <i class="fas fa-times"></i>&nbsp;Batal
+                        </button>
+                        <button type="submit" name="edit" class="btn btn-warning">
+                            <i class="fas fa-edit"></i>&nbsp;Edit
+                        </button>
+                    </div>
+                </form>
             </div>
-            <!-- /.modal-content -->
         </div>
-        <!-- /.modal-dialog -->
     </div>
-    <!-- Modal Hapus -->
+    <!-- end modal edit -->
+
+    <!-- modal hapus -->
     <div class="modal fade" id="modal-hapus">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Hapus Catatan</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                <div class="modal-header d-flex justify-content-center">
+                    <h4 class="modal-title">Hapus Riwayat Catatan</h4>
                 </div>
-                <div class="modal-body">
-                    <!-- Main Modal -->
-                    <!-- form start -->
-                    <form action="aksi.php" method="post">
-                        <h4>Apakah anda yakin ingin menghapus data berikut?</h4>
-                        <div class="form-group">
-                            <!-- <label for="hapusNisn">NISN</label> -->
-                            <input type="hidden" name="id" class="form-control" id="hapusId" required>
-                        </div>
-                        <div class="modal-footer justify-content-between">
-                            <button type="submit" name="hapus" class="btn btn-danger btn-block"><i class="fas fa-trash"></i> Hapus</button>
-                        </div>
-                    </form>
-                </div>
+                <form action="aksi.php" method="post">
+                    <div class="modal-body">
+                        <p>
+                            Apakah anda yakin ingin menghapus catatan (<b id="displayNama"></b>) <b id="displayPelanggaran"></b>.
+                            Setelah catatan dihapus poin siswa tersebut tidak akan berkurang!
+                        </p>
+                        <input type="hidden" name="id" class="form-control" id="hapusId" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+                            <i class="fas fa-times"></i>&nbsp;Batal
+                        </button>
+                        <button type="submit" name="hapus" class="btn btn-danger">
+                            <i class="fas fa-trash"></i>&nbsp;Hapus
+                        </button>
+                    </div>
+                </form>
             </div>
-            <!-- /.modal-content -->
         </div>
-        <!-- /.modal-dialog -->
     </div>
-    <!-- /.modal -->
+    <!-- end modal hapus -->
 
     <?php include "../script.php"; ?>
 
@@ -357,6 +354,8 @@ $halaman = "riwayat";
         })
 
         $(document).on("click", ".open-modal-hapus", function() {
+            $("#displayNama").text($(this).data("siswa"));
+            $("#displayPelanggaran").text($(this).data("pelanggaran"));
             $("#hapusId").val($(this).data("id"));
 
             $("#modal-delete").modal("show");
