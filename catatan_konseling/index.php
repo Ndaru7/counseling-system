@@ -15,9 +15,10 @@ $halaman = "catatan_konseling";
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sitem BK | Dashboard</title>
-
+    <title>Sitem BK | Catatan Konseling</title>
+    <!-- CSS -->
     <?php include "../style.php"; ?>
+
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -96,32 +97,17 @@ $halaman = "catatan_konseling";
             <!-- Main content -->
             <section class="content">
                 <div class="container-fluid">
-                    <div class="card card-success">
-                        <div class="card-header">
-                            <h3 class="card-title"><i class="fas fa-file"></i>&nbsp;Tambah Banyak Catatan Konseling</h3>
-
-                            <div class="card-tools">
-                                <!-- <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                    <i class="fas fa-minus"></i>
-                                </button> -->
-                                <!-- <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                    <i class="fas fa-times"></i>
-                                </button> -->
-                            </div>
+                    <div class="card card-warning">
+                        <div class="card-header d-flex justify-content-center">
+                            <h3 class="card-title"><i class="fas fa-file"></i>&nbsp;Tambah Catatan Konseling</h3>
                         </div>
-                        <!-- /.card-header -->
-                        <div class="card-body">
-                            <a href="../catatan_konseling" class="btn btn-warning">
-                                <i class="fas fa-arrow-left">&nbsp;kembali</i>
-                            </a>
-                            <p></p>
-                            <div class="row">
-                                <div class="col-12">
-                                    <form action="aksi.php" method="post">
+                        <form action="aksi.php" method="post">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12">
                                         <div class="form-group">
                                             <label for="tambahSiswa">Nama Siswa</label>
                                             <select name="siswa[]" id="tambahSiswa" class="duallistbox" multiple="multiple">
-                                                <!-- <option value="" selected>--Nama Siswa--</option> -->
                                                 <?php
                                                 $query = pdo_query($conn, "SELECT nisn, nama FROM tb_siswa");
                                                 while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
@@ -134,7 +120,7 @@ $halaman = "catatan_konseling";
                                         </div>
                                         <div class="form-group">
                                             <label for="tambahPelanggaran">Pelanggaraan</label>
-                                            <select name="pelanggaran" class="form-control" id="tambahPelanggaran" required>
+                                            <select  name="pelanggaran" id="tambahPelanggaran" class="form-control select2" style="width: 100%;" required>
                                                 <option>-- Pilih --</option>
                                                 <?php
                                                 $query_pelanggaran = "SELECT id, nama FROM tb_pelanggaran";
@@ -149,22 +135,17 @@ $halaman = "catatan_konseling";
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <textarea name="deskripsi" class="form-control" id="tambahDeskripsi" rows="10" placeholder="Deskripsi.." required></textarea>
+                                            <label for="tambahDeskripsi">Deskripsi</label>
+                                            <textarea name="deskripsi" class="form-control" id="tambahDeskripsi" rows="10" placeholder="Tulis keterangan..." required></textarea>
                                         </div>
-                                        <div class="modal-footer justify-content-between">
-                                            <button type="submit" name="simpan" class="btn btn-primary btn-block"><i class="fas fa-save"></i> Simpan</button>
-                                        </div>
-                                    </form>
-
-                                    <!-- /.form-group -->
+                                    </div>
                                 </div>
-                                <!-- /.col -->
                             </div>
-                            <!-- /.row -->
-                        </div>
-                        <!-- /.card-body -->
+                            <div class="modal-footer">
+                                <button type="submit" name="simpan" class="btn btn-primary btn-block"><i class="fas fa-save"></i> Simpan</button>
+                            </div>
+                        </form>
                     </div>
-                    <!-- /.card -->
                 </div>
             </section>
             <!-- /.content -->
