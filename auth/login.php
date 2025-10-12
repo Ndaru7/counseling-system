@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             "type" => "success",
             "msg" => "Login Berhasil!"
         ];
-        header("Location: ../pengguna/dashboard.php");
+        header("Location: ../pengguna");
         exit;
     } else {
         $_SESSION["flash"] = [
