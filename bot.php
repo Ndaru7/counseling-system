@@ -42,18 +42,18 @@ function kirimPesan($nomor_tujuan, $pesan)
 }
 
 function pesanKonseling($nisn, $nama_siswa, $tanggal, $kategori, $deskripsi, $pencatat) {
-    $pesan = "NOTIFIKASI KONSELING SISWA\n\n";
+    $pesan = "*NOTIFIKASI KONSELING SISWA*\n\n";
     $pesan .= "Yth. Orang Tua/Wali dari:\n";
-    $pesan .= "NISN: {$nisn}\n";
-    $pesan .= "Nama: {$nama_siswa}\n\n";
-    $pesan .= "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n";
+    $pesan .= "NISN : {$nisn}\n";
+    $pesan .= "Nama : {$nama_siswa}\n\n";
+    $pesan .= "━━━━━━━━━━━━━━━\n\n";
     $pesan .= "Kami informasikan bahwa telah dilakukan pencatatan konseling:\n\n";
-    $pesan .= "Tanggal: {$tanggal}\n";
-    $pesan .= "kategori: {$kategori}\n\n";
-    $pesan .= "Deskripsi: {$deskripsi}\n\n";
-    $pesan .= "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n";
-    $pesan .= "Pencatat: {$pencatat}\n\n";
-    $pesan .= "Untuk informasi lebih lanjut, silahkan menghubungi guru BK.";
+    $pesan .= "Tanggal   : {$tanggal}\n";
+    $pesan .= "kategori  : {$kategori}\n\n";
+    $pesan .= "Deskripsi : \n{$deskripsi}\n\n";
+    $pesan .= "━━━━━━━━━━━━━━━\n\n";
+    $pesan .= "Pencatat : {$pencatat}\n\n";
+    $pesan .= "Untuk informasi lebih lanjut, silahkan menghubungi guru BK.\n\n";
     $pesan .= "Terimakasih";
 
     return $pesan;

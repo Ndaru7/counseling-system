@@ -27,11 +27,12 @@ if (isset($_POST["simpan"])) {
         $no_hp_ortu = $row_poin["no_hp"];
         $poin_pelanggaran = $row_pelanggaran["poin"];
         $kategori_pelanggaran = $row_pelanggaran["kategori"];
+        $pencatat_pesan = $_SESSION["nama"];
         $query_poin = pdo_query($conn, "UPDATE tb_siswa SET poin = ('$poin_siswa' + '$poin_pelanggaran') WHERE nisn = '$siswa' ");
         $berhasil++;
 
         //Kirim notifikasi ke orang tua
-        $pesan = pesanKonseling($siswa, $nama_siswa, date("Y-m-d H:i:s"), $kategori_pelanggaran, $deskripsi, $pencatat);
+        $pesan = pesanKonseling($siswa, $nama_siswa, date("Y-m-d H:i:s"), $kategori_pelanggaran, $deskripsi, $pencatat_pesan);
         kirimPesan($no_hp_ortu, $pesan);
         
     }
