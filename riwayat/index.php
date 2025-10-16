@@ -20,6 +20,7 @@ $halaman = "riwayat";
 </head>
 
 <body class="hold-transition sidebar-mini">
+    <?php include "../pesan.php"; ?>
     <!-- Site wrapper -->
     <div class="wrapper">
         <!-- Navbar -->
@@ -116,6 +117,7 @@ $halaman = "riwayat";
                                             tb_catatan_konseling.tanggal AS tanggal,
                                             tb_siswa.nisn AS id_siswa,
                                             tb_siswa.nama AS siswa,
+                                            tb_siswa.no_hp AS no_hp,
                                             tb_pelanggaran.id AS id_pelanggaran,
                                             tb_pelanggaran.nama AS pelanggaran,
                                             tb_pengguna.nama AS pencatat,
@@ -162,6 +164,14 @@ $halaman = "riwayat";
                                                             data-pelanggaran="<?= $row['pelanggaran'] ?>">
                                                             <i class="fas fa-trash"></i>
                                                         </button>
+                                                        <button type="button" title="Notifikasi Whatsapp" class="btn btn-success mr-2 open-modal-notifikasi" data-toggle="modal" data-target="#modal-notifikasi"
+                                                            data-id="<?= $row['id'] ?>"
+                                                            data-nama="<?= $row['siswa'] ?>"
+                                                            data-no_hp="<?= $row['no_hp'] ?>"
+                                                            data-siswa="<?= $row['id_siswa'] ?>"
+                                                            data-pelanggaran="<?= $row['id_pelanggaran'] ?>">
+                                                            <i class="fab fa-whatsapp"></i>
+                                                        </button>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -194,65 +204,6 @@ $halaman = "riwayat";
     </div>
     <!-- ./wrapper -->
 
-    <!-- Modal Tambah -->
-    <div class="modal fade" id="modal-tambah">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Tambah Catatan</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <!-- Main Modal -->
-                    <!-- form start -->
-                    <form action="aksi.php" method="post">
-                        <div class="form-group">
-                            <label for="tambahSiswa">Nama Siswa</label>
-                            <select name="siswa" class="form-control" id="tambahSiswa" required>
-                                <option>-- Pilih --</option>
-                                <?php
-                                $query_siswa = "SELECT nisn, nama FROM tb_siswa";
-                                $pdo_siswa = pdo_query($conn, $query_siswa);
-
-                                while ($row = $pdo_siswa->fetch(PDO::FETCH_ASSOC)) {
-                                    $nisn = $row["nisn"];
-                                    $nama = $row["nama"];
-                                    echo '<option value="' . $nisn . '">' . $nama . '</option>';
-                                }
-                                ?>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="tambahPelanggaran">Pelanggaraan</label>
-                            <select name="pelanggaran" class="form-control" id="tambahPelanggaran" required>
-                                <option>-- Pilih --</option>
-                                <?php
-                                $query_pelanggaran = "SELECT id, nama FROM tb_pelanggaran";
-                                $pdo_pelanggaran = pdo_query($conn, $query_pelanggaran);
-
-                                while ($row = $pdo_pelanggaran->fetch(PDO::FETCH_ASSOC)) {
-                                    $id = $row["id"];
-                                    $nama = $row["nama"];
-                                    echo '<option value="' . $id . '">' . $nama . '</option>';
-                                }
-                                ?>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <textarea name="deskripsi" class="form-control" id="tambahDeskripsi" placeholder="Deskripsi.." required></textarea>
-                        </div>
-                        <div class="modal-footer justify-content-between">
-                            <button type="submit" name="simpan" class="btn btn-primary btn-block"><i class="fas fa-save"></i> Simpan</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
     <!-- modal edit -->
     <div class="modal fade" id="modal-edit">
         <div class="modal-dialog">
@@ -341,6 +292,36 @@ $halaman = "riwayat";
     </div>
     <!-- end modal hapus -->
 
+    <!-- modal notifikasi -->
+    <div class="modal fade" id="modal-notifikasi">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header d-flex justify-content-center">
+                    <h4 class="modal-title">Notifikasi Whatsapp</h4>
+                </div>
+                <form action="aksi.php" method="post">
+                    <div class="modal-body">
+                        <p>
+                            Notifikasi akan dikirimkan ke whatsapp orang tua dari siswa <b id="displayNamaNotif"></b> sesuai dengan nomor yang terdapat pada data siswa.&nbsp;&nbsp;Apakah anda ingin kirim notifikasi ke <b id="displayNo"></b>?
+                        </p>
+                        <input type="hidden" name="id" class="form-control" id="notifikasiId" required>
+                        <input type="hidden" name="siswa" class="form-control" id="notifikasiSiswa" required>
+                        <input type="hidden" name="pelanggaran" class="form-control" id="notifikasiPelanggaran" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+                            <i class="fas fa-times"></i>&nbsp;Batal
+                        </button>
+                        <button type="submit" name="notifikasi" class="btn btn-success">
+                            <i class="fab fa-whatsapp"></i>&nbsp;Kirim
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- end modal notifikasi -->
+
     <?php include "../script.php"; ?>
 
     <script type="text/javascript">
@@ -359,6 +340,16 @@ $halaman = "riwayat";
             $("#hapusId").val($(this).data("id"));
 
             $("#modal-delete").modal("show");
+        })
+
+        $(document).on("click", ".open-modal-notifikasi", function() {
+            $("#displayNamaNotif").text($(this).data("nama"));
+            $("#displayNo").text($(this).data("no_hp"));
+            $("#notifikasiId").val($(this).data("id"));
+            $("#notifikasiSiswa").val($(this).data("siswa"));
+            $("#notifikasiPelanggaran").val($(this).data("pelanggaran"));
+
+            $("#modal-notifikasi").modal("show");
         })
     </script>
 
