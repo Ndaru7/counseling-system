@@ -5,6 +5,11 @@ require_once "../database/config.php";
 if (!isset($_SESSION["username"])) {
     header("Location: ../auth/login.php");
 }
+
+if ($_SESSION["peran"] != "1") {
+    header("Location: ../auth/logout.php");
+}
+
 $halaman = "riwayat";
 ?>
 
@@ -40,7 +45,7 @@ $halaman = "riwayat";
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <div class="dropdown-divider"></div>
-                        <a href="../admin/profile.php" class="dropdown-item">
+                        <a href="../dashboard_guru" class="dropdown-item">
                             <i class="fas fa-user mr-2"></i>Profil
                         </a>
                         <div class="dropdown-divider"></div>

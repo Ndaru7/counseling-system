@@ -33,7 +33,7 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <div class="dropdown-divider"></div>
-                        <a href="./pengguna" class="dropdown-item">
+                        <a href="./auth/login.php" class="dropdown-item">
                             <i class="fas fa-sign-in-alt mr-2"></i>Masuk
                         </a>
                     </div>

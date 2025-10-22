@@ -6,11 +6,11 @@ if (!isset($_SESSION["username"])) {
     header("Location: ../auth/login.php");
 }
 
-if ($_SESSION["peran"] != "1") {
+if ($_SESSION["peran"] != "0") {
     header("Location: ../auth/logout.php");
 }
 
-$halaman = "data_siswa";
+$halaman = "guru";
 ?>
 
 <!DOCTYPE html>
@@ -19,7 +19,7 @@ $halaman = "data_siswa";
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sitem BK | Data Siswa</title>
+    <title>Sitem BK | Akun Guru BK</title>
 
     <?php include "../style.php"; ?>
 </head>
@@ -45,7 +45,7 @@ $halaman = "data_siswa";
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <div class="dropdown-divider"></div>
-                        <a href="../dashboard_guru/" class="dropdown-item">
+                        <a href="../dashboard_admin" class="dropdown-item">
                             <i class="fas fa-user mr-2"></i>Profil
                         </a>
                         <div class="dropdown-divider"></div>
@@ -98,30 +98,29 @@ $halaman = "data_siswa";
             <section class="content">
                 <!-- Default box -->
                 <div class="container-fluid">
-                    <div class="card card-warning">
-                        <div class="card-header d-flex justify-content-center">
-                            <h3 class="card-title"><i class="fas fa-user-graduate"></i> Data Siswa</h3>
-                        </div>
+                   <div class="card card-warning">
+                      <div class="card-header d-flex justify-content-center">
+                          <h3 class="card-title"><i class="fas fa-key"></i> Akun Guru BK</h3>
+                      </div>
+                   </div>
+                    <div class="card">
                         <!-- /.card-header -->
                         <div class="card-body">
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-tambah">
                                 <i class="fas fa-plus">&nbsp;Tambah</i>
                             </button>
-                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-import">
+                            <!--<button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-import">
                                 <i class="fas fa-file-excel">&nbsp;Import</i>
-                            </button>
+                            </button>-->
                             <p></p>
                             <div style="overflow-x: auto;">
                                 <table id="example1" class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th>NISN</th>
                                             <th>Nama</th>
-                                            <th>Jenis kelamin</th>
-                                            <th>Poin</th>
-                                            <th>Alamat</th>
-                                            <th>Orang Tua</th>
+                                            <th>Username</th>
+                                            <th>No. HP</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
@@ -130,40 +129,27 @@ $halaman = "data_siswa";
                                         $no = 1;
                                         $query = pdo_query(
                                             $conn,
-                                            "SELECT * FROM tb_siswa",
+                                            "SELECT * FROM tb_pengguna WHERE peran = 1",
                                         );
 
                                         while ($row = $query->fetch(PDO::FETCH_ASSOC)) { ?>
                                             <tr>
                                                 <td><?= $no++ ?></td>
-                                                <td><?= $row["nisn"] ?></td>
                                                 <td><?= $row["nama"] ?></td>
+                                                <td><?= $row["username"] ?></td>
+                                                <td><?= $row["no_hp"] ?></td>
                                                 <td>
-                                                    <?php if (
-                                                        $row["jenis_kelamin"] ==
-                                                        "pria"
-                                                    ) {
-                                                        echo "L";
-                                                    } else {
-                                                        echo "P";
-                                                    } ?>
-                                                </td>
-                                                <td><?= $row["poin"] ?></td>
-                                                <td><?= $row["alamat"] ?></td>
-                                                <td><?= $row["orang_tua"] . "<br>(" . $row["no_hp"] . ")" ?></td>
-                                                <td>
-                                                    <button type="button" class="btn btn-warning btn-sm open-modal-edit" title="Edit" data-toggle="modal" data-target="#modal-edit"
-                                                        data-nisn="<?= $row["nisn"] ?>"
-                                                        data-nama="<?= $row["nama"] ?>"
-                                                        data-jenis_kelamin="<?= $row["jenis_kelamin"] ?>"
-                                                        data-poin="<?= $row["poin"] ?>"
-                                                        data-alamat="<?= $row["alamat"] ?>"
-                                                        data-orang_tua="<?= $row["orang_tua"] ?>"
-                                                        data-no_hp="<?= $row["no_hp"] ?>">
-                                                        <i class="fas fa-edit"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-danger btn-sm open-modal-hapus" title="Hapus" data-toggle="modal" data-target="#modal-hapus"
-                                                        data-nisn="<?= $row["nisn"] ?>"
+                                                   <!--<button type="button" class="btn btn-warning btn-sm open-modal-edit" title="Edit" data-toggle="modal" data-target="#modal-edit"
+                                                       data-nama="<?= $row["nama"] ?>"
+                                                       data-jenis_kelamin="<?= $row["jenis_kelamin"] ?>"
+                                                       data-poin="<?= $row["poin"] ?>"
+                                                       data-alamat="<?= $row["alamat"] ?>"
+                                                       data-orang_tua="<?= $row["orang_tua"] ?>"
+                                                       data-no_hp="<?= $row["no_hp"] ?>">
+                                                          <i class="fas fa-edit"></i>
+                                                    </button>-->
+                                                    <button type="button" class="btn btn-danger open-modal-hapus" title="Hapus" data-toggle="modal" data-target="#modal-hapus"
+                                                        data-id="<?= $row["id"] ?>"
                                                         data-nama="<?= $row["nama"] ?>">
                                                         <i class="fas fa-trash"></i>
                                                     </button>
@@ -190,38 +176,26 @@ $halaman = "data_siswa";
                     <!-- start modal content -->
                     <div class="modal-content">
                         <div class="modal-header d-flex justify-content-center">
-                            <h4 class="modal-title">Tambah Data Siswa</h4>
+                            <h4 class="modal-title">Buat Akun Guru</h4>
                         </div>
                         <form action="aksi.php" method="post">
                             <div class="modal-body">
                                 <div class="modal-body">
                                     <div class="form-group">
-                                        <label for="tambahNisn">NISN</label>
-                                        <input type="text" name="nisn" class="form-control" id="tambahNisn" required>
-                                    </div>
-                                    <div class="form-group">
                                         <label for="tambahNama">Nama</label>
                                         <input type="text" name="nama" class="form-control" id="tambahNama" required>
                                     </div>
                                     <div class="form-group">
-                                        <label>Jenis Kelamin</label>
-                                        <select name="jenis_kelamin" class="form-control" id="tambahJenisKelamin" required>
-                                            <option>-- pilih --</option>
-                                            <option value="pria">pria</option>
-                                            <option value="perempuan">perempuan</option>
-                                        </select>
+                                        <label for="tambahUsername">Username</label>
+                                        <input type="text" name="username" class="form-control" id="tambahUsername" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="tambahAlamat">Alamat</label>
-                                        <input type="text" name="alamat" class="form-control" id="tambahAlamat" required>
+                                        <label for="tambahPassword">Password</label>
+                                        <input type="password" name="password" class="form-control" id="tambahPassword" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="tambahOrangTua">Orang Tua/Wali</label>
-                                        <input type="text" name="orang_tua" class="form-control" id="tambahOrangTua" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="tambahNohp">No. Hp Orang Tua/Wali</label>
-                                        <input type="number" name="no_hp" class="form-control" id="tambahNohp" required>
+                                        <label for="tambahNohp">No. Hp</label>
+                                        <input type="number" name="no_hp" class="form-control" id="tambahNohp" maxlength="15" required>
                                     </div>
                                 </div>
                             </div>
@@ -303,12 +277,12 @@ $halaman = "data_siswa";
                     <!-- modal content -->
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title d-flex justify-content-center">Hapus Data Siswa</h4>
+                            <h4 class="modal-title d-flex justify-content-center">Hapus Akun Guru</h4>
                         </div>
                         <form action="aksi.php" method="post">
                             <div class="modal-body">
-                                <p>Apakah anda yakin ingin menghapus data (<b id="displayNisn"></b>)<b id="displayNama"></b></p>
-                                <input type="hidden" name="nisn" class="form-control" id="hapusNisn" required>
+                                <p>Apakah anda yakin ingin menghapus akun <b id="displayNama"></b></p>
+                                <input type="hidden" name="id" class="form-control" id="hapusId" required>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
@@ -388,9 +362,8 @@ $halaman = "data_siswa";
         })
 
         $(document).on("click", ".open-modal-hapus", function() {
-            $("#hapusNisn").val($(this).data("nisn"));
+            $("#hapusId").val($(this).data("id"));
             $("#displayNama").text($(this).data("nama"));
-            $("#displayNisn").text($(this).data("nisn"));
 
             $("#modal-hapus").modal("show");
         })

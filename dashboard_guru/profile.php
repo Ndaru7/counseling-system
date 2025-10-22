@@ -10,7 +10,7 @@ if ($_SESSION["peran"] != "1") {
     header("Location: ../auth/logout.php");
 }
 
-$halaman = "catatan_konseling";
+$halaman = "profile";
 ?>
 
 <!DOCTYPE html>
@@ -19,10 +19,9 @@ $halaman = "catatan_konseling";
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sitem BK | Catatan Konseling</title>
+    <title>Sitem BK | Profil</title>
     <!-- CSS -->
     <?php include "../style.php"; ?>
-
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -46,7 +45,7 @@ $halaman = "catatan_konseling";
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <div class="dropdown-divider"></div>
-                        <a href="../dashboard_guru" class="dropdown-item">
+                        <a href="../dashboard_guru/" class="dropdown-item">
                             <i class="fas fa-user mr-2"></i>Profil
                         </a>
                         <div class="dropdown-divider"></div>
@@ -88,68 +87,57 @@ $halaman = "catatan_konseling";
             <!-- /.sidebar -->
         </aside>
 
-        <!-- Content Wrapper. Contains page content -->
+        <!-- content wrapper -->
         <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
+            <!-- content header -->
             <section class="content-header">
-                <div class="container-fluid">
 
-                </div>
-                <!-- /.container-fluid -->
             </section>
+            <!-- end content header -->
 
-            <!-- Main content -->
+            <!-- main content  -->
             <section class="content">
                 <div class="container-fluid">
                     <div class="card card-warning">
                         <div class="card-header d-flex justify-content-center">
-                            <h3 class="card-title"><i class="fas fa-file"></i>&nbsp;Tambah Catatan Konseling</h3>
+                            <h3 class="card-title"><i class="fas fa-user"></i>&nbsp;Profil</h3>
                         </div>
+                        <?php
+                        $id = $_SESSION["id"];
+                        $sql = "SELECT * FROM tb_pengguna WHERE id = '$id' ";
+                        $pdo = pdo_query($conn, $sql);
+                        $row = $pdo->fetch(PDO::FETCH_ASSOC);
+                        ?>
                         <form action="aksi.php" method="post">
                             <div class="card-body">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            <label for="tambahSiswa">Nama Siswa</label>
-                                            <select name="siswa[]" id="tambahSiswa" class="duallistbox" multiple="multiple">
-                                                <?php
-                                                $query = pdo_query($conn, "SELECT nisn, nama FROM tb_siswa");
-                                                while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
-                                                    $nisn = $row["nisn"];
-                                                    $nama_siswa = $row["nama"];
-                                                    echo '<option value="' . $nisn . '">' . $nisn . ' - ' . $nama_siswa . '</option>';
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="tambahPelanggaran">Pelanggaraan</label>
-                                            <select  name="pelanggaran" id="tambahPelanggaran" class="form-control select2" style="width: 100%;" required>
-                                                <option>-- Pilih --</option>
-                                                <?php
-                                                $query_pelanggaran = pdo_query($conn, "SELECT id, nama FROM tb_pelanggaran");
-
-                                                while ($row = $query_pelanggaran->fetch(PDO::FETCH_ASSOC)) {
-                                                    $id = $row["id"];
-                                                    $nama = $row["nama"];
-                                                    echo '<option value="' . $id . '">' . $nama . '</option>';
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="tambahDeskripsi">Deskripsi</label>
-                                            <textarea name="deskripsi" class="form-control" id="tambahDeskripsi" rows="10" placeholder="Tulis keterangan..." required></textarea>
-                                        </div>
-                                    </div>
+                                <div class="form-group">
+                                    <input type="hidden" name="id" class="form-control" value="<?php echo $row['id']; ?>">
+                                </div>
+                                <div class="form-group">
+                                    <label for="nama">Nama</label>
+                                    <input type="text" name="nama" class="form-control" value="<?php echo $row['nama']; ?>" id="nama" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="username">Username</label>
+                                    <input type="text" name="username" class="form-control" value="<?php echo $row['username']; ?>" id="username" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="newPassword">Password Baru</label>
+                                    <input type="password" name="password_baru" class="form-control" id="newPassword" required>
                                 </div>
                             </div>
-                            <div class="modal-footer">
-                                <button type="submit" name="simpan" class="btn btn-primary btn-block"><i class="fas fa-save"></i> Simpan</button>
+                            <div class="card-footer text-right">
+                                <a href="../pengguna" class="btn btn-secondary">
+                                    <i class="fas fa-back"></i>&nbsp;Kembali
+                                </a>
+                                <button type="submit" name="edit" class="btn btn-warning">
+                                    <i class="fas fa-edit"></i>&nbsp;Edit
+                                </button>
                             </div>
                         </form>
                     </div>
                 </div>
+                <!-- /.card -->
             </section>
             <!-- /.content -->
         </div>

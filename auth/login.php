@@ -3,34 +3,58 @@ session_start();
 
 require "../database/config.php";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST["username"];
-    $password = $_POST["password"];
-    $query = pdo_query($conn, "SELECT * FROM tb_pengguna WHERE username = ?", [
-        $username,
-    ]);
-    $user = $query->fetch(PDO::FETCH_ASSOC);
+if (isset($_SESSION["peran"])) {
+   if ($_SESSION["peran"] == "0") {
+      header("Location: ../dashboard_admin");
+   } else if ($_SESSION["peran"] == "1") {
+      header("Location: ../dashboard_guru");
+   }
+} else {
+   if ($_SERVER["REQUEST_METHOD"] == "POST") {
+      $username = $_POST["username"];
+      $password = $_POST["password"];
+      $query = pdo_query(
+         $conn,
+         "SELECT * FROM tb_pengguna WHERE username = ?",
+         [$username]
+      );
+      $user = $query->fetch(PDO::FETCH_ASSOC);
 
-    if ($user && sha1($password) == $user["passwd"]) {
-        $_SESSION["id"] = $user["id"];
-        $_SESSION["nama"] = $user["nama"];
-        $_SESSION["username"] = $user["username"];
-        $_SESSION["password"] = $user["passwd"];
-        $_SESSION["flash"] = [
-            "type" => "success",
-            "msg" => "Login Berhasil!",
-        ];
-        header("Location: ../pengguna");
-        exit();
-    } else {
-        $_SESSION["flash"] = [
+      if ($user && sha1($password) == $user["passwd"]) {
+         if ($user["peran"] == "0") {
+            //Admin
+            $_SESSION["id"] = $user["id"];
+            $_SESSION["nama"] = $user["nama"];
+            $_SESSION["username"] = $user["username"];
+            $_SESSION["password"] = $user["passwd"];
+            $_SESSION["peran"] = $user["peran"];
+            $_SESSION["flash"] = [
+               "type" => "success",
+               "msg" => "Login Berhasil!",
+            ];
+            header("Location: ../dashboard_admin");
+            exit();
+         } else if ($user["peran"] == "1") {
+            //Dosen
+            $_SESSION["id"] = $user["id"];
+            $_SESSION["nama"] = $user["nama"];
+            $_SESSION["username"] = $user["username"];
+            $_SESSION["password"] = $user["passwd"];
+            $_SESSION["peran"] = $user["peran"];
+            $_SESSION["flash"] = [
+               "type" => "success",
+               "msg" => "Login Berhasil!",
+            ];
+            header("Location: ../dashboard_guru");
+            exit();
+         }
+      } else {
+         $_SESSION["flash"] = [
             "type" => "danger",
             "msg" => "Username atau Password salah!",
-        ];
-    }
-}
-?>
-
+         ];
+      }
+   } ?>
 <!DOCTYPE html>
 <html>
 
@@ -96,3 +120,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </body>
 
 </html>
+<?php
+}
+?>
