@@ -10,14 +10,18 @@ if (isset($_POST["simpan"])) {
     $nama = $_POST["nama"];
     $kategori = $_POST["kategori"];
     $poin = $_POST["poin"];
-    $query = "INSERT INTO tb_pelanggaran (nama, kategori, poin) VALUES ('$nama',
-                                                                        '$kategori',
-                                                                        '$poin')";
-    pdo_query($conn, $query);
+
+    pdo_query(
+        $conn,
+        "INSERT INTO tb_pelanggaran (nama, kategori, poin) VALUES (?, ?, ?)",
+        [$nama, $kategori, $poin]
+    );
+
     $_SESSION["flash"] = [
         "type" => "success",
         "msg" => "Data berhasil disimpan!"
     ];
+
     header("Location: ../pelanggaran");
 
 } else if (isset($_POST["edit"])) {
@@ -25,23 +29,34 @@ if (isset($_POST["simpan"])) {
     $nama = $_POST["nama"];
     $kategori = $_POST["kategori"];
     $poin = $_POST["poin"];
-    $query = "UPDATE tb_pelanggaran SET nama = '$nama', kategori = '$kategori', poin = '$poin' WHERE id = '$id' ";
 
-    pdo_query($conn, $query);
+    pdo_query(
+        $conn,
+        "UPDATE tb_pelanggaran SET nama = ? kategori = ?, poin = ? WHERE id = ?",
+        [$nama, $kategori, $poin, $id]
+    );
+
     $_SESSION["flash"] = [
         "type" => "success",
         "msg" => "Data berhasil diedit!"
     ];
+
     header("Location: ../pelanggaran");
 
 } else if (isset($_POST["hapus"])) {
     $id = $_POST['id'];
-    $query = "DELETE FROM tb_pelanggaran WHERE id = '$id' ";
-    pdo_query($conn, $query);
+
+    pdo_query(
+        $conn,
+        "DELETE FROM tb_pelanggaran WHERE id = ?",
+        [$id]
+    );
+
     $_SESSION["flash"] = [
         "type" => "success",
         "msg" => "Data berhasil dihapus!"
     ];
+
     header("Location: ../pelanggaran");
 
 } else if (isset($_POST["import"])) {
@@ -51,7 +66,7 @@ if (isset($_POST["simpan"])) {
         $spreadsheet = IOFactory::load($file);
         $worksheet = $spreadsheet->getActiveSheet();
         $rows = $worksheet->toArray();
-        
+
         $berhasil = 0;
 
         for ($i = 1; $i < count($rows); $i++) {
@@ -63,25 +78,31 @@ if (isset($_POST["simpan"])) {
                 continue;
             }
 
-            $query_cek = "SELECT * FROM tb_pelanggaran WHERE nama = '$nama' AND kategori = '$kategori' AND poin = '$poin' ";
-            $pdo = pdo_query($conn, $query_cek);
-            $exist = $pdo->fetchColumn();
+            $query_cek = pdo_query(
+                $conn,
+                "SELECT * FROM tb_pelanggaran WHERE nama = ? AND kategori = ? AND poin = ?",
+                [$nama, $kategori, $poin]
+            );
+            $exist = $query_cek->fetchColumn();
 
             if ($exist > 0) {
                 continue;
             }
 
-            $query = "INSERT INTO tb_pelanggaran (nama, kategori, poin) VALUES ('$nama',
-                                                                                '$kategori',
-                                                                                '$poin')";
-            pdo_query($conn, $query);
+            pdo_query(
+                $conn,
+                "INSERT INTO tb_pelanggaran (nama, kategori, poin) VALUES (?, ?, ?)",
+                [$nama, $kategori, $poin]
+            );
             $berhasil++;
         }
+
         $_SESSION["flash"] = [
             "type" => "success",
             "msg" => $berhasil . " data pelanggaran berhasil ditambahkan!"
         ];
     }
+
     header("Location: ../pelanggaran");
 }
 ?>

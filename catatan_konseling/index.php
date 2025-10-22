@@ -123,10 +123,9 @@ $halaman = "catatan_konseling";
                                             <select  name="pelanggaran" id="tambahPelanggaran" class="form-control select2" style="width: 100%;" required>
                                                 <option>-- Pilih --</option>
                                                 <?php
-                                                $query_pelanggaran = "SELECT id, nama FROM tb_pelanggaran";
-                                                $pdo_pelanggaran = pdo_query($conn, $query_pelanggaran);
+                                                $query_pelanggaran = pdo_query($conn, "SELECT id, nama FROM tb_pelanggaran");
 
-                                                while ($row = $pdo_pelanggaran->fetch(PDO::FETCH_ASSOC)) {
+                                                while ($row = $query_pelanggaran->fetch(PDO::FETCH_ASSOC)) {
                                                     $id = $row["id"];
                                                     $nama = $row["nama"];
                                                     echo '<option value="' . $id . '">' . $nama . '</option>';

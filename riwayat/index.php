@@ -111,28 +111,28 @@ $halaman = "riwayat";
                                     <tbody>
                                         <?php
                                         $no = 1;
-                                        $query = "
-                                        SELECT
-                                            tb_catatan_konseling.id AS id,
-                                            tb_catatan_konseling.tanggal AS tanggal,
-                                            tb_siswa.nisn AS id_siswa,
-                                            tb_siswa.nama AS siswa,
-                                            tb_siswa.no_hp AS no_hp,
-                                            tb_pelanggaran.id AS id_pelanggaran,
-                                            tb_pelanggaran.nama AS pelanggaran,
-                                            tb_pengguna.nama AS pencatat,
-                                            tb_catatan_konseling.deskripsi AS deskripsi
-                                        FROM 
-                                            tb_catatan_konseling
-                                        JOIN
-                                            tb_siswa ON tb_catatan_konseling.id_siswa = tb_siswa.nisn
-                                        JOIN
-                                            tb_pelanggaran ON tb_catatan_konseling.id_pelanggaran = tb_pelanggaran.id
-                                        JOIN
-                                            tb_pengguna ON tb_catatan_konseling.pencatat = tb_pengguna.id
-                                        ORDER BY
-                                            tb_catatan_konseling.tanggal DESC";
-                                        $pdo = pdo_query($conn, $query);
+                                        $query = pdo_query(
+                                            $conn,
+                                            "SELECT tb_catatan_konseling.id AS id,
+                                                    tb_catatan_konseling.tanggal AS tanggal,
+                                                    tb_siswa.nisn AS id_siswa,
+                                                    tb_siswa.nama AS siswa,
+                                                    tb_siswa.no_hp AS no_hp,
+                                                    tb_pelanggaran.id AS id_pelanggaran,
+                                                    tb_pelanggaran.nama AS pelanggaran,
+                                                    tb_pengguna.nama AS pencatat,
+                                                    tb_catatan_konseling.deskripsi AS deskripsi
+                                            FROM
+                                                tb_catatan_konseling
+                                            JOIN
+                                                tb_siswa ON tb_catatan_konseling.id_siswa = tb_siswa.nisn
+                                            JOIN
+                                                tb_pelanggaran ON tb_catatan_konseling.id_pelanggaran = tb_pelanggaran.id
+                                            JOIN
+                                                tb_pengguna ON tb_catatan_konseling.pencatat = tb_pengguna.id
+                                            ORDER BY
+                                                tb_catatan_konseling.tanggal DESC"
+                                        );
 
                                         while ($row = $pdo->fetch(PDO::FETCH_ASSOC)) {
                                         ?>
@@ -218,10 +218,9 @@ $halaman = "riwayat";
                             <label for="editSiswa">Nama Siswa</label>
                             <select name="siswa" class="form-control select2" id="editSiswa" required>
                                 <?php
-                                $query_siswa = "SELECT nisn, nama FROM tb_siswa";
-                                $pdo_siswa = pdo_query($conn, $query_siswa);
+                                $query_siswa = pdo_query($conn, "SELECT nisn, nama FROM tb_siswa");
 
-                                while ($row = $pdo_siswa->fetch(PDO::FETCH_ASSOC)) {
+                                while ($row = $query_siswa->fetch(PDO::FETCH_ASSOC)) {
                                     $nisn = $row["nisn"];
                                     $nama = $row["nama"];
                                     echo '<option value="' . $nisn . '">' . $nama . '</option>';
@@ -233,10 +232,9 @@ $halaman = "riwayat";
                             <label for="editPelanggaran">Pelanggaraan</label>
                             <select name="pelanggaran" class="form-control select2" id="editPelanggaran" required>
                                 <?php
-                                $query_pelanggaran = "SELECT id, nama FROM tb_pelanggaran";
-                                $pdo_pelanggaran = pdo_query($conn, $query_pelanggaran);
+                                $query_pelanggaran = pdo_query($conn, "SELECT id, nama FROM tb_pelanggaran");
 
-                                while ($row = $pdo_pelanggaran->fetch(PDO::FETCH_ASSOC)) {
+                                while ($row = $query_pelanggaran->fetch(PDO::FETCH_ASSOC)) {
                                     $id = $row["id"];
                                     $nama = $row["nama"];
                                     echo '<option value="' . $id . '">' . $nama . '</option>';

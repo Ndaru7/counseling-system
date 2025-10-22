@@ -6,10 +6,10 @@ require "../database/config.php";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["username"];
     $password = $_POST["password"];
-
-    $sql = "SELECT * FROM tb_pengguna WHERE username = '$username'";
-    $pdo = pdo_query($conn, $sql);
-    $user = $pdo->fetch(PDO::FETCH_ASSOC);
+    $query = pdo_query($conn, "SELECT * FROM tb_pengguna WHERE username = ?", [
+        $username,
+    ]);
+    $user = $query->fetch(PDO::FETCH_ASSOC);
 
     if ($user && sha1($password) == $user["passwd"]) {
         $_SESSION["id"] = $user["id"];
@@ -18,14 +18,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION["password"] = $user["passwd"];
         $_SESSION["flash"] = [
             "type" => "success",
-            "msg" => "Login Berhasil!"
+            "msg" => "Login Berhasil!",
         ];
         header("Location: ../pengguna");
-        exit;
+        exit();
     } else {
         $_SESSION["flash"] = [
             "type" => "danger",
-            "msg" => "Username atau Password salah!"
+            "msg" => "Username atau Password salah!",
         ];
     }
 }
@@ -40,13 +40,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Sistem BK | Login Page</title>
 
     <!-- style area -->
-    <?php include "../style.php" ?>
+    <?php include "../style.php"; ?>
     <!-- end style area -->
 </head>
 
 <body class="hold-transition login-page">
     <!-- alert message -->
-    <?php include "../pesan.php" ?>
+    <?php include "../pesan.php"; ?>
     <!-- end alert message-->
 
     <!-- login box -->
@@ -90,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- end login box-->
 
     <!-- javascript area -->
-    <?php include "../script.php" ?>
+    <?php include "../script.php"; ?>
     <!-- end javascript area -->
 
 </body>

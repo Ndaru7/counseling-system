@@ -39,7 +39,7 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <div class="dropdown-divider"></div>
-                        <a href="../pengguna/dashboard.php" class="dropdown-item">
+                        <a href="../pengguna" class="dropdown-item">
                             <i class="fas fa-sign-in-alt mr-2"></i>Masuk
                         </a>
                     </div>

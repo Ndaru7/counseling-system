@@ -124,45 +124,49 @@ $halaman = "data_siswa";
                                     <tbody>
                                         <?php
                                         $no = 1;
-                                        $query = "SELECT * FROM tb_siswa";
-                                        $pdo = pdo_query($conn, $query);
+                                        $query = pdo_query(
+                                            $conn,
+                                            "SELECT * FROM tb_siswa",
+                                        );
 
-                                        while ($row = $pdo->fetch(PDO::FETCH_ASSOC)) {
-                                        ?>
+                                        while ($row = $query->fetch(PDO::FETCH_ASSOC)) { ?>
                                             <tr>
                                                 <td><?= $no++ ?></td>
                                                 <td><?= $row["nisn"] ?></td>
                                                 <td><?= $row["nama"] ?></td>
                                                 <td>
-                                                    <?php
-                                                    if ($row["jenis_kelamin"] == "pria") {
+                                                    <?php if (
+                                                        $row["jenis_kelamin"] ==
+                                                        "pria"
+                                                    ) {
                                                         echo "L";
                                                     } else {
                                                         echo "P";
-                                                    }
-                                                    ?>
+                                                    } ?>
                                                 </td>
                                                 <td><?= $row["poin"] ?></td>
                                                 <td><?= $row["alamat"] ?></td>
-                                                <td><?= $row["orang_tua"], "<br> (", $row['no_hp'], ")" ?></td>
+                                                <td><?= $row["orang_tua"] . "<br>(" . $row["no_hp"] . ")" ?></td>
                                                 <td>
                                                     <button type="button" class="btn btn-warning btn-sm open-modal-edit" title="Edit" data-toggle="modal" data-target="#modal-edit"
-                                                        data-nisn="<?= $row['nisn'] ?>"
-                                                        data-nama="<?= $row['nama'] ?>"
-                                                        data-jenis_kelamin="<?= $row['jenis_kelamin'] ?>"
-                                                        data-alamat="<?= $row['alamat'] ?>"
-                                                        data-orang_tua="<?= $row['orang_tua'] ?>"
-                                                        data-no_hp="<?= $row['no_hp'] ?>">
+                                                        data-nisn="<?= $row["nisn"] ?>"
+                                                        data-nama="<?= $row["nama"] ?>"
+                                                        data-jenis_kelamin="<?= $row["jenis_kelamin"] ?>"
+                                                        data-poin="<?= $row["poin"] ?>"
+                                                        data-alamat="<?= $row["alamat"] ?>"
+                                                        data-orang_tua="<?= $row["orang_tua"] ?>"
+                                                        data-no_hp="<?= $row["no_hp"] ?>">
                                                         <i class="fas fa-edit"></i>
                                                     </button>
                                                     <button type="button" class="btn btn-danger btn-sm open-modal-hapus" title="Hapus" data-toggle="modal" data-target="#modal-hapus"
-                                                        data-nisn="<?= $row['nisn'] ?>"
-                                                        data-nama="<?= $row['nama'] ?>">
+                                                        data-nisn="<?= $row["nisn"] ?>"
+                                                        data-nama="<?= $row["nama"] ?>">
                                                         <i class="fas fa-trash"></i>
                                                     </button>
                                                 </td>
                                             </tr>
-                                        <?php } ?>
+                                        <?php }
+                                        ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -245,7 +249,7 @@ $halaman = "data_siswa";
                                 <div class="modal-body">
                                     <input type="hidden" name="nisn" class="form-control" id="editNisn" required>
                                     <div class="form-group">
-                                        <label for="editNama">Name</label>
+                                        <label for="editNama">Nama</label>
                                         <input type="text" name="nama" class="form-control" id="editNama" required>
                                     </div>
                                     <div class="form-group">
@@ -255,6 +259,10 @@ $halaman = "data_siswa";
                                             <option value="pria">pria</option>
                                             <option value="perempuan">perempuan</option>
                                         </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="editPoin">Poin</label>
+                                        <input type="number" name="poin" class="form-control" id="editPoin" maxlength="5" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="editAlamat">Alamat</label>
@@ -302,7 +310,7 @@ $halaman = "data_siswa";
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
                                     <i class="fas fa-times"></i>&nbsp;Batal
                                 </button>
-                                <button type="submit" name="hapus" class="btn btn-danger btn-block">
+                                <button type="submit" name="hapus" class="btn btn-danger">
                                     <i class="fas fa-trash"></i>&nbsp;Hapus
                                 </button>
                             </div>
@@ -367,6 +375,7 @@ $halaman = "data_siswa";
             $("#editNisn").val($(this).data("nisn"));
             $("#editNama").val($(this).data("nama"));
             $("#editJenisKelamin").val($(this).data("jenis_kelamin"));
+            $("#editPoin").val($(this).data("poin"));
             $("#editAlamat").val($(this).data("alamat"));
             $("#editOrangTua").val($(this).data("orang_tua"));
             $("#editNohp").val($(this).data("no_hp"));

@@ -10,15 +10,15 @@ $DATABASE = $_ENV["DATABASE"];
 $USERNAME = $_ENV["USERNAME"];
 $PASSWORD = $_ENV["PASSWORD"];
 
-
 try {
     $conn = new PDO("mysql:host=$HOST;dbname=$DATABASE", $USERNAME, $PASSWORD);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    function pdo_query($conn, $query) {
+    function pdo_query($conn, $query, $params = [])
+    {
         $sql = $query;
         $stmt = $conn->prepare($sql);
-        $stmt->execute();
+        $stmt->execute($params);
         return $stmt;
     }
 } catch (PDOException $e) {

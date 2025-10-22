@@ -21,9 +21,7 @@ $halaman = "dashboard";
 </head>
 
 <body class="hold-transition sidebar-mini">
-    <?php
-    include "../pesan.php";
-    ?>
+    <?php include "../pesan.php"; ?>
     <!-- Site wrapper -->
     <div class="wrapper">
         <!-- Navbar -->
@@ -90,7 +88,9 @@ $halaman = "dashboard";
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <div class="container-fluid">
-                    <h1 class="text-center">Selamat datang <?php echo $_SESSION["nama"]; ?> </h1>
+                    <h1 class="text-center">Selamat datang <?php echo $_SESSION[
+                        "nama"
+                    ]; ?> </h1>
                 </div><!-- /.container-fluid -->
             </section>
 
@@ -112,17 +112,23 @@ $halaman = "dashboard";
                                     <tr>
                                         <?php
                                         $no = 1;
-                                        $query = "SELECT * FROM tb_siswa ORDER BY poin DESC";
-                                        $pdo = pdo_query($conn, $query);
+                                        $query = pdo_query(
+                                            $conn,
+                                            "SELECT * FROM tb_siswa ORDER BY poin DESC LIMIT 5",
+                                        );
 
-                                        while ($row = $pdo->fetch(PDO::FETCH_ASSOC)) {
-                                        ?>
-                                            <td><?php echo $no++ ?></td>
-                                            <td><?php echo $row["nisn"] ?></td>
-                                            <td><?php echo $row["nama"] ?></td>
-                                            <td><?php echo $row["poin"] ?></td>
+                                        while (
+                                            $row = $query->fetch(
+                                                PDO::FETCH_ASSOC,
+                                            )
+                                        ) { ?>
+                                            <td><?php echo $no++; ?></td>
+                                            <td><?php echo $row["nisn"]; ?></td>
+                                            <td><?php echo $row["nama"]; ?></td>
+                                            <td><?php echo $row["poin"]; ?></td>
                                     </tr>
-                                <?php } ?>
+                                <?php }
+                                        ?>
                                 </tbody>
                             </table>
                         </div>

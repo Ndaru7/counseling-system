@@ -15,52 +15,67 @@ if (isset($_POST["simpan"])) {
     $orang_tua = $_POST["orang_tua"];
     $no_hp = $_POST["no_hp"];
 
-    $query = "INSERT INTO tb_siswa (nisn,
-                nama,
-                jenis_kelamin,
-                alamat,
-                orang_tua,
-                no_hp) VALUES ('$nisn',
-                                        '$nama',
-                                        '$jenis_kelamin',
-                                        '$alamat',
-                                        '$orang_tua',
-                                        '$no_hp')";
-    pdo_query($conn, $query);
+    pdo_query(
+        $conn,
+        "INSERT INTO tb_siswa (nisn,
+                               nama,
+                               jenis_kelamin,
+                               alamat,
+                               orang_tua,
+                               no_hp) VALUES (?, ?, ?, ?, ?, ?)",
+        [$nisn, $nama, $jenis_kelamin, $alamat, $orang_tua, $no_hp]
+    );
+
     $_SESSION["flash"] = [
         "type" => "success",
         "msg" => "Data siswa berhasil ditambahkan!"
     ];
+
     header("Location: ../siswa");
+
 } else if (isset($_POST["edit"])) {
     $nisn = $_POST["nisn"];
     $nama = $_POST["nama"];
     $jenis_kelamin = $_POST["jenis_kelamin"];
+    $poin = $_POST["poin"];
     $alamat = $_POST["alamat"];
     $orang_tua = $_POST["orang_tua"];
     $no_hp = $_POST["no_hp"];
 
-    $query = "UPDATE tb_siswa SET nisn = '$nisn',
-                                    nama = '$nama',
-                                    jenis_kelamin = '$jenis_kelamin',
-                                    alamat = '$alamat',
-                                    orang_tua = '$orang_tua',
-                                    no_hp = '$no_hp' WHERE nisn = '$nisn' ";
-    pdo_query($conn, $query);
+    pdo_query(
+        $conn,
+        "UPDATE tb_siswa SET nama = ?,
+                             jenis_kelamin = ?,
+                             alamat = ?,
+                             poin = ?,
+                             orang_tua = ?,
+                             no_hp = ? WHERE nisn = ?",
+        [$nama, $jenis_kelamin, $alamat, $poin, $orang_tua, $no_hp, $nisn]
+    );
+
     $_SESSION["flash"] = [
         "type" => "success",
         "msg" => "Data siswa berhasil diedit!"
     ];
+
     header("Location: ../siswa");
+
 } else if (isset($_POST["hapus"])) {
     $nisn = $_POST["nisn"];
-    $query = "DELETE FROM tb_siswa WHERE nisn = '$nisn' ";
-    pdo_query($conn, $query);
+
+    pdo_query(
+        $conn,
+        "DELETE FROM tb_siswa WHERE nisn = ?",
+        [$nisn]
+    );
+
     $_SESSION["flash"] = [
         "type" => "success",
         "msg" => "Data siswa berhasil dihapus!"
     ];
+
     header("Location: ../siswa");
+
 } else if (isset($_POST["import"])) {
     if (isset($_FILES["file"])) {
         global $berhasil;
@@ -68,7 +83,7 @@ if (isset($_POST["simpan"])) {
         $spreadsheet = IOFactory::load($file);
         $worksheet = $spreadsheet->getActiveSheet();
         $rows = $worksheet->toArray();
-        
+
         $berhasil = 0;
 
         for ($i = 1; $i < count($rows); $i++) {
@@ -84,28 +99,30 @@ if (isset($_POST["simpan"])) {
                 continue;
             }
 
-            $query_cek = "SELECT * FROM tb_siswa WHERE nisn = '$nisn' ";
-            $pdo = pdo_query($conn, $query_cek);
-            $exist = $pdo->fetchColumn();
+            $query_cek = pdo_query(
+                            $conn,
+                            "SELECT * FROM tb_siswa WHERE nisn = ?",
+                            [$nisn]
+                         );
+            $exist = $query_cek->fetchColumn();
 
             if ($exist > 0) {
                 continue;
             }
 
-            $query = "INSERT INTO tb_siswa VALUES ('$nisn',
-                                                  '$nama',
-                                                  '$jenis_kelamin',
-                                                  '$poin',
-                                                  '$alamat',
-                                                  '$orang_tua',
-                                                  '$no_hp')";
-            pdo_query($conn, $query);
+            pdo_query(
+                $conn,
+                "INSERT INTO tb_siswa VALUES (?, ?, ?, ?, ?, ?, ?)",
+                [$nisn, $nama, $jenis_kelamin, $poin, $alamat, $orang_tua, $no_hp]
+            );
             $berhasil++;
         }
+
         $_SESSION["flash"] = [
             "type" => "success",
             "msg" => $berhasil . " data siswa berhasil ditambahkan!"
         ];
     }
+
     header("Location: ../siswa");
 }

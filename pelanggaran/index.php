@@ -121,10 +121,9 @@ $halaman = "data_pelanggaran";
                                     <tbody>
                                         <?php
                                         $no = 1;
-                                        $query = "SELECT * FROM tb_pelanggaran";
-                                        $pdo = pdo_query($conn, $query);
+                                        $query = pdo_query($conn, "SELECT * FROM tb_pelanggaran");
 
-                                        while ($row = $pdo->fetch(PDO::FETCH_ASSOC)) {
+                                        while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                                         ?>
                                             <tr>
                                                 <td><?= $no++ ?></td>

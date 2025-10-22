@@ -7,13 +7,15 @@ if (isset($_POST["edit"])) {
     $nama = $_POST["nama"];
     $username = $_POST["username"];
     $password_baru = sha1($_POST["password_baru"]);
-
-    $sql = "UPDATE tb_pengguna SET passwd = '$password_baru', nama = '$nama', username = '$username' WHERE id = '$id' ";
-    pdo_query($conn, $sql);
+    pdo_query(
+        $conn,
+        "UPDATE tb_pengguna SET passwd = ?, nama = ?, username = ? WHERE id = ? ",
+        [$password_baru, $nama, $username, $id],
+    );
 
     $_SESSION["flash"] = [
         "type" => "success",
-        "msg" => "Edit data berhasil, silahkan login ulang!"
+        "msg" => "Edit data berhasil, silahkan login ulang!",
     ];
     header("Location: ../auth/logout.php");
 }
