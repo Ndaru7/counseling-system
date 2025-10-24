@@ -5,7 +5,7 @@ if ($_SESSION["peran"] == "0") {
     <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <li class="nav-item">
-                <a href="../dashboard_admin" class="nav-link <?php if($halaman == "dashboard_guru"){echo 'active';} ?>">
+                <a href="../dashboard_admin" class="nav-link <?php if($halaman == "dashboard_admin"){echo 'active';} ?>">
                     <i class="nav-icon fas fa-home"></i>
                     <p>Beranda</p>
                 </a>

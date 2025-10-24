@@ -15,6 +15,21 @@ if (isset($_POST["simpan"])) {
     $orang_tua = $_POST["orang_tua"];
     $no_hp = $_POST["no_hp"];
 
+    $query_cek = pdo_query(
+        $conn,
+        "SELECT nisn FROM tb_siswa WHERE nisn = ?",
+        [$nisn]
+    )->fetch(PDO::FETCH_ASSOC);
+
+    if ($query_cek > 0) {
+        $_SESSION["flash"] = [
+            "type" => "danger",
+            "msg" => "NISN sudah ada!"
+        ];
+        header("Location: ../siswa");
+        exit;
+    }
+
     pdo_query(
         $conn,
         "INSERT INTO tb_siswa (nisn,

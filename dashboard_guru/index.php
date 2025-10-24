@@ -91,16 +91,18 @@ $halaman = "dashboard_guru";
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
             <section class="content-header">
-                <div class="container-fluid">
-                    <h1 class="text-center">Selamat datang <?php echo $_SESSION[
-                        "nama"
-                    ]; ?> </h1>
-                </div><!-- /.container-fluid -->
+
             </section>
 
             <!-- Main content -->
             <section class="content">
                 <div class="container-fluid">
+                   <div class="card card-warning">
+                      <div class="card-header d-flex justify-content-center">
+                         <h3>SELAMAT DATANG, <b><?php echo $_SESSION["nama"]; ?></b></h3>
+                      </div>
+                   </div>
+
                     <div class="row">
                         <div class="col-md-6">
                             <table class="table table-bordered table-striped">
@@ -137,7 +139,21 @@ $halaman = "dashboard_guru";
                             </table>
                         </div>
                         <div class="col-md-6">
-                            <h1>Sebelah Kanan</h1>
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-center">
+                                    <h1 class="card-title">Aksi</h1>
+                                </div>
+                                <div class="card-footer d-flex justify-content-center">
+                                    <a href="../riwayat" class="btn btn-primary m-3" name="riwayat">
+                                        <i class="fas fa-history"></i>&nbsp;Lihat Riwayat Catatan
+                                    </a>
+                                    <form action="aksi.php" method="post">
+                                        <button type="submit" class="btn btn-success m-3" name="rekap">
+                                            <i class="fas fa-file-excel"></i>&nbsp;Rekap Catatan
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

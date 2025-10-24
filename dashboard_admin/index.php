@@ -3,11 +3,11 @@ session_start();
 require_once "../database/config.php";
 
 if (!isset($_SESSION["username"])) {
-    header("Location: ../auth/login.php");
+   header("Location: ../auth/login.php");
 }
 
 if ($_SESSION["peran"] != "0") {
-    header("Location: ../auth/logout.php");
+   header("Location: ../auth/logout.php");
 }
 
 $halaman = "dashboard_admin";
@@ -91,56 +91,23 @@ $halaman = "dashboard_admin";
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
             <section class="content-header">
-                <div class="container-fluid">
-                    <h1 class="text-center">Selamat datang <?php echo $_SESSION[
-                        "nama"
-                    ]; ?> </h1>
-                </div><!-- /.container-fluid -->
+
             </section>
 
             <!-- Main content -->
             <section class="content">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <table class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>NISN</th>
-                                        <th>Nama</th>
-                                        <th>Poin</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <?php
-                                        $no = 1;
-                                        $query = pdo_query(
-                                            $conn,
-                                            "SELECT * FROM tb_siswa ORDER BY poin DESC LIMIT 5",
-                                        );
-
-                                        while (
-                                            $row = $query->fetch(
-                                                PDO::FETCH_ASSOC,
-                                            )
-                                        ) { ?>
-                                            <td><?php echo $no++; ?></td>
-                                            <td><?php echo $row["nisn"]; ?></td>
-                                            <td><?php echo $row["nama"]; ?></td>
-                                            <td><?php echo $row["poin"]; ?></td>
-                                    </tr>
-                                <?php }
-                                        ?>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="col-md-6">
-                            <h1>Sebelah Kanan</h1>
-                        </div>
-                    </div>
-                </div>
+               <div class="container-fluid">
+                  <div class="card card-warning">
+                     <div class="card-header d-flex justify-content-center">
+                        <h1 class="card-title"><i class="fas fa-home"></i> Beranda</h1>
+                     </div>
+                  </div>
+                  <div class="card">
+                     <div class="card-body d-flex justify-content-center">
+                        <h3>SELAMAT DATANG <?php echo $_SESSION["nama"]; ?></h3>
+                     </div>
+                  </div>
+               </div>
             </section>
             <!-- /.content -->
         </div>

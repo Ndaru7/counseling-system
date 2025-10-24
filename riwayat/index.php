@@ -139,7 +139,7 @@ $halaman = "riwayat";
                                                 tb_catatan_konseling.tanggal DESC"
                                         );
 
-                                        while ($row = $pdo->fetch(PDO::FETCH_ASSOC)) {
+                                        while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                                         ?>
                                             <tr data-widget="expandable-table" aria-expanded="false">
                                                 <td><?= $no++ ?></td>
