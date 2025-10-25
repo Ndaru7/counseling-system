@@ -100,7 +100,7 @@ $halaman = "guru";
                 <div class="container-fluid">
                    <div class="card card-warning">
                       <div class="card-header d-flex justify-content-center">
-                          <h3 class="card-title"><i class="fas fa-key"></i> Akun Guru BK</h3>
+                          <h3 class="card-title"><i class="fas fa-chalkboard-teacher"></i> Akun Guru BK</h3>
                       </div>
                    </div>
                     <div class="card">
@@ -109,18 +109,19 @@ $halaman = "guru";
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-tambah">
                                 <i class="fas fa-plus">&nbsp;Tambah</i>
                             </button>
-                            <!--<button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-import">
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-import">
                                 <i class="fas fa-file-excel">&nbsp;Import</i>
-                            </button>-->
+                            </button>
                             <p></p>
                             <div style="overflow-x: auto;">
                                 <table id="example1" class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
                                             <th>No</th>
+                                            <th>NUPTK</th>
                                             <th>Nama</th>
-                                            <th>Username</th>
-                                            <th>No. HP</th>
+                                            <th>NO. HP</th>
+                                            <th>Email</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
@@ -129,27 +130,26 @@ $halaman = "guru";
                                         $no = 1;
                                         $query = pdo_query(
                                             $conn,
-                                            "SELECT * FROM tb_pengguna WHERE peran = 1",
+                                            "SELECT * FROM tb_guru",
                                         );
 
                                         while ($row = $query->fetch(PDO::FETCH_ASSOC)) { ?>
                                             <tr>
                                                 <td><?= $no++ ?></td>
+                                                <td><?= $row["nuptk"] ?></td>
                                                 <td><?= $row["nama"] ?></td>
-                                                <td><?= $row["username"] ?></td>
                                                 <td><?= $row["no_hp"] ?></td>
+                                                <td><?= $row["email"] ?></td>
                                                 <td>
-                                                   <!--<button type="button" class="btn btn-warning btn-sm open-modal-edit" title="Edit" data-toggle="modal" data-target="#modal-edit"
+                                                   <button type="button" class="btn btn-warning btn-sm open-modal-edit" title="Edit" data-toggle="modal" data-target="#modal-edit"
+                                                       data-nuptk="<?= $row["nuptk"] ?>"
                                                        data-nama="<?= $row["nama"] ?>"
-                                                       data-jenis_kelamin="<?= $row["jenis_kelamin"] ?>"
-                                                       data-poin="<?= $row["poin"] ?>"
-                                                       data-alamat="<?= $row["alamat"] ?>"
-                                                       data-orang_tua="<?= $row["orang_tua"] ?>"
-                                                       data-no_hp="<?= $row["no_hp"] ?>">
+                                                       data-no_hp="<?= $row["no_hp"] ?>"
+                                                       data-email="<?= $row["email"] ?>">
                                                           <i class="fas fa-edit"></i>
-                                                    </button>-->
+                                                    </button>
                                                     <button type="button" class="btn btn-danger open-modal-hapus" title="Hapus" data-toggle="modal" data-target="#modal-hapus"
-                                                        data-id="<?= $row["id"] ?>"
+                                                        data-nuptk="<?= $row["nuptk"] ?>"
                                                         data-nama="<?= $row["nama"] ?>">
                                                         <i class="fas fa-trash"></i>
                                                     </button>
@@ -176,26 +176,26 @@ $halaman = "guru";
                     <!-- start modal content -->
                     <div class="modal-content">
                         <div class="modal-header d-flex justify-content-center">
-                            <h4 class="modal-title">Buat Akun Guru</h4>
+                            <h4 class="modal-title">Tambah Data Guru</h4>
                         </div>
                         <form action="aksi.php" method="post">
                             <div class="modal-body">
                                 <div class="modal-body">
                                     <div class="form-group">
+                                        <label for="tambahNuptk">NUPTK</label>
+                                        <input type="text" name="nuptk" class="form-control" id="tambahNuptk" required>
+                                    </div>
+                                    <div class="form-group">
                                         <label for="tambahNama">Nama</label>
                                         <input type="text" name="nama" class="form-control" id="tambahNama" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="tambahUsername">Username</label>
-                                        <input type="text" name="username" class="form-control" id="tambahUsername" required>
+                                        <label for="tambahNohp">No. HP</label>
+                                        <input type="text" name="no_hp" class="form-control" id="tambahNohp" maxlength="15" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="tambahPassword">Password</label>
-                                        <input type="password" name="password" class="form-control" id="tambahPassword" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="tambahNohp">No. Hp</label>
-                                        <input type="number" name="no_hp" class="form-control" id="tambahNohp" maxlength="15" required>
+                                        <label for="tambahEmail">Email</label>
+                                        <input type="email" name="email" class="form-control" id="tambahEmail" maxlength="50" required>
                                     </div>
                                 </div>
                             </div>
@@ -220,39 +220,23 @@ $halaman = "guru";
                     <!-- modal content -->
                     <div class="modal-content">
                         <div class="modal-header d-flex justify-content-center">
-                            <h4 class="modal-title">Edit Data Siswa</h4>
+                            <h4 class="modal-title">Edit Data Guru</h4>
                         </div>
                         <form action="aksi.php" method="post">
                             <div class="modal-body">
                                 <div class="modal-body">
-                                    <input type="hidden" name="nisn" class="form-control" id="editNisn" required>
+                                    <input type="hidden" name="nuptk" class="form-control" id="editNuptk" required>
                                     <div class="form-group">
                                         <label for="editNama">Nama</label>
                                         <input type="text" name="nama" class="form-control" id="editNama" required>
                                     </div>
                                     <div class="form-group">
-                                        <label>Jenis Kelamin</label>
-                                        <select name="jenis_kelamin" class="form-control" id="editJenisKelamin" required>
-                                            <option>-- pilih --</option>
-                                            <option value="pria">pria</option>
-                                            <option value="perempuan">perempuan</option>
-                                        </select>
+                                        <label for="editNohp">No. HP</label>
+                                        <input type="text" name="no_hp" class="form-control" id="editNohp" maxlength="15" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="editPoin">Poin</label>
-                                        <input type="number" name="poin" class="form-control" id="editPoin" maxlength="5" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="editAlamat">Alamat</label>
-                                        <input type="text" name="alamat" class="form-control" id="editAlamat" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="editOrangTua">Orang Tua/Wali</label>
-                                        <input type="text" name="orang_tua" class="form-control" id="editOrangTua" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="editNohp">No. Hp Orang Tua/Wali</label>
-                                        <input type="number" name="no_hp" class="form-control" id="editNohp" required>
+                                        <label for="editEmail">Email</label>
+                                        <input type="email" name="email" class="form-control" id="editEmail" maxlength="50" required>
                                     </div>
                                 </div>
                             </div>
@@ -277,12 +261,12 @@ $halaman = "guru";
                     <!-- modal content -->
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title d-flex justify-content-center">Hapus Akun Guru</h4>
+                            <h4 class="modal-title d-flex justify-content-center">Hapus Data Guru</h4>
                         </div>
                         <form action="aksi.php" method="post">
                             <div class="modal-body">
                                 <p>Apakah anda yakin ingin menghapus akun <b id="displayNama"></b></p>
-                                <input type="hidden" name="id" class="form-control" id="hapusId" required>
+                                <input type="hidden" name="nuptk" class="form-control" id="hapusNuptk" required>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
@@ -305,7 +289,7 @@ $halaman = "guru";
                     <!-- modal content -->
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">Import Data Siswa</h4>
+                            <h4 class="modal-title">Import Data Guru</h4>
                         </div>
                         <form action="aksi.php" method="post" enctype="multipart/form-data">
                             <div class="modal-body">
@@ -350,19 +334,16 @@ $halaman = "guru";
 
     <script type="text/javascript">
         $(document).on("click", ".open-modal-edit", function() {
-            $("#editNisn").val($(this).data("nisn"));
+            $("#editNuptk").val($(this).data("nisn"));
             $("#editNama").val($(this).data("nama"));
-            $("#editJenisKelamin").val($(this).data("jenis_kelamin"));
-            $("#editPoin").val($(this).data("poin"));
-            $("#editAlamat").val($(this).data("alamat"));
-            $("#editOrangTua").val($(this).data("orang_tua"));
             $("#editNohp").val($(this).data("no_hp"));
+            $("#editEmail").val($(this).data("email"));
 
             $("#modal-edit").modal("show");
         })
 
         $(document).on("click", ".open-modal-hapus", function() {
-            $("#hapusId").val($(this).data("id"));
+            $("#hapusNuptk").val($(this).data("nuptk"));
             $("#displayNama").text($(this).data("nama"));
 
             $("#modal-hapus").modal("show");

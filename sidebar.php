@@ -18,7 +18,7 @@ if ($_SESSION["peran"] == "0") {
             </li>
             <li class="nav-item">
                 <a href="../guru" class="nav-link <?php if($halaman == "guru"){echo 'active';} ?>">
-                    <i class="nav-icon fas fa-key"></i>
+                    <i class="nav-icon fas fa-chalkboard-teacher"></i>
                     <p>Data Guru BK</p>
                 </a>
             </li>

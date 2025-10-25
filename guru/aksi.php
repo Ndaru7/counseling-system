@@ -8,74 +8,93 @@ require_once "../vendor/autoload.php";
 
 
 if (isset($_POST["simpan"])) {
+    $nuptk = $_POST["nuptk"];
     $nama = $_POST["nama"];
-    $username = $_POST["username"];
-    $password = sha1($_POST["password"]);
     $no_hp = $_POST["no_hp"];
+    $email = $_POST["email"];
+
+    // Cek apakah NUPTK sudah ada
+    $query_cek = pdo_query(
+        $conn,
+        "SELECT nuptk FROM tb_guru WHERE nuptk = ?",
+        [$nuptk]
+    )->fetch(PDO::FETCH_ASSOC);
+
+    if ($query_cek > 0) {
+        $_SESSION["flash"] = [
+            "type" => "danger",
+            "msg" => "NUPTK sudah ada!"
+        ];
+        header("Location: ../guru");
+        exit;
+    }
+
+    pdo_query(
+        $conn,
+        "INSERT INTO tb_guru VALUES (?, ?, ?, ?)",
+        [$nuptk, $nama, $no_hp, $email]
+    );
+
+    //Membuat akun guru
+    $username = $nuptk;
+    $password = sha1($nuptk);
 
     pdo_query(
         $conn,
         "INSERT INTO tb_pengguna ( nama,
                                    username,
                                    passwd,
-                                   peran,
-                                   no_hp ) VALUES (?, ?, ?, ?, ?)",
-        [$nama, $username, $password, 1, $no_hp]
+                                   peran ) VALUES (?, ?, ?, ?)",
+        [$nama, $username, $password, 1]
     );
 
     $_SESSION["flash"] = [
         "type" => "success",
-        "msg" => "Akun guru berhasil dibuat!"
+        "msg" => "Data berhasil ditambahkan!"
     ];
 
     header("Location: ../guru");
 
 } else if (isset($_POST["edit"])) {
-    $nisn = $_POST["nisn"];
+    $nuptk = $_POST["nuptk"];
     $nama = $_POST["nama"];
-    $jenis_kelamin = $_POST["jenis_kelamin"];
-    $poin = $_POST["poin"];
-    $alamat = $_POST["alamat"];
-    $orang_tua = $_POST["orang_tua"];
     $no_hp = $_POST["no_hp"];
+    $email = $_POST["email"];
 
     pdo_query(
         $conn,
-        "UPDATE tb_siswa SET nama = ?,
-                             jenis_kelamin = ?,
-                             alamat = ?,
-                             poin = ?,
-                             orang_tua = ?,
-                             no_hp = ? WHERE nisn = ?",
-        [$nama, $jenis_kelamin, $alamat, $poin, $orang_tua, $no_hp, $nisn]
+        "UPDATE tb_guru SET nama = ?,
+                            no_hp = ?,
+                            email = ? WHERE nuptk = ?",
+        [$nama, $no_hp, $email, $nuptk]
     );
 
     $_SESSION["flash"] = [
         "type" => "success",
-        "msg" => "Data siswa berhasil diedit!"
+        "msg" => "Data guru berhasil diedit!"
     ];
 
     header("Location: ../siswa");
 
 } else if (isset($_POST["hapus"])) {
-    $id = $_POST["id"];
+    $nuptk = $_POST["nuptk"];
 
     pdo_query(
         $conn,
-        "DELETE FROM tb_pengguna WHERE id = ?",
-        [$id]
+        "DELETE FROM tb_guru WHERE nuptk = ?",
+        [$nuptk]
     );
 
     $_SESSION["flash"] = [
         "type" => "success",
-        "msg" => "Akun berhasil dihapus!"
+        "msg" => "Data berhasil dihapus!"
     ];
 
     header("Location: ../guru");
 
 } else if (isset($_POST["import"])) {
     if (isset($_FILES["file"])) {
-        global $berhasil;
+        //global $berhasil;
         $file = $_FILES["file"]["tmp_name"];
         $spreadsheet = IOFactory::load($file);
         $worksheet = $spreadsheet->getActiveSheet();
@@ -84,22 +103,19 @@ if (isset($_POST["simpan"])) {
         $berhasil = 0;
 
         for ($i = 1; $i < count($rows); $i++) {
-            $nisn = trim($rows[$i][0]);
+            $nuptk = trim($rows[$i][0]);
             $nama = trim($rows[$i][1]);
-            $jenis_kelamin = trim($rows[$i][2]);
-            $poin = trim($rows[$i][3]);
-            $alamat = trim($rows[$i][4]);
-            $orang_tua = trim($rows[$i][5]);
-            $no_hp = trim($rows[$i][6]);
+            $no_hp = trim($rows[$i][2]);
+            $email = trim($rows[$i][3]);
 
-            if (empty($nisn)) {
+            if (empty($nuptk)) {
                 continue;
             }
 
             $query_cek = pdo_query(
                             $conn,
-                            "SELECT * FROM tb_siswa WHERE nisn = ?",
-                            [$nisn]
+                            "SELECT nuptk FROM tb_guru WHERE nuptk = ?",
+                            [$nuptk]
                          );
             $exist = $query_cek->fetchColumn();
 
@@ -109,8 +125,8 @@ if (isset($_POST["simpan"])) {
 
             pdo_query(
                 $conn,
-                "INSERT INTO tb_siswa VALUES (?, ?, ?, ?, ?, ?, ?)",
-                [$nisn, $nama, $jenis_kelamin, $poin, $alamat, $orang_tua, $no_hp]
+                "INSERT INTO tb_guru VALUES (?, ?, ?, ?)",
+                [$nuptk, $nama, $no_hp, $email]
             );
             $berhasil++;
         }
