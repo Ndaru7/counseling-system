@@ -102,7 +102,8 @@ $halaman = "data_siswa";
                         <div class="card-header d-flex justify-content-center">
                             <h3 class="card-title"><i class="fas fa-user-graduate"></i> Data Siswa</h3>
                         </div>
-                        <!-- /.card-header -->
+                    </div>
+                    <div class="card">
                         <div class="card-body">
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-tambah">
                                 <i class="fas fa-plus">&nbsp;Tambah</i>
@@ -118,10 +119,11 @@ $halaman = "data_siswa";
                                             <th>No</th>
                                             <th>NISN</th>
                                             <th>Nama</th>
+                                            <th>Kelas</th>
                                             <th>Jenis kelamin</th>
                                             <th>Poin</th>
-                                            <th>Alamat</th>
-                                            <th>Orang Tua</th>
+                                            <th>No. HP</th>
+                                            <th>Email</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
@@ -138,6 +140,7 @@ $halaman = "data_siswa";
                                                 <td><?= $no++ ?></td>
                                                 <td><?= $row["nisn"] ?></td>
                                                 <td><?= $row["nama"] ?></td>
+                                                <td><?= $row["kelas"] ?></td>
                                                 <td>
                                                     <?php if (
                                                         $row["jenis_kelamin"] ==
@@ -149,17 +152,17 @@ $halaman = "data_siswa";
                                                     } ?>
                                                 </td>
                                                 <td><?= $row["poin"] ?></td>
-                                                <td><?= $row["alamat"] ?></td>
-                                                <td><?= $row["orang_tua"] . "<br>(" . $row["no_hp"] . ")" ?></td>
+                                                <td><?= $row["no_hp"] ?></td>
+                                                <td><?= $row["email"] ?></td>
                                                 <td>
                                                     <button type="button" class="btn btn-warning btn-sm open-modal-edit" title="Edit" data-toggle="modal" data-target="#modal-edit"
                                                         data-nisn="<?= $row["nisn"] ?>"
                                                         data-nama="<?= $row["nama"] ?>"
+                                                        data-kelas="<?= $row["kelas"] ?>"
                                                         data-jenis_kelamin="<?= $row["jenis_kelamin"] ?>"
                                                         data-poin="<?= $row["poin"] ?>"
-                                                        data-alamat="<?= $row["alamat"] ?>"
-                                                        data-orang_tua="<?= $row["orang_tua"] ?>"
-                                                        data-no_hp="<?= $row["no_hp"] ?>">
+                                                        data-no_hp="<?= $row["no_hp"] ?>"
+                                                        data-email="<?= $row["email"] ?>">
                                                         <i class="fas fa-edit"></i>
                                                     </button>
                                                     <button type="button" class="btn btn-danger btn-sm open-modal-hapus" title="Hapus" data-toggle="modal" data-target="#modal-hapus"
@@ -204,6 +207,10 @@ $halaman = "data_siswa";
                                         <input type="text" name="nama" class="form-control" id="tambahNama" required>
                                     </div>
                                     <div class="form-group">
+                                        <label for="tambahKelas">Kelas</label>
+                                        <input type="text" name="kelas" class="form-control" id="tambahKelas" required>
+                                    </div>
+                                    <div class="form-group">
                                         <label>Jenis Kelamin</label>
                                         <select name="jenis_kelamin" class="form-control" id="tambahJenisKelamin" required>
                                             <option>-- pilih --</option>
@@ -212,16 +219,12 @@ $halaman = "data_siswa";
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="tambahAlamat">Alamat</label>
-                                        <input type="text" name="alamat" class="form-control" id="tambahAlamat" required>
+                                        <label for="tambahNohp">No. Hp</label>
+                                        <input type="number" name="no_hp" class="form-control" id="tambahNohp" maxlength="15" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="tambahOrangTua">Orang Tua/Wali</label>
-                                        <input type="text" name="orang_tua" class="form-control" id="tambahOrangTua" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="tambahNohp">No. Hp Orang Tua/Wali</label>
-                                        <input type="number" name="no_hp" class="form-control" id="tambahNohp" required>
+                                        <label for="tambahEmail">Email</label>
+                                        <input type="email" name="email" class="form-control" id="tambahEmail" required>
                                     </div>
                                 </div>
                             </div>
@@ -257,6 +260,10 @@ $halaman = "data_siswa";
                                         <input type="text" name="nama" class="form-control" id="editNama" required>
                                     </div>
                                     <div class="form-group">
+                                        <label for="editKelas">Kelas</label>
+                                        <input type="text" name="kelas" class="form-control" id="editKelas" required>
+                                    </div>
+                                    <div class="form-group">
                                         <label>Jenis Kelamin</label>
                                         <select name="jenis_kelamin" class="form-control" id="editJenisKelamin" required>
                                             <option>-- pilih --</option>
@@ -269,16 +276,12 @@ $halaman = "data_siswa";
                                         <input type="number" name="poin" class="form-control" id="editPoin" maxlength="5" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="editAlamat">Alamat</label>
-                                        <input type="text" name="alamat" class="form-control" id="editAlamat" required>
+                                        <label for="editNohp">No. Hp</label>
+                                        <input type="number" name="no_hp" class="form-control" id="editNohp" maxlength="15" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="editOrangTua">Orang Tua/Wali</label>
-                                        <input type="text" name="orang_tua" class="form-control" id="editOrangTua" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="editNohp">No. Hp Orang Tua/Wali</label>
-                                        <input type="number" name="no_hp" class="form-control" id="editNohp" required>
+                                        <label for="editEmail">Email</label>
+                                        <input type="email" name="email" class="form-control" id="editEmail" required>
                                     </div>
                                 </div>
                             </div>
@@ -378,11 +381,11 @@ $halaman = "data_siswa";
         $(document).on("click", ".open-modal-edit", function() {
             $("#editNisn").val($(this).data("nisn"));
             $("#editNama").val($(this).data("nama"));
+            $("#editKelas").val($(this).data("kelas"));
             $("#editJenisKelamin").val($(this).data("jenis_kelamin"));
             $("#editPoin").val($(this).data("poin"));
-            $("#editAlamat").val($(this).data("alamat"));
-            $("#editOrangTua").val($(this).data("orang_tua"));
             $("#editNohp").val($(this).data("no_hp"));
+            $("#editEmail").val($(this).data("email"));
 
             $("#modal-edit").modal("show");
         })

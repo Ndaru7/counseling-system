@@ -45,7 +45,7 @@ $halaman = "dashboard_siswa";
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <div class="dropdown-divider"></div>
-                        <a href="../dashboard_admin" class="dropdown-item">
+                        <a href="../dashboard_siswa" class="dropdown-item">
                             <i class="fas fa-user mr-2"></i>Profil
                         </a>
                         <div class="dropdown-divider"></div>

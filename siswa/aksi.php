@@ -10,11 +10,12 @@ require_once "../vendor/autoload.php";
 if (isset($_POST["simpan"])) {
     $nisn = $_POST["nisn"];
     $nama = $_POST["nama"];
+    $kelas = $_POST["kelas"];
     $jenis_kelamin = $_POST["jenis_kelamin"];
-    $alamat = $_POST["alamat"];
-    $orang_tua = $_POST["orang_tua"];
     $no_hp = $_POST["no_hp"];
+    $email = $_POST["email"];
 
+    // Cek apakah NISN sudah ada
     $query_cek = pdo_query(
         $conn,
         "SELECT nisn FROM tb_siswa WHERE nisn = ?",
@@ -32,13 +33,21 @@ if (isset($_POST["simpan"])) {
 
     pdo_query(
         $conn,
-        "INSERT INTO tb_siswa (nisn,
-                               nama,
-                               jenis_kelamin,
-                               alamat,
-                               orang_tua,
-                               no_hp) VALUES (?, ?, ?, ?, ?, ?)",
-        [$nisn, $nama, $jenis_kelamin, $alamat, $orang_tua, $no_hp]
+        "INSERT INTO tb_siswa VALUES (?, ?, ?, ?, ?, ?, ?)",
+        [$nisn, $nama, $kelas, $jenis_kelamin, 0, $no_hp, $email]
+    );
+
+    // Membuat akun siswa
+    $username = $nisn;
+    $password = sha1($nisn);
+
+    pdo_query(
+        $conn,
+        "INSERT INTO tb_pengguna ( nama,
+                                   username,
+                                   passwd,
+                                   peran ) VALUES (?, ?, ?, ?)",
+        [$nama, $username, $password, 2]
     );
 
     $_SESSION["flash"] = [
@@ -51,21 +60,21 @@ if (isset($_POST["simpan"])) {
 } else if (isset($_POST["edit"])) {
     $nisn = $_POST["nisn"];
     $nama = $_POST["nama"];
+    $kelas = $_POST["kelas"];
     $jenis_kelamin = $_POST["jenis_kelamin"];
     $poin = $_POST["poin"];
-    $alamat = $_POST["alamat"];
-    $orang_tua = $_POST["orang_tua"];
     $no_hp = $_POST["no_hp"];
+    $email = $_POST["email"];
 
     pdo_query(
         $conn,
         "UPDATE tb_siswa SET nama = ?,
+                             kelas = ?,
                              jenis_kelamin = ?,
-                             alamat = ?,
                              poin = ?,
-                             orang_tua = ?,
-                             no_hp = ? WHERE nisn = ?",
-        [$nama, $jenis_kelamin, $alamat, $poin, $orang_tua, $no_hp, $nisn]
+                             no_hp = ?,
+                             email = ? WHERE nisn = ?",
+        [$nama, $kelas, $jenis_kelamin, $poin, $no_hp, $email, $nisn]
     );
 
     $_SESSION["flash"] = [
@@ -93,7 +102,7 @@ if (isset($_POST["simpan"])) {
 
 } else if (isset($_POST["import"])) {
     if (isset($_FILES["file"])) {
-        global $berhasil;
+        //global $berhasil;
         $file = $_FILES["file"]["tmp_name"];
         $spreadsheet = IOFactory::load($file);
         $worksheet = $spreadsheet->getActiveSheet();
@@ -104,21 +113,21 @@ if (isset($_POST["simpan"])) {
         for ($i = 1; $i < count($rows); $i++) {
             $nisn = trim($rows[$i][0]);
             $nama = trim($rows[$i][1]);
-            $jenis_kelamin = trim($rows[$i][2]);
-            $poin = trim($rows[$i][3]);
-            $alamat = trim($rows[$i][4]);
-            $orang_tua = trim($rows[$i][5]);
-            $no_hp = trim($rows[$i][6]);
+            $kelas = trim($rows[$i][2]);
+            $jenis_kelamin = trim($rows[$i][3]);
+            $poin = trim($rows[$i][4]);
+            $no_hp = trim($rows[$i][5]);
+            $email = trim($rows[$i][6]);
 
             if (empty($nisn)) {
                 continue;
             }
 
             $query_cek = pdo_query(
-                            $conn,
-                            "SELECT * FROM tb_siswa WHERE nisn = ?",
-                            [$nisn]
-                         );
+                $conn,
+                "SELECT nisn FROM tb_siswa WHERE nisn = ?",
+                [$nisn]
+            );
             $exist = $query_cek->fetchColumn();
 
             if ($exist > 0) {
@@ -128,7 +137,20 @@ if (isset($_POST["simpan"])) {
             pdo_query(
                 $conn,
                 "INSERT INTO tb_siswa VALUES (?, ?, ?, ?, ?, ?, ?)",
-                [$nisn, $nama, $jenis_kelamin, $poin, $alamat, $orang_tua, $no_hp]
+                [$nisn, $nama, $kelas, $jenis_kelamin, $poin, $no_hp, $email]
+            );
+
+            $username = $nisn;
+            $password = sha1($nisn);
+
+            // Membuat akun siswa
+            pdo_query(
+                $conn,
+                "INSERT INTO tb_pengguna ( nama,
+                                           username,
+                                           passwd,
+                                           peran ) VALUES (?, ?, ?, ?)",
+                [$nama, $username, $password, 2]
             );
             $berhasil++;
         }
