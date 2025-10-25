@@ -6,7 +6,7 @@ if (!isset($_SESSION["username"])) {
     header("Location: ../auth/login.php");
 }
 
-if ($_SESSION["peran"] != "1") {
+if ($_SESSION["peran"] != "0") {
     header("Location: ../auth/logout.php");
 }
 
