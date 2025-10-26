@@ -45,7 +45,7 @@ $halaman = "data_pelanggaran";
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <div class="dropdown-divider"></div>
-                        <a href="../dashboard_guru" class="dropdown-item">
+                        <a href="../dashboard_admin" class="dropdown-item">
                             <i class="fas fa-user mr-2"></i>Profil
                         </a>
                         <div class="dropdown-divider"></div>
@@ -102,7 +102,8 @@ $halaman = "data_pelanggaran";
                         <div class="card-header d-flex justify-content-center">
                             <h3 class="card-title"><i class="fas fa-exclamation"></i>&nbsp;Data Pelanggaran</h3>
                         </div>
-                        <!-- /.card-header -->
+                    </div>
+                    <div class="card">
                         <div class="card-body">
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-tambah">
                                 <i class="fas fa-plus">&nbsp;Tambah</i>

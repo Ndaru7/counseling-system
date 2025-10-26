@@ -102,17 +102,20 @@ $halaman = "profile";
                         <div class="card-header d-flex justify-content-center">
                             <h3 class="card-title"><i class="fas fa-user"></i>&nbsp;Profil</h3>
                         </div>
+                    </div>
+                    <div class="card">
                         <?php
-                        $id = $_SESSION["id"];
-                        $sql = "SELECT * FROM tb_pengguna WHERE id = '$id' ";
-                        $pdo = pdo_query($conn, $sql);
-                        $row = $pdo->fetch(PDO::FETCH_ASSOC);
+                            $id = $_SESSION["id"];
+                            $query = pdo_query(
+                                $conn,
+                                "SELECT * FROM tb_pengguna WHERE id = ?",
+                                [$id]
+                            );
+                            $row = $query->fetch(PDO::FETCH_ASSOC);
                         ?>
                         <form action="aksi.php" method="post">
                             <div class="card-body">
-                                <div class="form-group">
-                                    <input type="hidden" name="id" class="form-control" value="<?php echo $row['id']; ?>">
-                                </div>
+                                <input type="hidden" name="id" class="form-control" value="<?php echo $row['id']; ?>">
                                 <div class="form-group">
                                     <label for="nama">Nama</label>
                                     <input type="text" name="nama" class="form-control" value="<?php echo $row['nama']; ?>" id="nama" required>
@@ -127,7 +130,7 @@ $halaman = "profile";
                                 </div>
                             </div>
                             <div class="card-footer text-right">
-                                <a href="../pengguna" class="btn btn-secondary">
+                                <a href="../dashboard_admin" class="btn btn-secondary">
                                     <i class="fas fa-back"></i>&nbsp;Kembali
                                 </a>
                                 <button type="submit" name="edit" class="btn btn-warning">

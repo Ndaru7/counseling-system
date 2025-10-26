@@ -19,7 +19,7 @@ $halaman = "guru";
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sitem BK | Akun Guru BK</title>
+    <title>Sitem BK | Data Guru BK</title>
 
     <?php include "../style.php"; ?>
 </head>
@@ -100,7 +100,7 @@ $halaman = "guru";
                 <div class="container-fluid">
                    <div class="card card-warning">
                       <div class="card-header d-flex justify-content-center">
-                          <h3 class="card-title"><i class="fas fa-chalkboard-teacher"></i> Akun Guru BK</h3>
+                          <h3 class="card-title"><i class="fas fa-chalkboard-teacher"></i> Data Guru BK</h3>
                       </div>
                    </div>
                     <div class="card">

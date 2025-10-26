@@ -61,7 +61,7 @@ if (isset($_POST["simpan"])) {
 
 } else if (isset($_POST["import"])) {
     if (isset($_FILES["file"])) {
-        global $berhasil;
+        //global $berhasil;
         $file = $_FILES["file"]["tmp_name"];
         $spreadsheet = IOFactory::load($file);
         $worksheet = $spreadsheet->getActiveSheet();
