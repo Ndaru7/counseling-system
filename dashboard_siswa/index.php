@@ -102,6 +102,19 @@ $halaman = "dashboard_siswa";
                             <h3>SELAMAT DATANG, <b><?php echo $_SESSION["nama"]; ?></b></h3>
                         </div>
                     </div>
+                    <div class="card">
+                        <?php
+                            $query = pdo_query(
+                                $conn,
+                                "SELECT poin FROM tb_siswa WHERE nisn = ?",
+                                [$_SESSION["username"]]
+                            );
+                            $row = $query->fetch(PDO::FETCH_ASSOC)
+                        ?>
+                        <div class="card-body d-flex justify-content-center">
+                            <h3>Total poin : <?= $row["poin"] ?></h3>
+                        </div>
+                    </div>
                 </div>
             </section>
             <!-- /.content -->
