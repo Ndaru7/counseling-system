@@ -101,6 +101,8 @@ $halaman = "riwayat";
                         <div class="card-header d-flex justify-content-center">
                             <h3 class="card-title"><i class="fas fa-history"></i>&nbsp;Riwayat Catatan Konseling</h3>
                         </div>
+                    </div>
+                    <div class="card">
                         <div class="card-body">
                             <div style="overflow-x: auto;">
                                 <table class="table table-bordered table-hover text-center">
@@ -108,9 +110,10 @@ $halaman = "riwayat";
                                         <tr>
                                             <th>No</th>
                                             <th>Tanggal</th>
-                                            <th>Pencatat</th>
+                                            <th>NISN</th>
                                             <th>Nama Siswa</th>
                                             <th>Pelanggaran</th>
+                                            <th>Pencatat</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -120,7 +123,7 @@ $halaman = "riwayat";
                                             $conn,
                                             "SELECT tb_catatan_konseling.id AS id,
                                                     tb_catatan_konseling.tanggal AS tanggal,
-                                                    tb_siswa.nisn AS id_siswa,
+                                                    tb_siswa.nisn AS nisn,
                                                     tb_siswa.nama AS siswa,
                                                     tb_siswa.no_hp AS no_hp,
                                                     tb_pelanggaran.id AS id_pelanggaran,
@@ -144,12 +147,13 @@ $halaman = "riwayat";
                                             <tr data-widget="expandable-table" aria-expanded="false">
                                                 <td><?= $no++ ?></td>
                                                 <td><?= $row["tanggal"] ?></td>
-                                                <td><?= $row["pencatat"] ?></td>
+                                                <td><?= $row["nisn"] ?></td>
                                                 <td><?= $row["siswa"] ?></td>
                                                 <td><?= $row["pelanggaran"] ?></td>
+                                                <td><?= $row["pencatat"] ?></td>
                                             </tr>
                                             <tr class="expandable-body">
-                                                <td colspan="5">
+                                                <td colspan="6">
                                                     <p class="text-center">
                                                         <strong>Deskripsi</strong>
                                                     <p></p>
@@ -158,7 +162,7 @@ $halaman = "riwayat";
                                                     <div class="text-right">
                                                         <button type="button" title="Edit" class="btn btn-warning mr-2 open-modal-edit" data-toggle="modal" data-target="#modal-edit"
                                                             data-id="<?= $row['id'] ?>"
-                                                            data-siswa="<?= $row['id_siswa'] ?>"
+                                                            data-siswa="<?= $row['nisn'] ?>"
                                                             data-pelanggaran="<?= $row['id_pelanggaran'] ?>"
                                                             data-deskripsi="<?= $row['deskripsi'] ?>">
                                                             <i class="fas fa-edit"></i>
@@ -169,14 +173,14 @@ $halaman = "riwayat";
                                                             data-pelanggaran="<?= $row['pelanggaran'] ?>">
                                                             <i class="fas fa-trash"></i>
                                                         </button>
-                                                        <button type="button" title="Notifikasi Whatsapp" class="btn btn-success mr-2 open-modal-notifikasi" data-toggle="modal" data-target="#modal-notifikasi"
+                                                        <!--<button type="button" title="Notifikasi Whatsapp" class="btn btn-success mr-2 open-modal-notifikasi" data-toggle="modal" data-target="#modal-notifikasi"
                                                             data-id="<?= $row['id'] ?>"
                                                             data-nama="<?= $row['siswa'] ?>"
                                                             data-no_hp="<?= $row['no_hp'] ?>"
                                                             data-siswa="<?= $row['id_siswa'] ?>"
                                                             data-pelanggaran="<?= $row['id_pelanggaran'] ?>">
                                                             <i class="fab fa-whatsapp"></i>
-                                                        </button>
+                                                        </button>-->
                                                     </div>
                                                 </td>
                                             </tr>
