@@ -106,6 +106,10 @@ $halaman = "catatan_konseling";
                             <h3 class="card-title"><i class="fas fa-file"></i>&nbsp;Tambah Catatan Konseling</h3>
                         </div>
                     </div>
+                    <div class="callout callout-info">
+                        <h5><i class="fas fa-info"></i> Catatan:</h5>
+                        Jika nama siswa tidak ada, berati poin siswa tersebut sudah mencapai 200
+                    </div>
                     <div class="card">
                         <form action="aksi.php" method="post">
                             <div class="card-body">
@@ -115,8 +119,11 @@ $halaman = "catatan_konseling";
                                             <label for="tambahSiswa">Nama Siswa</label>
                                             <select name="siswa[]" id="tambahSiswa" class="duallistbox" multiple="multiple">
                                                 <?php
-                                                $query = pdo_query($conn, "SELECT nisn, nama FROM tb_siswa");
+                                                $query = pdo_query($conn, "SELECT nisn, nama, poin FROM tb_siswa");
                                                 while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+                                                    if ($row["poin"] == 200) {
+                                                        continue;
+                                                    }
                                                     $nisn = $row["nisn"];
                                                     $nama_siswa = $row["nama"];
                                                     echo '<option value="' . $nisn . '">' . $nisn . ' - ' . $nama_siswa . '</option>';

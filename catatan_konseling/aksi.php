@@ -32,14 +32,15 @@ if (isset($_POST["simpan"])) {
             [$pelanggaran]
         )->fetch(PDO::FETCH_ASSOC);
 
-        $nama_siswa = $row_poin["nama"];
         $poin_siswa = $row_poin["poin"];
         $poin_pelanggaran = $row_pelanggaran["poin"];
 
         $query_poin = pdo_query(
             $conn,
-            "UPDATE tb_siswa SET poin = (? + ?) WHERE nisn = ?",
-            [$poin_siswa, $poin_pelanggaran, $siswa]
+            "UPDATE tb_siswa SET poin = ( CASE WHEN (? + ?) > 200 THEN 200
+                                               ELSE (? + ?)
+                                          END ) WHERE nisn = ?",
+            [$poin_siswa, $poin_pelanggaran, $poin_siswa, $poin_pelanggaran, $siswa]
         );
         $berhasil++;
     }
