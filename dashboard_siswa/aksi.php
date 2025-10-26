@@ -5,12 +5,11 @@ require_once "../database/config.php";
 if (isset($_POST["edit"])) {
     $id = $_POST["id"];
     $nama = $_POST["nama"];
-    $username = $_POST["username"];
     $password_baru = sha1($_POST["password_baru"]);
     pdo_query(
         $conn,
-        "UPDATE tb_pengguna SET passwd = ?, nama = ?, username = ? WHERE id = ? ",
-        [$password_baru, $nama, $username, $id],
+        "UPDATE tb_pengguna SET passwd = ?, nama = ? WHERE id = ? ",
+        [$password_baru, $nama, $id],
     );
 
     $_SESSION["flash"] = [

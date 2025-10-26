@@ -45,7 +45,7 @@ $halaman = "profile";
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <div class="dropdown-divider"></div>
-                        <a href="../dashboard_admin" class="dropdown-item">
+                        <a href="../dashboard_siswa" class="dropdown-item">
                             <i class="fas fa-user mr-2"></i>Profil
                         </a>
                         <div class="dropdown-divider"></div>
@@ -102,11 +102,16 @@ $halaman = "profile";
                         <div class="card-header d-flex justify-content-center">
                             <h3 class="card-title"><i class="fas fa-user"></i>&nbsp;Profil</h3>
                         </div>
+                    </div>
+                    <div class="card">
                         <?php
-                        $id = $_SESSION["id"];
-                        $sql = "SELECT * FROM tb_pengguna WHERE id = '$id' ";
-                        $pdo = pdo_query($conn, $sql);
-                        $row = $pdo->fetch(PDO::FETCH_ASSOC);
+                            $id = $_SESSION["id"];
+                            $query = pdo_query(
+                                $conn,
+                                "SELECT * FROM tb_pengguna WHERE id = ?",
+                                [$id]
+                            );
+                            $row = $query->fetch(PDO::FETCH_ASSOC);
                         ?>
                         <form action="aksi.php" method="post">
                             <div class="card-body">
@@ -118,16 +123,12 @@ $halaman = "profile";
                                     <input type="text" name="nama" class="form-control" value="<?php echo $row['nama']; ?>" id="nama" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="username">Username</label>
-                                    <input type="text" name="username" class="form-control" value="<?php echo $row['username']; ?>" id="username" required>
-                                </div>
-                                <div class="form-group">
                                     <label for="newPassword">Password Baru</label>
                                     <input type="password" name="password_baru" class="form-control" id="newPassword" required>
                                 </div>
                             </div>
                             <div class="card-footer text-right">
-                                <a href="../pengguna" class="btn btn-secondary">
+                                <a href="../dashboard_siswa" class="btn btn-secondary">
                                     <i class="fas fa-back"></i>&nbsp;Kembali
                                 </a>
                                 <button type="submit" name="edit" class="btn btn-warning">

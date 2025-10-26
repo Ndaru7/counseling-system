@@ -96,18 +96,13 @@ $halaman = "dashboard_siswa";
 
             <!-- Main content -->
             <section class="content">
-               <div class="container-fluid">
-                  <div class="card card-warning">
-                     <div class="card-header d-flex justify-content-center">
-                        <h1 class="card-title"><i class="fas fa-home"></i> Beranda</h1>
-                     </div>
-                  </div>
-                  <div class="card">
-                     <div class="card-body d-flex justify-content-center">
-                        <h3>SELAMAT DATANG <?php echo $_SESSION["nama"]; ?></h3>
-                     </div>
-                  </div>
-               </div>
+                <div class="container-fluid">
+                    <div class="card card-warning">
+                        <div class="card-header d-flex justify-content-center">
+                            <h3>SELAMAT DATANG, <b><?php echo $_SESSION["nama"]; ?></b></h3>
+                        </div>
+                    </div>
+                </div>
             </section>
             <!-- /.content -->
         </div>
