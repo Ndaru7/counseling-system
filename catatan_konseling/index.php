@@ -105,6 +105,8 @@ $halaman = "catatan_konseling";
                         <div class="card-header d-flex justify-content-center">
                             <h3 class="card-title"><i class="fas fa-file"></i>&nbsp;Tambah Catatan Konseling</h3>
                         </div>
+                    </div>
+                    <div class="card">
                         <form action="aksi.php" method="post">
                             <div class="card-body">
                                 <div class="row">
