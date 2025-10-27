@@ -74,7 +74,7 @@ if (isset($_POST["simpan"])) {
         "msg" => "Data guru berhasil diedit!"
     ];
 
-    header("Location: ../siswa");
+    header("Location: ../guru");
 
 } else if (isset($_POST["hapus"])) {
     $nuptk = $_POST["nuptk"];
@@ -128,14 +128,27 @@ if (isset($_POST["simpan"])) {
                 "INSERT INTO tb_guru VALUES (?, ?, ?, ?)",
                 [$nuptk, $nama, $no_hp, $email]
             );
+
+            // Membuat akun guru bk
+            $username = $nuptk;
+            $password = sha1($nuptk);
+
+            pdo_query(
+                $conn,
+                "INSERT INTO tb_pengguna ( nama,
+                                           username,
+                                           passwd,
+                                           peran ) VALUES (?, ?, ?, ?)",
+                [$nama, $username, $password, 1]
+            );
             $berhasil++;
         }
 
         $_SESSION["flash"] = [
             "type" => "success",
-            "msg" => $berhasil . " data siswa berhasil ditambahkan!"
+            "msg" => $berhasil . " data guru berhasil ditambahkan!"
         ];
     }
 
-    header("Location: ../siswa");
+    header("Location: ../guru");
 }

@@ -93,12 +93,12 @@ if (isset($_SESSION["peran"])) {
         <!-- card -->
         <div class="card card-outline card-success">
             <div class="card-header text-center">
-                <h3>Sistem BK MBS</h3>
+                <h3><b>Login</b></h3>
             </div>
             <div class="card-body">
-            <div class="d-flex justify-content-center">
+            <!--<div class="d-flex justify-content-center">
                 <img class="img-circle" src="../assets/images/logo.png" height="150x" width="150x" alt="Logo MBS">
-            </div> <br>
+            </div> <br>-->
                 <form action="" method="post">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" name="username" placeholder="Username" required>
