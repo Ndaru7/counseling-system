@@ -10,6 +10,11 @@ if ($_SESSION["peran"] != "1") {
     header("Location: ../auth/logout.php");
 }
 
+$pengaturan = pdo_query(
+    $conn,
+    "SELECT nama_sistem, nama_instansi, tahun FROM tb_pengaturan"
+)->fetch(PDO::FETCH_ASSOC);
+
 $halaman = "dashboard_guru";
 ?>
 
@@ -19,7 +24,7 @@ $halaman = "dashboard_guru";
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sitem BK | Dashboard</title>
+    <title><?= $pengaturan['nama_sistem'] ?> | Dashboard</title>
 
     <?php include "../style.php"; ?>
 </head>
@@ -45,7 +50,7 @@ $halaman = "dashboard_guru";
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <div class="dropdown-divider"></div>
-                        <a href="../dashboard_guru" class="dropdown-item">
+                        <a href="../dashboard_guru/profile.php" class="dropdown-item">
                             <i class="fas fa-user mr-2"></i>Profil
                         </a>
                         <div class="dropdown-divider"></div>
@@ -62,8 +67,8 @@ $halaman = "dashboard_guru";
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="" class="brand-link">
-                <img src="../assets/images/logo.png" alt="Logo MBS" class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">Sistem BK</span>
+                <img src="../assets/images/logo.png" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <span class="brand-text font-weight-light"><?= $pengaturan['nama_sistem'] ?></span>
             </a>
 
             <!-- Sidebar -->
@@ -163,7 +168,7 @@ $halaman = "dashboard_guru";
         <!-- /.content-wrapper -->
 
         <footer class="main-footer">
-            <strong>Copyright &copy; 2025 <a href="">MBS Bumiayu</a>.</strong> All rights reserved.
+            <?= include "../footer.php"; ?>
         </footer>
 
         <!-- Control Sidebar -->

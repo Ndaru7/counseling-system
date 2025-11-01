@@ -29,9 +29,9 @@ if ($_SESSION["peran"] == "0") {
                 </a>
             </li>
             <li class="nav-item">
-                <a href="../pelanggaran" class="nav-link <?php if($halaman == "data_pelanggaran"){echo 'active';} ?>">
-                    <i class="nav-icon fas fa-exclamation"></i>
-                    <p>Pelanggaran</p>
+                <a href="../pengaturan" class="nav-link <?php if($halaman == "pengaturan"){echo 'active';} ?>">
+                    <i class="nav-icon fas fa-cog"></i>
+                    <p>Pengaturan</p>
                 </a>
             </li>
             <li class="nav-item">
@@ -64,6 +64,12 @@ if ($_SESSION["peran"] == "0") {
                 <a href="../catatan_konseling" class="nav-link <?php if($halaman == "catatan_konseling"){echo 'active';} ?>">
                     <i class="nav-icon fas fa-file"></i>
                     <p>Catatan Konseling</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="../pelanggaran" class="nav-link <?php if($halaman == "data_pelanggaran"){echo 'active';} ?>">
+                    <i class="nav-icon fas fa-exclamation"></i>
+                    <p>Pelanggaran</p>
                 </a>
             </li>
             <li class="nav-item">

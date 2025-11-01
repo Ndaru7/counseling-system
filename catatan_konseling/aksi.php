@@ -1,7 +1,6 @@
 <?php
 session_start();
 require_once "../database/config.php";
-require_once "../bot.php";
 
 
 if (isset($_POST["simpan"])) {

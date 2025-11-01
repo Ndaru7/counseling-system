@@ -6,16 +6,16 @@ if (!isset($_SESSION["username"])) {
     header("Location: ../auth/login.php");
 }
 
-if ($_SESSION["peran"] != "1") {
+if ($_SESSION["peran"] != "0") {
     header("Location: ../auth/logout.php");
 }
 
 $pengaturan = pdo_query(
     $conn,
-    "SELECT nama_sistem, nama_instansi, tahun FROM tb_pengaturan"
+    "SELECT * FROM tb_pengaturan"
 )->fetch(PDO::FETCH_ASSOC);
 
-$halaman = "catatan_konseling";
+$halaman = "pengaturan";
 ?>
 
 <!DOCTYPE html>
@@ -24,10 +24,9 @@ $halaman = "catatan_konseling";
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?= $pengaturan['nama_sistem'] ?> | Catatan Konseling</title>
+    <title><?= $pengaturan['nama_sistem'] ?> | Pengaturan</title>
     <!-- CSS -->
     <?php include "../style.php"; ?>
-
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -51,7 +50,7 @@ $halaman = "catatan_konseling";
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <div class="dropdown-divider"></div>
-                        <a href="../dashboard_guru/profile.php" class="dropdown-item">
+                        <a href="../dashboard_admin/profile.php" class="dropdown-item">
                             <i class="fas fa-user mr-2"></i>Profil
                         </a>
                         <div class="dropdown-divider"></div>
@@ -93,77 +92,69 @@ $halaman = "catatan_konseling";
             <!-- /.sidebar -->
         </aside>
 
-        <!-- Content Wrapper. Contains page content -->
+        <!-- content wrapper -->
         <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
+            <!-- content header -->
             <section class="content-header">
-                <div class="container-fluid">
 
-                </div>
-                <!-- /.container-fluid -->
             </section>
+            <!-- end content header -->
 
-            <!-- Main content -->
+            <!-- main content  -->
             <section class="content">
                 <div class="container-fluid">
                     <div class="card card-warning">
                         <div class="card-header d-flex justify-content-center">
-                            <h3 class="card-title"><i class="fas fa-file"></i>&nbsp;Tambah Catatan Konseling</h3>
+                            <h3 class="card-title"><i class="fas fa-cog"></i>&nbsp;Pengaturan</h3>
                         </div>
                     </div>
-                    <div class="callout callout-info">
-                        <h5><i class="fas fa-info"></i> Catatan:</h5>
-                        Jika nama siswa tidak ada, berati poin siswa tersebut sudah mencapai 200
-                    </div>
                     <div class="card">
-                        <form action="aksi.php" method="post">
+                        <form action="aksi.php" method="post" enctype="multipart/form-data">
                             <div class="card-body">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            <label for="tambahSiswa">Nama Siswa</label>
-                                            <select name="siswa[]" id="tambahSiswa" class="duallistbox" multiple="multiple">
-                                                <?php
-                                                $query = pdo_query($conn, "SELECT nisn, nama, poin FROM tb_siswa");
-                                                while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
-                                                    if ($row["poin"] == 200) {
-                                                        continue;
-                                                    }
-                                                    $nisn = $row["nisn"];
-                                                    $nama_siswa = $row["nama"];
-                                                    echo '<option value="' . $nisn . '">' . $nisn . ' - ' . $nama_siswa . '</option>';
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="tambahPelanggaran">Pelanggaraan</label>
-                                            <select  name="pelanggaran" id="tambahPelanggaran" class="form-control select2" style="width: 100%;" required>
-                                                <option>-- Pilih --</option>
-                                                <?php
-                                                $query_pelanggaran = pdo_query($conn, "SELECT id, nama FROM tb_pelanggaran");
-
-                                                while ($row = $query_pelanggaran->fetch(PDO::FETCH_ASSOC)) {
-                                                    $id = $row["id"];
-                                                    $nama = $row["nama"];
-                                                    echo '<option value="' . $id . '">' . $nama . '</option>';
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="tambahDeskripsi">Deskripsi</label>
-                                            <textarea name="deskripsi" class="form-control" id="tambahDeskripsi" rows="10" placeholder="Tulis keterangan..." required></textarea>
-                                        </div>
-                                    </div>
+                                <input type="hidden" name="id" class="form-control" value="<?php echo $row['id']; ?>">
+                                <div class="form-group">
+                                    <label for="namaInstansi">Nama Instansi</label>
+                                    <input type="text" name="nama_instansi" class="form-control" value="<?= $pengaturan['nama_instansi'] ?>" id="namaInstansi" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="namaSistem">Nama Sistem</label>
+                                    <input type="text" name="nama_sistem" class="form-control" value="<?= $pengaturan['nama_sistem'] ?>" id="namaSistem" required>
+                                </div>
+                                <label>Logo</label>
+                                <ul>
+                                    <li>Ukuran file maksimal 5MB</li>
+                                    <li>Format gambar harus .png</li>
+                                </ul>
+                                <div class="custom-file">
+                                    <label for="importLogo" class="custom-file-label">Pilih file gambar</label>
+                                    <input type="file" name="gambarLogo" class="custom-file-input" id="importLogo" accept=".png">
+                                </div>
+                                <label>Latar Belakang</label>
+                                <ul>
+                                    <li>Ukuran file maksimal 5MB</li>
+                                    <li>Format gambar harus .png</li>
+                                </ul>
+                                <div class="custom-file">
+                                    <label for="importLatarbelakang" class="custom-file-label">Pilih file gambar</label>
+                                    <input type="file" name="gambarLatarBelakang" class="custom-file-input" id="importLatarBelakang" accept=".png">
+                                </div>
+                                <div class="form-group">
+                                    <label for="tahun">Tahun</label>
+                                    <input type="number" name="tahun" value="<?= $pengaturan['tahun'] ?>" class="form-control" id="tahun" maxlength="5" required>
                                 </div>
                             </div>
-                            <div class="modal-footer">
-                                <button type="submit" name="simpan" class="btn btn-primary btn-block"><i class="fas fa-save"></i> Simpan</button>
+                            <div class="card-footer text-right">
+                                <a href="../dashboard_admin" class="btn btn-secondary">
+                                    <i class="fas fa-back"></i>&nbsp;Kembali
+                                </a>
+                                <button type="submit" name="edit" class="btn btn-warning">
+                                    <i class="fas fa-edit"></i>&nbsp;Edit
+                                </button>
                             </div>
                         </form>
                     </div>
                 </div>
+                <!-- /.card -->
             </section>
             <!-- /.content -->
         </div>

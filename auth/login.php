@@ -3,6 +3,8 @@ session_start();
 
 require "../database/config.php";
 
+$pengaturan = pdo_query($conn, "SELECT nama_sistem, logo, latar_belakang FROM tb_pengaturan")->fetch(PDO::FETCH_ASSOC);
+
 if (isset($_SESSION["peran"])) {
    if ($_SESSION["peran"] == "0") {
       header("Location: ../dashboard_admin");
@@ -76,10 +78,17 @@ if (isset($_SESSION["peran"])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sistem BK | Login Page</title>
+    <title><?= $pengaturan['nama_sistem'] ?> | Login Page</title>
 
     <!-- style area -->
     <?php include "../style.php"; ?>
+
+    <style type="text/css">
+        .login-page {
+            background: url("../assets/images/<?php echo $pengaturan['latar_belakang'] ?>") no-repeat center center fixed;
+            background-size: cover;
+        }
+    </style>
     <!-- end style area -->
 </head>
 
@@ -93,12 +102,12 @@ if (isset($_SESSION["peran"])) {
         <!-- card -->
         <div class="card card-outline card-success">
             <div class="card-header text-center">
-                <h3><b>Login</b></h3>
+                <h3><?php echo $pengaturan['nama_sistem'] ?></h3>
             </div>
             <div class="card-body">
-            <!--<div class="d-flex justify-content-center">
-                <img class="img-circle" src="../assets/images/logo.png" height="150x" width="150x" alt="Logo MBS">
-            </div> <br>-->
+            <div class="d-flex justify-content-center">
+                <img class="img-circle" src="../assets/images/<?php echo $pengaturan['logo'] ?>" height="150x" width="150x" alt="Logo MBS">
+            </div> <br>
                 <form action="" method="post">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" name="username" placeholder="Username" required>
