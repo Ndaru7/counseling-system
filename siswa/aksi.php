@@ -93,6 +93,12 @@ if (isset($_POST["simpan"])) {
         [$nisn]
     );
 
+    pdo_query(
+        $conn,
+        "DELETE FROM tb_pengguna WHERE username = ?",
+        [$nisn]
+    );
+
     $_SESSION["flash"] = [
         "type" => "success",
         "msg" => "Data siswa berhasil dihapus!"

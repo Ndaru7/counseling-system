@@ -85,6 +85,12 @@ if (isset($_POST["simpan"])) {
         [$nuptk]
     );
 
+    pdo_query(
+        $conn,
+        "DELETE FROM tb_pengguna WHERE username = ?",
+        [$nuptk]
+    );
+
     $_SESSION["flash"] = [
         "type" => "success",
         "msg" => "Data berhasil dihapus!"

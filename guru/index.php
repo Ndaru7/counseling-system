@@ -153,7 +153,7 @@ $halaman = "guru";
                                                        data-email="<?= $row["email"] ?>">
                                                           <i class="fas fa-edit"></i>
                                                     </button>
-                                                    <button type="button" class="btn btn-danger open-modal-hapus" title="Hapus" data-toggle="modal" data-target="#modal-hapus"
+                                                    <button type="button" class="btn btn-danger btn-sm open-modal-hapus" title="Hapus" data-toggle="modal" data-target="#modal-hapus"
                                                         data-nuptk="<?= $row["nuptk"] ?>"
                                                         data-nama="<?= $row["nama"] ?>">
                                                         <i class="fas fa-trash"></i>
@@ -270,7 +270,7 @@ $halaman = "guru";
                         </div>
                         <form action="aksi.php" method="post">
                             <div class="modal-body">
-                                <p>Apakah anda yakin ingin menghapus akun <b id="displayNama"></b></p>
+                                <p>Apakah anda yakin ingin menghapus data <b id="displayNama"></b></p>
                                 <input type="hidden" name="nuptk" class="form-control" id="hapusNuptk" required>
                             </div>
                             <div class="modal-footer">
