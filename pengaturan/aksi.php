@@ -19,6 +19,7 @@ if (isset($_POST["edit"])) {
             "type" => "danger",
             "msg" => "File terlalu besar!",
         ];
+        header("Location: ../pengaturan");
         exit;
     }
 
